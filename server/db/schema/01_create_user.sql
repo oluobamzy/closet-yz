@@ -1,6 +1,6 @@
-DROP TABLE IF EXISTS user CASCADE;
+DROP TABLE IF EXISTS users CASCADE;
 -- CREATE USERS
-CREATE TABLE user (
+CREATE TABLE users (
   "id" integer PRIMARY KEY not null,
   "username" varchar not null,
   "first_name" varchar not null,

@@ -1,4 +1,4 @@
-INSERT INTO closet ("id", "closet_name", "user_id", "created_at")
+INSERT INTO closet ("id", "closet_name", "users_id", "created_at")
 VALUES
   (1, 'Casual Closet', 1, '2023-08-25 12:00:00'),
   (2, 'Work Wardrobe', 2, '2023-08-25 12:15:00'),

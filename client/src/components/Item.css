@@ -1,0 +1,15 @@
+.ItemContainer {
+    width : 200px;
+    height : 200px;
+    border : 2px solid black;
+    padding :0.5em;
+    margin : 0.5em;
+    
+}
+
+.Item img{
+    width: 70%;
+    height: 70%;
+    border-radius: 30%;
+   background-color: antiquewhite;
+}

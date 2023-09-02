@@ -1,0 +1,10 @@
+.App {
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+.list-container{
+  display:flex;
+  width: 70%;
+  margin: 0 auto;
+}

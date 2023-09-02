@@ -1,0 +1,20 @@
+/* ListItem.css */
+.list-item {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.list{
+  display:flex;
+  flex-direction:column;
+}
+.btn-closet{
+  margin-top: 100px;
+}
+
+
+/* Style for the 'Item' component if needed */
+
+
+
+

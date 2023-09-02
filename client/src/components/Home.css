@@ -1,0 +1,40 @@
+.HomeContainer {
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+.InfoContainer {
+  display: flex;
+  justify-content: space-around;
+  padding: 20px;
+}
+
+.Info {
+  text-align: center;
+}
+
+.Info img {
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 18px;
+  max-width: 200px;
+  max-height: 50px;
+  position: relative;
+  left: 40%;
+  bottom: 3em;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}

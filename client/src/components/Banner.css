@@ -1,0 +1,18 @@
+.Banner {
+  position: relative;
+  text-align: center;
+}
+
+.Banner img {
+  width: 100%;
+  height: auto;
+}
+
+.Banner h1 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 36px;
+  color: #0ee2e2;
+}

@@ -3,6 +3,7 @@ import "./App.css";
 import "./components/Item.css";
 import Home from "./components/Home";
 import ListItem from "./components/ListItem";
+import ItemDetails from "./components/ItemDetails";
 
 function App() {
   const imageUrlList = [
@@ -20,9 +21,10 @@ function App() {
   return (
     <div className="App">
       {/* <Home /> */}
-      <div className="list-container">
+      {/* <div className="list-container">
       <ListItem imageList = {imageUrlList}/>
-      </div>
+      </div> */}
+      <ItemDetails />
       
     </div>
   );

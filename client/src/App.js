@@ -38,12 +38,11 @@ function App() {
   // })
   return (
     <div className="App">
-      {/* <Home /> */}
+      <Home />
       {/* <div className="list-container">
       <ListItem imageList = {imageUrlList}/>
       </div> */}
-      <ItemDetails />
-      <ItemDetailsUpdate />
+      {/* <ItemDetails /> */}
     </div>
   );
 }

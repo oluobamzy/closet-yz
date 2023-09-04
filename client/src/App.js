@@ -8,6 +8,8 @@ import Register from './components/Register';
 import ListItem from './components/ListItem';
 import ItemDetails from './components/ItemDetails';
 import './components/ListItem.css'
+import AddItem from './components/AddItem';
+import Dashboard from './components/Dashboard';
 
 function App() {
   const navigateToLogin = () => {
@@ -35,6 +37,8 @@ function App() {
           />
           <Route path="/items" element={<ListItem />} />
           <Route path="/details/:itemId" element={<ItemDetails />} />
+          <Route path="/addItem" element={<AddItem />} />
+          <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
        
       </div>

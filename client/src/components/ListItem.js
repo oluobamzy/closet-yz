@@ -2,8 +2,10 @@ import React from "react";
 import Item from "./Item";
 import "./ListItem.css"; // Import your CSS file for ListItem component
 import TopBar from "./TopBar";
+import { Link } from "react-router-dom";
 
 const ListItem = () => {
+
   const imageUrlList = [
     {
       id: 1,
@@ -39,7 +41,7 @@ const ListItem = () => {
       <TopBar />
       <div className="list-item">{image}</div>
       <div className="btn-closet">
-        <button>Add to Closet</button>
+       <Link to={'/addItem'}><button >Add to Closet</button></Link> 
       </div>
     </div>
   );

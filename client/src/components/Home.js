@@ -1,23 +1,26 @@
 import React from "react";
 import "./Home.css";
-import "./NavBar.css";
 import "./Footer.css";
 import "./Banner.css";
-import Navbar from "./NavBar";
 import Footer from "./Footer";
 import Banner from "./Banner";
+import ResponsiveAppBar from "./ResponsiveAppBar";
+import { Button } from "@mui/material";
 
-const Home = () => {
+
+
+const Home = ({navigateToLogin}) => {
+
   return (
     <div className="HomeContainer">
-      <Navbar />
+     <ResponsiveAppBar />
       <Banner />
 
       <div className="InfoContainer">
         <div className="Info">
           <img
             src="https://cdn.retouchme.com/blogs/139-1657557007.jpg"
-            alt="Info Image 1"
+            alt="Step 1"
           />
           <p>Step 1:</p>
         </div>
@@ -27,9 +30,9 @@ const Home = () => {
           <h3>Fill out info about your item</h3>
         </div>
       </div>
-
-      <button>Join Now</button>
-
+      <Button variant="contained" onClick={navigateToLogin}>
+        Join Now
+      </Button>
       <Footer />
     </div>
   );

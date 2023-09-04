@@ -1,10 +1,12 @@
-
+import { Link } from 'react-router-dom';
 const Item = (props) => {
   
   return (
     <div className="ItemContainer">
       <div className="Item">
-        <img src={props.imageUrl} alt="Item Image" />
+        <Link to={`/details/${props.itemId}`}>
+          <img src={props.imageUrl} alt="Item Image" />
+        </Link>
       </div>
     </div>
   );

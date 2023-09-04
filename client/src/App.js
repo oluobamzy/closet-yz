@@ -1,46 +1,44 @@
-import "./App.css";
-import "./components/Item.css";
-import Home from "./components/Home";
-import ListItem from "./components/ListItem";
-import ItemDetails from "./components/ItemDetails";
-import ItemDetailsUpdate from "./components/ItemDetailsUpdate";
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+import Home from './components/Home';
+import Login from './components/Login'; // Import your Login component
+import './App.css';
+import './components/Item.css';
+import Register from './components/Register';
+import ListItem from './components/ListItem';
+import ItemDetails from './components/ItemDetails';
+import './components/ListItem.css'
 
 function App() {
-  const imageUrlList = [
-    {
-      id: 1,
-      url: "https://th.bing.com/th/id/OIP.t3YAUGbDG8BMGJo7Wq84MAHaJo?pid=ImgDet&rs=1",
-    },
-    {
-      id: 2,
-      url: "https://th.bing.com/th/id/OIP.t3YAUGbDG8BMGJo7Wq84MAHaJo?pid=ImgDet&rs=1",
-    },
-    {
-      id: 3,
-      url: "https://th.bing.com/th/id/OIP.t3YAUGbDG8BMGJo7Wq84MAHaJo?pid=ImgDet&rs=1",
-    },
-    {
-      id: 4,
-      url: "https://th.bing.com/th/id/OIP.t3YAUGbDG8BMGJo7Wq84MAHaJo?pid=ImgDet&rs=1",
-    },
-    {
-      id: 5,
-      url: "https://th.bing.com/th/id/OIP.t3YAUGbDG8BMGJo7Wq84MAHaJo?pid=ImgDet&rs=1",
-    },
-    {
-      id: 6,
-      url: "https://th.bing.com/th/id/OIP.t3YAUGbDG8BMGJo7Wq84MAHaJo?pid=ImgDet&rs=1",
-    },
-  ];
+  const navigateToLogin = () => {
+    // Navigate to the '/login' route when the button is clicked
+    window.location.href = '/login';
+  };
+  const navigateToRegister = () => {
+    // Navigate to the '/login' route when the button is clicked
+    window.location.href = '/register';
+  };
+  const navigateToItems = () => {
+    // Navigate to the '/login' route when the button is clicked
+    window.location.href = '/items';
+  }
 
   return (
-    <div className="App">
-      <Home />
-      {/* <div className="list-container">
-      <ListItem imageList = {imageUrlList}/>
-      </div> */}
-      {/* <ItemDetails /> */}
-    </div>
+    <Router>
+      <div className="App">
+        <Routes>
+          <Route path="/login" element={<Login  navigateToRegister={navigateToRegister} navigateToItems = {navigateToItems}/>} />
+          <Route path="/Register" element={<Register />} />
+          <Route
+            path="/"
+            element={<Home navigateToLogin={navigateToLogin} />} // Pass the callback function
+          />
+          <Route path="/items" element={<ListItem />} />
+          <Route path="/details/:itemId" element={<ItemDetails />} />
+        </Routes>
+       
+      </div>
+    </Router>
   );
 }
 

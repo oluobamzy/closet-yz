@@ -3,9 +3,35 @@ import Item from "./Item";
 import "./ListItem.css"; // Import your CSS file for ListItem component
 import TopBar from "./TopBar";
 
-const ListItem = (props) => {
-  const image = props.imageList.map((image) => {
-    return <Item key={image.id} imageUrl={image.url} />;
+const ListItem = () => {
+  const imageUrlList = [
+    {
+      id: 1,
+      url: "https://th.bing.com/th/id/OIP.t3YAUGbDG8BMGJo7Wq84MAHaJo?pid=ImgDet&rs=1",
+    },
+    {
+      id: 2,
+      url: "https://th.bing.com/th/id/OIP.t3YAUGbDG8BMGJo7Wq84MAHaJo?pid=ImgDet&rs=1",
+    },
+    {
+      id: 3,
+      url: "https://th.bing.com/th/id/OIP.t3YAUGbDG8BMGJo7Wq84MAHaJo?pid=ImgDet&rs=1",
+    },
+    {
+      id: 4,
+      url: "https://th.bing.com/th/id/OIP.t3YAUGbDG8BMGJo7Wq84MAHaJo?pid=ImgDet&rs=1",
+    },
+    {
+      id: 5,
+      url: "https://th.bing.com/th/id/OIP.t3YAUGbDG8BMGJo7Wq84MAHaJo?pid=ImgDet&rs=1",
+    },
+    {
+      id: 6,
+      url: "https://th.bing.com/th/id/OIP.t3YAUGbDG8BMGJo7Wq84MAHaJo?pid=ImgDet&rs=1",
+    },
+  ];
+  const image = imageUrlList.map((image) => {
+    return <Item key={image.id} imageUrl={image.url} itemId={image.id} />;
   });
 
   return (

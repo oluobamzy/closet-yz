@@ -2,13 +2,14 @@ import "./ItemDetails.css";
 import { useState } from "react";
 import ItemDetailsUpdate from "./ItemDetailsUpdate";
 import "./ItemDetailsUpdate.css";
+import { useParams } from 'react-router-dom';
 
-const ItemDetails = () => {
+const ItemDetails = (props) => {
   const [updateMode, setUpdateMode] = useState(false);
   const handleUpdateButtonClick = () => {
     setUpdateMode(true); // Set updateMode to true when the button is clicked
   };
-
+  const { itemId } = useParams();
   return (
     <div className="item-details">
       {updateMode === false && (
@@ -16,7 +17,7 @@ const ItemDetails = () => {
           <h1>Item Details</h1>
           <div className="itemBody">
             <div className="item-details-img">
-              <img src="https://th.bing.com/th/id/OIP.t3YAUGbDG8BMGJo7Wq84MAHaJo?pid=ImgDet&rs=1"></img>
+              <img src="https://th.bing.com/th/id/OIP.t3YAUGbDG8BMGJo7Wq84MAHaJo?pid=ImgDet&rs=1" alt="item"></img>
             </div>
             <div className="item-details-content">
               <div className="description">

@@ -4,9 +4,8 @@ import './AddItem.css';
 export default function AddItem() {
   const [formData, setFormData] = useState({
     file: null,
-    name: "",
+    itemName: "",
     description: "",
-    brand: "",
     season: "",
     category: "",
     brandName: "",
@@ -20,7 +19,7 @@ export default function AddItem() {
     event.preventDefault();
 
     // Access the form data from the state object
-    const { file, name, description, brand,season,category,colour,size,lastWornDate,purchaseDate } = formData;
+    const { file, itemName, description, brand,season,category,colour,size,lastWornDate,purchaseDate } = formData;
 
     // Send the form data to the server
   };
@@ -59,13 +58,13 @@ export default function AddItem() {
           placeholder="Description"
         />
         <input
-          name="name"
+          name="itemName"
           onChange={handleInputChange}
           type="text"
           placeholder="Name"
         />
         <input
-          name="brand"
+          name="brandName"
           onChange={handleInputChange}
           type="text"
           placeholder="Brand Name"

@@ -2,22 +2,29 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import ResponsiveAppBar from './ResponsiveAppBar'; // Import the ResponsiveAppBar
+import Footer from './Footer'; // Import the Footer
+import { styled } from "@mui/system";
 
-export default function Login({navigateToRegister, navigateToItems}) {
+const StyledContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  minHeight: '100vh', // Use minHeight to fill the entire viewport vertically
+  backgroundColor: "#F1F0E8",
+  // padding: theme.spacing(4), // Add padding to create space for AppBar and Footer
+  '& .formBox': {marginTop: "200px"},
+}));
+
+const Login = ({ navigateToRegister, navigateToItems }) => {
   return (
-    <Box
-      component="form"
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: '100vh', // Set the height to fill the viewport vertically
-        '& .MuiTextField-root': { m: 1, width: '25ch' },
-      }}
-      noValidate
-      autoComplete="off"
-    >
+    <div className='loginContainer' style={{display:"flex", flexDirection:"column"}}>
+      <ResponsiveAppBar />
+      <StyledContainer>
+    
+         
+     {/* Use the ResponsiveAppBar component */}  
+      <div className='formBox' >
       <TextField
         id="Email"
         label="Email"
@@ -35,15 +42,18 @@ export default function Login({navigateToRegister, navigateToItems}) {
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'center',
-          gap: '10px', // Adjust the gap between buttons as needed
-          marginTop: '50px', // Add margin to separate buttons from the form fields
-          marginRight: '141px', // Add margin to separate buttons from the form fields
-
+          gap: '10px',
+          marginRight: '141px',
         }}
       >
-        <Button variant="contained" onClick={navigateToItems}>Login</Button>
-        <Button variant="contained" onClick={navigateToRegister}>Sign Up</Button>
+        <Button variant="contained" onClick={navigateToItems} style={{backgroundColor:"#F1C27B"}}>Login</Button>
+        <Button variant="contained" onClick={navigateToRegister} >Sign Up</Button>
       </div>
-    </Box>
+      </div>
+    </StyledContainer>
+    <Footer /> 
+    </div>
   );
 }
+
+export default Login;

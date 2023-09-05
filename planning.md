@@ -204,3 +204,11 @@ link to register
 Footer
 About
 Meet the team
+
+
+## stats to display in dashboard
+Total number per category (count per category)
+Brand stats (pie chart)
+color count (pie chart)
+season count (pie chart)
+last item purchased (itemid, image, date)

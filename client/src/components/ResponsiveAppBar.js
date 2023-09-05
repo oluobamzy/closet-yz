@@ -12,6 +12,7 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+import { styled } from '@mui/system';
 
 const pages = ['Login','Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -30,14 +31,35 @@ function ResponsiveAppBar() {
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
+  const handleClick = () => {
+    window.location.href = '/login';
+  };
+  const handleDashboard = () => {
+    window.location.href = '/dashboard';
+  };
+  const handleProfile = () => {
+    window.location.href = '/profile';
+  };
+  const handleLogout = () => {
+    window.location.href = '/logout';
+  };
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
 
+  // const Container = styled(Box)(({ theme }) => ({
+  //   position: 'fixed',
+  //   top: 0,
+  //   bottom: 100,
+  //   left: 0,
+  //   right: 0,
+  //   zIndex: 1000,
+  // }));
+
   return (
-    <AppBar position="static">
-      <Container maxWidth="xl">
+    <AppBar position="static" sx={{width:'100'}} >
+      <Container maxWidth="xl" sx={{backgroundColor:'#96B6C5', padding:0 }}>
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
           <Typography
@@ -51,11 +73,11 @@ function ResponsiveAppBar() {
               fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',
-              color: 'inherit',
+              color: '#EEE0C9',
               textDecoration: 'none',
             }}
           >
-            LOGO
+            Closet-YZ
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -115,20 +137,23 @@ function ResponsiveAppBar() {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
+              
+              page === 'Login' ?
               <Button
                 key={page}
-                onClick={handleCloseNavMenu}
+                onClick={handleClick}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
                 {page}
               </Button>
+              : null
             ))}
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt="Remy Sharp" src="https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/batman_hero_avatar_comics-512.png" />
               </IconButton>
             </Tooltip>
             <Menu
@@ -148,9 +173,14 @@ function ResponsiveAppBar() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                setting === 'Profile' ? 
+                <MenuItem key={setting} onClick={handleProfile}>
                   <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
+                </MenuItem> : setting === 'Dashboard' ? <MenuItem key={setting} onClick={handleDashboard}>
+                  <Typography textAlign="center">{setting}</Typography>
+                </MenuItem> : setting === 'Logout' ? <MenuItem key={setting} onClick={handleLogout}>
+                  <Typography textAlign="center">{setting}</Typography>
+                </MenuItem> : null
               ))}
             </Menu>
           </Box>

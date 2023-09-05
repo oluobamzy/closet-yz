@@ -1,0 +1,24 @@
+.list-item {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.list{
+  display:flex;
+  flex-direction:column;
+}
+.btn-closet{
+  margin-top: 100px;
+}
+
+.header{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.cabinIcon{
+  width:100px;
+  height:60px;
+}

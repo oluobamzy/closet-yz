@@ -1,5 +1,11 @@
 import { useState } from 'react';
 import './AddItem.css';
+import ResponsiveAppBar from './ResponsiveAppBar';
+import Footer from './Footer';
+import { styled } from '@mui/system';
+import { Paper } from '@mui/material';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 
 export default function AddItem() {
   const [formData, setFormData] = useState({
@@ -14,6 +20,16 @@ export default function AddItem() {
     lastWornDate: "",
     purchaseDate: ""
   });
+  
+  const StyledContainer = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    minHeight: '100vh', // Use minHeight to fill the entire viewport vertically
+    backgroundColor: "#F1F0E8",
+    
+    
+  }));
 
   const submit = async (event) => {
     event.preventDefault();
@@ -44,7 +60,9 @@ export default function AddItem() {
 
   return (
     <div className="AddItem">
-      <form onSubmit={submit}>
+      <ResponsiveAppBar />
+      <StyledContainer>
+      <form onSubmit={submit} style={{display:"flex", flexDirection:"column", marginTop: "200px"}}>
         <input
           name="file"
           onChange={handleInputChange}
@@ -106,9 +124,11 @@ export default function AddItem() {
           placeholder="purchaseDate"
         />
         <div className='addItem-btn'>
-         <button type="submit">Submit</button>
+         <Button type="submit" style={{backgroundColor:"#96B6C5"}}>Submit</Button>
         </div>
       </form>
+      </StyledContainer>
+      <Footer />
     </div>
   );
 }

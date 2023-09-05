@@ -10,6 +10,8 @@ import ItemDetails from './components/ItemDetails';
 import './components/ListItem.css'
 import AddItem from './components/AddItem';
 import Dashboard from './components/Dashboard';
+import Closet from './components/Closet';
+import Bin from './components/Bin';
 
 function App() {
   const navigateToLogin = () => {
@@ -39,6 +41,8 @@ function App() {
           <Route path="/details/:itemId" element={<ItemDetails />} />
           <Route path="/addItem" element={<AddItem />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/closet" element={<Closet />} />
+          <Route path="/bin" element={<Bin />} />
         </Routes>
        
       </div>

@@ -8,6 +8,9 @@ import ListItemText from "@mui/material/ListItemText";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Pie } from "react-chartjs-2";
 import { styled } from "@mui/system";
+import ResponsiveAppBar from './ResponsiveAppBar'; // Import the ResponsiveAppBar
+import Footer from './Footer'; // Import the Footer
+import Box from '@mui/material/Box';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -144,155 +147,280 @@ const Dashboard = () => {
     setSelectedCategory(category);
   };
 
+  const StyledContainer = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    minHeight: '100vh', // Use minHeight to fill the entire viewport vertically
+    backgroundColor: "#F1F0E8",
+
+  }));
+
+  const StyledBanner = styled(Paper)(({ theme }) => ({
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    padding: theme.spacing(2),
+    backgroundColor: "#F1F0E8", // Background color
+    marginBottom: theme.spacing(4),
+    marginTop: theme.spacing(4),
+    height: "50%",
+  }
+  ));
+
   return (
-    <Grid container spacing={2}>
-      {/* First Column */}
-      <Grid item xs={4}>
-        <Paper>
-          <List>
-            {categories.map((category, index) => (
-              <ListItem
-                key={index}
-                button
-                onClick={() => handleCategorySelect(category)}
-              >
-                <ListItemText primary={category} />
-              </ListItem>
-            ))}
-          </List>
-        </Paper>
-      </Grid>
+    <div className="dashboard">
+      <ResponsiveAppBar />
+      <StyledContainer>
+        <Grid container spacing={2}>
+          {/* First Column */}
+          <Grid item xs={4}>
+            <Paper>
+              <List>
+                {categories.map((category, index) => (
+                  <ListItem
+                    key={index}
+                    button
+                    onClick={() => handleCategorySelect(category)}
+                  >
+                    <ListItemText primary={category} />
+                  </ListItem>
+                ))}
+              </List>
+            </Paper>
+          </Grid>
 
-      {/* Second Column */}
-      <Grid item xs={8}>
-        <Paper>
-          <div style={{ padding: "16px" }}>
-            {selectedCategory && categorySummary[selectedCategory] ? (
-              <div>
-                <h2>{selectedCategory}</h2>
-                <p>{`Summary for ${selectedCategory}`}</p>
-                {/* Total Count */}
-                <p>
-                  Total Count: {categorySummary[selectedCategory].totalCount}
-                </p>
-                {/* Flex container for pie charts and image */}
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    gap: "10px", // Adjust the gap/margin as needed
-                    flexWrap: "wrap",
-                  }}
-                >
-                  {/* Pie Chart for brandData */}
-                  <div>
-                    <h3>Brand Data</h3>
-                    <Pie
-                      data={{
-                        labels: Object.keys(
-                          categorySummary[selectedCategory].brandData
-                        ),
-                        datasets: [
-                          {
-                            data: Object.values(
-                              categorySummary[selectedCategory].brandData
-                            ),
-                            backgroundColor: [
-                              "red",
-                              "blue",
-                              "green",
-                              // Add more colors as needed
-                            ],
-                          },
-                        ],
-                      }}
-                      options={pieChartOptions}
-                      width={300} // Adjust the width as needed
-                      height={300} // Adjust the height as needed
-                    />
-                  </div>
+          {/* Second Column */}
+          <StyledBanner>
+            <Grid item xs={8} style={{ display: "flex" }}>
+              <Paper>
+                <div style={{ padding: "16px" }}>
+                  {selectedCategory && categorySummary[selectedCategory] ? (
+                    <div>
+                      <h2>{selectedCategory}</h2>
+                      <p>{`Summary for ${selectedCategory}`}</p>
+                      {/* Total Count */}
+                      <p>
+                        Total Count: {categorySummary[selectedCategory].totalCount}
+                      </p>
+                      {/* Flex container for pie charts and image */}
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "row",
+                          justifyContent: "center",
+                          gap: "10px", // Adjust the gap/margin as needed
+                          flexWrap: "wrap",
+                        }}
+                      >
+                        <div className="pieCharts" style={{display:"flex"}}>
+                          {/* Pie Chart for brandData */}
+                          <div>
+                            <h3>Brand Data</h3>
+                            <Pie
+                              data={{
+                                labels: Object.keys(
+                                  categorySummary[selectedCategory].brandData
+                                ),
+                                datasets: [
+                                  {
+                                    data: Object.values(
+                                      categorySummary[selectedCategory].brandData
+                                    ),
+                                    backgroundColor: [
+                                      "red",
+                                      "blue",
+                                      "green",
+                                      // Add more colors as needed
+                                    ],
+                                  },
+                                ],
+                              }}
+                              options={pieChartOptions}
+                              width={300} // Adjust the width as needed
+                              height={300} // Adjust the height as needed
+                            />
+                          </div>
+                          {/* Pie Chart for colorData */}
+                          <div>
+                            <h3>Color Data</h3>
+                            <Pie
+                              data={{
+                                labels: Object.keys(
+                                  categorySummary[selectedCategory].colorData
+                                ),
+                                datasets: [
+                                  {
+                                    data: Object.values(
+                                      categorySummary[selectedCategory].colorData
+                                    ),
+                                    backgroundColor: [
+                                      "red",
+                                      "blue",
+                                      "green",
+                                      // Add more colors as needed
+                                    ],
+                                  },
+                                ],
+                              }}
+                              options={pieChartOptions}
+                              width={300} // Adjust the width as needed
+                              height={300} // Adjust the height as needed
+                            />
+                          </div>
+                          {/* Pie Chart for Season */}
+                          <div>
+                            <h3>Season Data</h3>
+                            <Pie
+                              data={{
+                                labels: Object.keys(
+                                  categorySummary[selectedCategory].seasonData
+                                ),
+                                datasets: [
+                                  {
+                                    data: Object.values(
+                                      categorySummary[selectedCategory].seasonData
+                                    ),
+                                    backgroundColor: [
+                                      "red",
+                                      "blue",
+                                      "green",
+                                      // Add more colors as needed
+                                    ],
+                                  },
+                                ],
+                              }}
+                              options={pieChartOptions}
+                              width={300} // Adjust the width as needed
+                              height={300} // Adjust the height as needed
+                            />
+                          </div>
 
-                  {/* Pie Chart for colorData */}
-                  <div>
-                    <h3>Color Data</h3>
-                    <Pie
-                      data={{
-                        labels: Object.keys(
-                          categorySummary[selectedCategory].colorData
-                        ),
-                        datasets: [
-                          {
-                            data: Object.values(
-                              categorySummary[selectedCategory].colorData
-                            ),
-                            backgroundColor: [
-                              "red",
-                              "blue",
-                              "green",
-                              // Add more colors as needed
-                            ],
-                          },
-                        ],
-                      }}
-                      options={pieChartOptions}
-                      width={300} // Adjust the width as needed
-                      height={300} // Adjust the height as needed
-                    />
-                  </div>
+                        </div>
 
-                   {/* Pie Chart for Season */}
-                   <div>
-                    <h3>Season Data</h3>
-                    <Pie
-                      data={{
-                        labels: Object.keys(
-                          categorySummary[selectedCategory].seasonData
-                        ),
-                        datasets: [
-                          {
-                            data: Object.values(
-                              categorySummary[selectedCategory].seasonData
-                            ),
-                            backgroundColor: [
-                              "red",
-                              "blue",
-                              "green",
-                              // Add more colors as needed
-                            ],
-                          },
-                        ],
-                      }}
-                      options={pieChartOptions}
-                      width={300} // Adjust the width as needed
-                      height={300} // Adjust the height as needed
-                    />
-                  </div>
+
+
+                      </div>
+                 
+                    </div>
+                  ) : (
+                    <div>
+                      <h2>{selectedCategory}</h2>
+                      <p>{`Summary for ${selectedCategory}`}</p>
+                      {/* Total Count */}
+                      <p>
+                        Total Count: {categorySummary[categories[0]].totalCount}
+                      </p>
+                      {/* Flex container for pie charts and image */}
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "row",
+                          justifyContent: "center",
+                          gap: "10px", // Adjust the gap/margin as needed
+                          flexWrap: "wrap",
+                        }}
+                      >
+                        <div className="pieCharts" style={{display:"flex"}}>
+                          {/* Pie Chart for brandData */}
+                          <div>
+                            <h3>Brand Data</h3>
+                            <Pie
+                              data={{
+                                labels: Object.keys(
+                                  categorySummary[categories[0]].brandData
+                                ),
+                                datasets: [
+                                  {
+                                    data: Object.values(
+                                      categorySummary[categories[0]].brandData
+                                    ),
+                                    backgroundColor: [
+                                      "red",
+                                      "blue",
+                                      "green",
+                                      // Add more colors as needed
+                                    ],
+                                  },
+                                ],
+                              }}
+                              options={pieChartOptions}
+                              width={300} // Adjust the width as needed
+                              height={300} // Adjust the height as needed
+                            />
+                          </div>
+                          {/* Pie Chart for colorData */}
+                          <div>
+                            <h3>Color Data</h3>
+                            <Pie
+                              data={{
+                                labels: Object.keys(
+                                  categorySummary[categories[0]].colorData
+                                ),
+                                datasets: [
+                                  {
+                                    data: Object.values(
+                                      categorySummary[categories[0]].colorData
+                                    ),
+                                    backgroundColor: [
+                                      "red",
+                                      "blue",
+                                      "green",
+                                      // Add more colors as needed
+                                    ],
+                                  },
+                                ],
+                              }}
+                              options={pieChartOptions}
+                              width={300} // Adjust the width as needed
+                              height={300} // Adjust the height as needed
+                            />
+                          </div>
+                          {/* Pie Chart for Season */}
+                          <div>
+                            <h3>Season Data</h3>
+                            <Pie
+                              data={{
+                                labels: Object.keys(
+                                  categorySummary[categories[0]].seasonData
+                                ),
+                                datasets: [
+                                  {
+                                    data: Object.values(
+                                      categorySummary[categories[0]].seasonData
+                                    ),
+                                    backgroundColor: [
+                                      "red",
+                                      "blue",
+                                      "green",
+                                      // Add more colors as needed
+                                    ],
+                                  },
+                                ],
+                              }}
+                              options={pieChartOptions}
+                              width={300} // Adjust the width as needed
+                              height={300} // Adjust the height as needed
+                            />
+                          </div>
+
+                        </div>
+
+
+
+                      </div>
+                 
+                    </div>
+                  )}
                 </div>
-                {/* Last Purchase */}
-                <div>
-                  <h3>Last Purchase</h3>
-                  <img
-                    src={categorySummary[selectedCategory].lastPurchaseImage}
-                    alt={`Last Purchase for ${selectedCategory}`}
-                    style={{
-                      width: "300px", // Set width to 300px
-                      height: "300px", // Set height to 300px
-                      borderRadius: "50%", // Apply a border-radius of 50% for a circular image
-                    }}
-                  />
-                  <p>
-                    Purchased on:{" "}
-                    {categorySummary[selectedCategory].lastPurchaseDate}
-                  </p>
-                </div>
-              </div>
-            ) : (
-              <p>Select a category from the list on the left.</p>
-            )}
-          </div>
-        </Paper>
-      </Grid>
-    </Grid>
+              </Paper>
+            </Grid>
+          </StyledBanner>
+        </Grid>
+      </StyledContainer>
+      <Footer />
+
+    </div>
   );
 };
 

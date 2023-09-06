@@ -1,5 +1,5 @@
 DROP TABLE IF EXISTS tag CASCADE;
 CREATE TABLE tag (
-  "id" integer PRIMARY KEY,
+  "id" SERIAL PRIMARY KEY,
   "tag_name" varchar
 );

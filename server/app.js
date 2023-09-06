@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 
 // routes import
 const itemRoute = require("./routes/itemRoute");
+const usersRoute = require("./routes/usersRoute");
 
 const app = express();
 
@@ -14,7 +15,8 @@ const app = express();
 app.use(morgan(ENVIROMENT));
 app.use(bodyParser.json());
 
-app.use("/item", itemRoute);
+app.use("/api/items", itemRoute);
+app.use("/api/users", usersRoute);
 
 app.get("/", (req, res) => {
   res.json({ greetings: "hello world" });

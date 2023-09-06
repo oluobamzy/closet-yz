@@ -1,16 +1,16 @@
 const router = require("express").Router();
 //const users = require("../db/Queries/users");
-const items = require("../db/Queries/item");
+const users = require("../db/Queries/users");
 
 
 router.get("/:id", (req, res) => {
   const { id } = req.params;
-  items.getItemById(id).then((data) => {
+  users.getUserById(id).then((data) => {
     res.json(data);
   });
 })
 router.get("/", (req, res) => {
-  items.getAllItems().then((data) => { 
+  users.getAllUsers().then((data) => { 
     console.log(data);
     res.json(data);
    });

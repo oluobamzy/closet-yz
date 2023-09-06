@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom';
+
 const Item = (props) => {
-  
   return (
     <div className="ItemContainer">
-      <div className="Item">
-        <Link to={`/details/${props.itemId}`}>
+      <Link to={`/details/${props.itemId}`}>
+        <div className="Item">
           <img src={props.imageUrl} alt="Item Image" />
-        </Link>
-      </div>
+        </div>
+      </Link>
     </div>
   );
 }

@@ -9,14 +9,18 @@ import { styled } from "@mui/system";
 import { Paper } from "@mui/material";
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import { useItems } from './ItemsContext';
 
 const ItemDetails = (props) => {
+  const list = useItems();
   const [updateMode, setUpdateMode] = useState(false);
   const handleUpdateButtonClick = () => {
     setUpdateMode(true); // Set updateMode to true when the button is clicked
   };
   const { itemId } = useParams();
-  
+  const filteredList = list.filter(item => item.id === parseInt(itemId));
+ 
+
   const StyledContainer = styled(Box)(({ theme }) => ({
     display: 'flex',
     justifyContent: 'center',
@@ -48,45 +52,45 @@ const ItemDetails = (props) => {
           <div className="itemBody">
             <StyledBanner>
             <div className="item-details-img" style={{width:"100%"}}>
-              <img src="https://th.bing.com/th/id/OIP.t3YAUGbDG8BMGJo7Wq84MAHaJo?pid=ImgDet&rs=1" alt="item" style={{height:"387.5px", width:"300px"}}></img>
+              <img src={filteredList[0].img_src}  style={{height:"387.5px", width:"300px"}}></img>
             </div>
             </StyledBanner>
             
               <StyledBanner style={{maxWidth:"300px", height:"387.5px", maxHeight:"387.5px"}}>
             <div className="item-details-content">
               <div className="description">
-                <p>Description: A shirt is a versatile garment, typically made of various fabrics, designed to cover the upper body. It comes in a myriad of styles, colors, and patterns to suit diverse occasions and personal preferences. A staple of everyday fashion, shirts can be short-sleeved or long-sleeved, with collars or without, and often feature buttons or snaps down the front. They can be formal or casual, fitting snugly or loosely. Shirts are essential in both professional settings, where they exude elegance, and casual settings, where they offer comfort and style. Their adaptability makes them a wardrobe must-have, suitable for everything from business meetings to leisurely outings.</p>
+                <p>Description:{filteredList[0].description}</p>
               </div>
               </div>
               </StyledBanner>
               <StyledBanner style={{width:"300px", height:"387.5px"}}>
               <div className="items-d">
                 <div className="item-d">
-                  <p>Closet Name: Closet A</p>
+                  <p>Closet Name: {filteredList[0].closet_id}</p>
                 </div>
                 <div className="item-d">
-                  <p>Season : Winter</p>
+                  <p>Season: {filteredList[0].season}</p>
                 </div>
                 <div className="item-d">
-                  <p>Category : Shirt</p>
+                  <p>Category: {filteredList[0].category}</p>
                 </div>
                 <div className="item-d">
-                  <p>BrandName : Calvin Klein</p>
+                  <p>BrandName: {filteredList[0].brand_name}</p>
                 </div>
                 <div className="item-d">
-                  <p>Colour : Green</p>
+                  <p>Colour: {filteredList[0].color}</p>
                 </div>
                 <div className="item-d">
-                  <p>Size : Medium</p>
+                  <p>Size: {filteredList[0].size}</p>
                 </div>
                 <div className="item-d">
-                  <p>Last worn Date : 2023/09/12</p>
+                  <p>Last worn Date: {filteredList[0].last_worn_date}</p>
                 </div>
                 <div className="item-d">
-                  <p>Purchase Date : 2022/04/01</p>
+                  <p>Purchase Date: {filteredList[0].purchase_date}</p>
                 </div>
                 <div className="item-d">
-                  <p>Use count : 120</p>
+                  <p>Use count: {filteredList[0].use_count}</p>
                 </div>
               </div>
               </StyledBanner>

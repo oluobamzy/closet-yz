@@ -12,6 +12,7 @@ import AddItem from './components/AddItem';
 import Dashboard from './components/Dashboard';
 import Closet from './components/Closet';
 import Bin from './components/Bin';
+import { ItemsProvider } from './components/ItemsContext';
 
 function App() {
   const navigateToLogin = () => {
@@ -27,7 +28,9 @@ function App() {
     window.location.href = '/items';
   }
 
+   
   return (
+    <ItemsProvider>
     <Router>
       <div className="App">
         <Routes>
@@ -44,9 +47,9 @@ function App() {
           <Route path="/closet" element={<Closet />} />
           <Route path="/bin" element={<Bin />} />
         </Routes>
-       
       </div>
     </Router>
+    </ItemsProvider>
   );
 }
 

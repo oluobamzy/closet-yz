@@ -15,6 +15,18 @@ router.get("/", (req, res) => {
     res.json(data);
    });
 });
+router.post("/", (req, res) => {
+  const user = req.body;
+  users.addUser(user).then((data) => {
+    res.json(data);
+  });
+});
+router.delete('/', (req, res) => {
+    id = req.body.id;
+    users.deleteUser(id).then((data) => {
+        res.json(data);
+    });
+});
 
 
 module.exports = router;

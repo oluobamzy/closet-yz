@@ -15,6 +15,24 @@ router.get("/", (req, res) => {
     res.json(data);
    });
 });
+router.post("/", (req, res) => {
+  const item = req.body;
+  items.addItem(item).then((data) => {
+    res.json(data);
+  });
+});
+router.put("/:id", (req, res) => {
+    const { id } = req.params;
+    const item = req.body;
+    items.updateItem(id, item).then((data) => {
+        res.json(data);
+    });
+});
+router.delete('/', (req, res) => {
+    items.deleteAllItems().then((data) => {
+        res.json(data);
+    });
+});
 
 
 module.exports = router;

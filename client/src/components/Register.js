@@ -7,8 +7,7 @@ import { Paper } from "@mui/material";
 import ResponsiveAppBar from './ResponsiveAppBar';
 import Footer from './Footer';
 import { useState } from 'react';
-import { useHistory } from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom';
 
 const StyledContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -32,7 +31,8 @@ const StyledBanner = styled(Paper)(({ theme }) => ({
 ));
 
 export default function Register() {
-  const history = useHistory();
+  // const history = useHistory();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: '',
     first_name: '',
@@ -63,7 +63,7 @@ export default function Register() {
   })
   .then((data) => {
     console.log("User data added successfully:", data);
-    history.push('/items');
+    navigate('/items');
     // Handle success
   })
   .catch((error) => {

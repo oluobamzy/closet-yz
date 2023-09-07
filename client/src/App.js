@@ -46,6 +46,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/closet" element={<Closet />} />
           <Route path="/bin" element={<Bin />} />
+          <Route path="/logout" element={<Home />} />
         </Routes>
       </div>
     </Router>

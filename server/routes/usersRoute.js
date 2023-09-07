@@ -4,6 +4,7 @@ const passport = require("passport");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const users = require("../db/Queries/users"); // Import your user-related queries
+const dashboard = require("../db/Queries/dashboard");
 
 // User registration route
 router.get("/register", (req, res) => {
@@ -34,6 +35,9 @@ router.post("/register", async (req, res) => {
   }
 });
 
+
+
+
 // Login route using Passport's authenticate middleware
 router.get("/login", (req, res) => {
   
@@ -47,6 +51,20 @@ router.post(
   })
 );
 
+const isAuthenticated = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.status(401).json({ message: 'Authentication required' });
+};
+
+
+router.get("/dashboard", isAuthenticated, (req, res) => {
+  const userId = req.user.id;
+  dashboard.loadDashboard(userId).then((data) => {
+      res.json(data);
+  });
+});
 // Logout route
 router.get("/logout", (req, res) => {
   req.logout();

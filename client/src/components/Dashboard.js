@@ -29,6 +29,15 @@ const Dashboard = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
 
   // Sample data for categories and summary
+  const dashboardLoad = () => {
+    fetch("/api/dashboard")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      });
+  };
+
+  dashboardLoad();
   const categories = ["Shirts", "Pants", "Shoes", "Accessories", "Others"];
   /*
   1.Get all items from the database where userid = current user

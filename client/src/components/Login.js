@@ -47,6 +47,7 @@ const Login = () => {
           navigate('/dashboard');
         } else {
           // Handle login failure, show an error message, etc.
+          navigate('/register');
           console.error('Login failed');
           
         }

@@ -30,6 +30,12 @@ const Dashboard = () => {
 
   // Sample data for categories and summary
   const categories = ["Shirts", "Pants", "Shoes", "Accessories", "Others"];
+  /*
+  1.Get all items from the database where userid = current user
+  2. Get all categories from the database where userid = current user
+  3. Get all items from each closet
+  
+  */
   const categorySummary = {
     Shirts: {
       totalCount: 100, // Replace with actual count for Shirts

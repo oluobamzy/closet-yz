@@ -3,10 +3,10 @@
   flex-wrap: wrap;
   justify-content: center;
 }
-.list{
+/* .list{
   display:flex;
   flex-direction:column;
-}
+} */
 .btn-closet{
   margin-top: 100px;
 }

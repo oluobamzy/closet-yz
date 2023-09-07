@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 
 function initializePassport(passport) {
   passport.use(
-    new LocalStrategy((username, password, done) => {
+    new LocalStrategy(function verify(username, password, done) {
       getUserByUsername(username)
         .then((user) => {
           if (!user) {
@@ -26,7 +26,8 @@ function initializePassport(passport) {
   );
 
   passport.serializeUser((user, done) => {
-    done(null, user.id);
+    console.log (user)
+    done(null, user);
   });
 
   passport.deserializeUser((id, done) => {

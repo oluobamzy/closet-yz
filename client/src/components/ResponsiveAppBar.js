@@ -13,11 +13,13 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { styled } from '@mui/system';
+import { useNavigate } from 'react-router-dom';
 
 const pages = ['Login','Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function ResponsiveAppBar() {
+ const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -35,13 +37,31 @@ function ResponsiveAppBar() {
     window.location.href = '/login';
   };
   const handleDashboard = () => {
-    window.location.href = '/dashboard';
+     navigate('/dashboard');
   };
   const handleProfile = () => {
     window.location.href = '/profile';
   };
   const handleLogout = () => {
-    window.location.href = '/logout';
+    fetch('http://localhost:8080/api/logout', {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          // Redirect to the login page on successful logout
+          window.location.href = '/login'; // Replace with your login page URL
+        } else {
+          // Handle logout error or other cases here
+          console.error('Logout error:', response.statusText);
+        }
+      })
+      .catch((error) => {
+        console.error('Fetch error:', error);
+      });
   };
 
   const handleCloseUserMenu = () => {

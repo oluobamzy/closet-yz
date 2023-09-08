@@ -36,6 +36,7 @@ const Login = () => {
     // Example:
     fetch('http://localhost:8080/api/login', {
       method: 'POST',
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -44,7 +45,7 @@ const Login = () => {
       .then((response) => {
         if (response.ok) {
           // Redirect to the dashboard or home page on successful login
-          navigate('/dashboard');
+          navigate('/');
         } else {
           // Handle login failure, show an error message, etc.
           navigate('/register');

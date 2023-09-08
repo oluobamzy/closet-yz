@@ -30,7 +30,14 @@ const Dashboard = () => {
 
   // Sample data for categories and summary
   const dashboardLoad = () => {
-    fetch("/api/dashboard")
+    fetch("http://localhost:8080/api/dashboard",{
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+
+    })
       .then((res) => res.json())
       .then((data) => {
         console.log(data);

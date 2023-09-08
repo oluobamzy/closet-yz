@@ -43,8 +43,9 @@ export default function AddItem() {
     const { img_src, item_name, category, color, purchase_date, closet_id, description, season, last_worn_date, size, brand_name } = formData;
   
     // Send the form data to the server
-    await fetch("/api/items", {
+    await fetch("http://localhost:8080/api/items", {
       method: "POST",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },

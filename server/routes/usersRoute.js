@@ -49,6 +49,7 @@ router.post(
     failureRedirect: "/login",
     failureFlash: true,
   })
+  
 );
 
 const isAuthenticated = (req, res, next) => {
@@ -61,14 +62,15 @@ const isAuthenticated = (req, res, next) => {
 
 router.get("/dashboard", isAuthenticated, (req, res) => {
   const userId = req.user.id;
+  console.log("===================>",req.user.id)
   dashboard.loadDashboard(userId).then((data) => {
       res.json(data);
   });
 });
 // Logout route
-router.get("/logout", (req, res) => {
-  req.logout();
-  res.redirect("/");
+router.get('/logout', (req, res) => {
+   req.logout(); // Clear the login session
+  res.redirect('/login'); // Redirect to the login page
 });
 
 router.get("/:id", (req, res) => {
@@ -77,9 +79,8 @@ router.get("/:id", (req, res) => {
     res.json(data);
   });
 })
-router.get("/users", (req, res) => {
+router.get("/", (req, res) => {
   users.getAllUsers().then((data) => { 
-    console.log(data);
     res.json(data);
    });
 });

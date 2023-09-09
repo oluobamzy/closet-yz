@@ -1,25 +1,32 @@
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
-import { styled } from '@mui/system';
-import { useNavigate } from 'react-router-dom';
+import * as React from "react";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Menu from "@mui/material/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
+import Container from "@mui/material/Container";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
+import MenuItem from "@mui/material/MenuItem";
+import AdbIcon from "@mui/icons-material/Adb";
+import { styled } from "@mui/system";
+import { useNavigate } from "react-router-dom";
 
-const pages = ['Login','Blog'];
-const settings = ['Closet', 'Account', 'Dashboard', 'Logout'];
+const pages = ["Login", "Blog"];
+const settings = [
+  "Closet",
+  "Account",
+  "Dashboard",
+  "Logout",
+  "Add Item",
+  "Profile",
+];
 
 function ResponsiveAppBar() {
- const navigate = useNavigate();
+  const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -34,33 +41,39 @@ function ResponsiveAppBar() {
     setAnchorElNav(null);
   };
   const handleClick = () => {
-    window.location.href = '/login';
+    window.location.href = "/login";
   };
   const handleDashboard = () => {
-     navigate('/dashboard');
+    navigate("/dashboard");
   };
   const handleProfile = () => {
-    window.location.href = '/closet';
+    window.location.href = "/";
+  };
+  const handleCloset = () => {
+    window.location.href = "/closet";
+  };
+  const handleAddItem = () => {
+    window.location.href = "/additem";
   };
   const handleLogout = () => {
-    fetch('http://localhost:8080/auth/logout', {
-      method: 'GET',
-      credentials: 'include',
+    fetch("http://localhost:8080/auth/logout", {
+      method: "GET",
+      credentials: "include",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     })
       .then((response) => {
         if (response.ok) {
           // Redirect to the login page on successful logout
-          window.location.href = '/login'; // Replace with your login page URL
+          window.location.href = "/login"; // Replace with your login page URL
         } else {
           // Handle logout error or other cases here
-          console.error('Logout error:', response.statusText);
+          console.error("Logout error:", response.statusText);
         }
       })
       .catch((error) => {
-        console.error('Fetch error:', error);
+        console.error("Fetch error:", error);
       });
   };
 
@@ -78,10 +91,13 @@ function ResponsiveAppBar() {
   // }));
 
   return (
-    <AppBar position="static" sx={{width:'100'}} >
-      <Container maxWidth="false" sx={{backgroundColor:'#96B6C5', padding:0 }}>
+    <AppBar position="static" sx={{ width: "100" }}>
+      <Container
+        maxWidth="false"
+        sx={{ backgroundColor: "#96B6C5", padding: 0 }}
+      >
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
           <Typography
             variant="h6"
             noWrap
@@ -89,18 +105,18 @@ function ResponsiveAppBar() {
             href="/"
             sx={{
               mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
+              display: { xs: "none", md: "flex" },
+              fontFamily: "monospace",
               fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: '#EEE0C9',
-              textDecoration: 'none',
+              letterSpacing: ".3rem",
+              color: "#EEE0C9",
+              textDecoration: "none",
             }}
           >
             Closet-YZ
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -115,18 +131,18 @@ function ResponsiveAppBar() {
               id="menu-appbar"
               anchorEl={anchorElNav}
               anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
+                vertical: "bottom",
+                horizontal: "left",
               }}
               keepMounted
               transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
+                vertical: "top",
+                horizontal: "left",
               }}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{
-                display: { xs: 'block', md: 'none' },
+                display: { xs: "block", md: "none" },
               }}
             >
               {pages.map((page) => (
@@ -136,7 +152,7 @@ function ResponsiveAppBar() {
               ))}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+          <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
           <Typography
             variant="h5"
             noWrap
@@ -144,64 +160,79 @@ function ResponsiveAppBar() {
             href="/"
             sx={{
               mr: 2,
-              display: { xs: 'flex', md: 'none' },
+              display: { xs: "flex", md: "none" },
               flexGrow: 1,
-              fontFamily: 'monospace',
+              fontFamily: "monospace",
               fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
+              letterSpacing: ".3rem",
+              color: "inherit",
+              textDecoration: "none",
             }}
           >
             closet-yz
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              
-              page === 'Login' ?
-              <Button
-                key={page}
-                onClick={handleClick}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page}
-              </Button>
-              : null
-            ))}
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+            {pages.map((page) =>
+              page === "Login" ? (
+                <Button
+                  key={page}
+                  onClick={handleClick}
+                  sx={{ my: 2, color: "white", display: "block" }}
+                >
+                  {page}
+                </Button>
+              ) : null
+            )}
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/batman_hero_avatar_comics-512.png" />
+                <Avatar
+                  alt="Remy Sharp"
+                  src="https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/batman_hero_avatar_comics-512.png"
+                />
               </IconButton>
             </Tooltip>
             <Menu
-              sx={{ mt: '45px' }}
+              sx={{ mt: "45px" }}
               id="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+                vertical: "top",
+                horizontal: "right",
               }}
               keepMounted
               transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+                vertical: "top",
+                horizontal: "right",
               }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                setting === 'Closet' ? 
-                <MenuItem key={setting} onClick={handleProfile}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem> : setting === 'Dashboard' ? <MenuItem key={setting} onClick={handleDashboard}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem> : setting === 'Logout' ? <MenuItem key={setting} onClick={handleLogout}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem> : null
-              ))}
+              {settings.map((setting) =>
+                setting === "Closet" ? (
+                  <MenuItem key={setting} onClick={handleCloset}>
+                    <Typography textAlign="center">{setting}</Typography>
+                  </MenuItem>
+                ) : setting === "Dashboard" ? (
+                  <MenuItem key={setting} onClick={handleDashboard}>
+                    <Typography textAlign="center">{setting}</Typography>
+                  </MenuItem>
+                ) : setting === "Logout" ? (
+                  <MenuItem key={setting} onClick={handleLogout}>
+                    <Typography textAlign="center">{setting}</Typography>
+                  </MenuItem>
+                ) : setting === "Add Item" ? (
+                  <MenuItem key={setting} onClick={handleAddItem}>
+                    <Typography textAlign="center">{setting}</Typography>
+                  </MenuItem>
+                ) : setting === "Profile" ? (
+                  <MenuItem key={setting} onClick={handleProfile}>
+                    <Typography textAlign="center">{setting}</Typography>
+                  </MenuItem>
+                ) : null
+              )}
             </Menu>
           </Box>
         </Toolbar>

@@ -4,6 +4,7 @@ CREATE TABLE item (
   "id" SERIAL PRIMARY KEY,
   "item_name" varchar not null,
   "category" varchar not null,
+  "subcategory" varchar not null,
   "color" varchar not null,
   "purchase_date" Date,
   "use_count" Integer DEFAULT 0,

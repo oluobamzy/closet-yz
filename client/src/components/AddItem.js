@@ -1,177 +1,251 @@
-import { useState } from 'react';
-import './AddItem.css';
+import React, { useState } from 'react';
+import axios from "axios";
+
+import {
+  TextField,
+  Button,
+  Grid,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Typography,
+} from '@mui/material';
 import ResponsiveAppBar from './ResponsiveAppBar';
 import Footer from './Footer';
-import { styled } from '@mui/system';
-import { Paper } from '@mui/material';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
 
-export default function AddItem() {
+function AddItemForm() {
+  const currentDate = new Date().toISOString().substr(0, 10);
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    img_src: null,
-    item_name: "",
-    category: "",
-    color: "",
-    purchase_date: "",
-    closet_id: "",
-    description: "",
-    season: "",
-    last_worn_date: "",
-    size: "",
-    brand_name: "",
+  const [itemData, setItemData] = useState({
+    item_name: '',
+    category: 'Category1',
+    color: '',
+    purchase_date: currentDate,
+    // use_count: 0,
+    img_src:"",
+    description: '',
+    season: 'ALL',
+    closet_id: '', // Initialize with the first option or default
+    last_worn_date: currentDate,
+    size: 'NA',
+    brand_name: '',
   });
 
-  console.log("FORMDATE ------------->", formData)
-  // State to hold the URL of the selected image for preview
-  const [imagePreview, setImagePreview] = useState(null);
-
-  const StyledContainer = styled(Box)(({ theme }) => ({
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    minHeight: '100vh',
-    //backgroundColor: "#F1F0E8",
-  }));
-
-  const submit = async (event) => {
-    event.preventDefault();
-  
-    // Access the form data from the state object
-    const { img_src, item_name, category, color, purchase_date, closet_id, description, season, last_worn_date, size, brand_name } = formData;
-  
-    // Send the form data to the server
-    await fetch("http://localhost:8080/api/items", {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        console.log("Response------->", response)
-        return response.json();
-      })
-      .then((data) => {
-        console.log("User data added successfully:", data);
-        navigate('/items');
-        // Handle success
-      })
-      .catch((error) => {
-        console.error("Error adding user data:", error);
-        // Handle error
-      });
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setItemData({ ...itemData, [name]: value });
   };
-  const handleInputChange = (event) => {
-    const { name, value, files } = event.target;
 
-    // If the input is a file input, update the 'file' property
-    if (name === "img_src") {
-      console.log("FormImage---------->", name)
-      setFormData({
-        ...formData,
-        [name]: files[0], // Use the selected file
+  const handleImageChange = (e) => {
+     const file = e.target.files[0];
+    // setItemData({...itemData,  img_src: file });
+    if (file) {
+      const reader = new FileReader();
+      console.log({reader});
+     reader.onload = (event) => {
+      const  base64Img = event.target.result;
+      console.log(base64Img);
+        setItemData({ ...itemData, img_src: base64Img });
+        
+      };
+      reader.onerror = (error) => {
+        console.error("Error reading the file:", error);
+      };
+      reader.readAsDataURL(file)
+    }
+    
+  };
+  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post('http://localhost:8080/api/items', itemData, {
+        withCredentials: true, // If you need to include credentials
       });
-
-      // Create a URL for the selected image and set it for preview
-      if (files[0]) {
-        const imageUrl = URL.createObjectURL(files[0]);
-        setImagePreview(imageUrl);
+  
+      if (response.status === 200) {
+        // Item added successfully, handle success
+        console.log('Item added successfully', itemData);
+        navigate('/items');
       } else {
-        setImagePreview(null);
+        // Handle error response
+        console.log('Item added failed');
       }
-    } else {
-      // Otherwise, update other form fields
-      setFormData({
-        ...formData,
-        [name]: value,
-      });
+    } catch (error) {
+      // Handle network error
+      console.error(error);
     }
   };
 
   return (
-    <div className="AddItem">
-      <ResponsiveAppBar />
-        <form onSubmit={submit} style={{ display: "flex", flexDirection: "column", marginTop: "200px", maxWidth:"300px", justifyContent:"center",alignItems:"center" }}>
-          {/* Image Preview */}
-          {imagePreview && <img src={imagePreview} alt="Preview" style={{ maxWidth: '150px', maxHeight: '150px', marginBottom:"20px" }} />}
+    <div className='add-item' >
+      <ResponsiveAppBar/>
+    <form onSubmit={handleSubmit} style={{marginTop:"50px"}}>
+      <Grid container spacing={2} >
+        <Grid item xs={6}>
+          <TextField
+            fullWidth
+            label="Item Name"
+            name="item_name"
+            value={itemData.item_name}
+            onChange={handleInputChange}
+            required
+            placeholder="Watch"
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <FormControl fullWidth>
+            <InputLabel>Category</InputLabel>
+            <Select
+              name="category"
+              value={itemData.category}
+              onChange={handleInputChange}
+              required
+              placeholder="Category1"
+            >
+              <MenuItem value="Category1">Category1</MenuItem>
+              <MenuItem value="Category2">Category2</MenuItem>
+              {/* Add more category options */}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            fullWidth
+            label="Color"
+            name="color"
+            value={itemData.color}
+            onChange={handleInputChange}
+            required
+            placeholder="Red"
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            fullWidth
+            type="date"
+            label="Purchase Date"
+            name="purchase_date"
+            value={itemData.purchase_date}
+            onChange={handleInputChange}
+          />
+        </Grid>
+        <Grid item xs={6}>
           <input
             name="img_src"
             type="file"
             accept="image/*"
-            onChange={handleInputChange}
+            onChange={handleImageChange}
+            required
           />
-          <input
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            fullWidth
+            type="text"
+            label="Description"
             name="description"
-            type="text"
-            placeholder="Description"
+            value={itemData.description}
             onChange={handleInputChange}
+            placeholder="My favourite watch"
           />
-          <input
-            name="item_name"
-            type="text"
-            placeholder="Name"
-            onChange={handleInputChange}
-          />
-          <input
-            name="brand_name"
-            type="text"
-            placeholder="Brand Name"
-            onChange={handleInputChange}
-          />
-          <input
-            name="season"
-            type="text"
-            placeholder="season"
-            onChange={handleInputChange}
-            />
-          <input
-            name="category"
-            type="text"
-            placeholder="category"
-            onChange={handleInputChange}
-            />
-          <input
-            name="color"
-            type="text"
-            placeholder="color"
-            onChange={handleInputChange}
-            />
-          <input
-            name="size"
-            type="text"
-            placeholder="size"
-            onChange={handleInputChange}
-            />
-          <input
+        </Grid>
+        <Grid item xs={6}>
+          <FormControl fullWidth>
+            <InputLabel>Season</InputLabel>
+            <Select
+              name="season"
+              value={itemData.season}
+              onChange={handleInputChange}
+              placeholder="Winter"
+            >
+              <MenuItem value="ALL">All Seasons</MenuItem>
+              <MenuItem value="Winter">Winter</MenuItem>
+              <MenuItem value="Summer">Summer</MenuItem>
+              <MenuItem value="Spring">Spring</MenuItem>
+              <MenuItem value="Fall">Fall</MenuItem>
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={6}>
+          <FormControl fullWidth>
+            <InputLabel>Closet</InputLabel>
+            <Select
+              name="closet_id"
+              value={itemData.closet_id}
+              onChange={handleInputChange}
+              required
+            >
+              <MenuItem value={1}>Closet 1</MenuItem>
+              <MenuItem value={2}>Closet 2</MenuItem>
+              {/* Add more closet options */}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            fullWidth
+            type="date"
+            label="Last Use Date"
             name="last_worn_date"
-            type="date"
-            placeholder="lastWornDate"
-            onChange={handleInputChange}
-            />
-          <input
-            name="purchase_date"
-            type="date"
-            placeholder="purchaseDate"
-            onChange={handleInputChange}
-            />
-            <input
-            name="closet_id"
-            type="text"
-            placeholder="closet_name"
+            value={itemData.last_worn_date}
             onChange={handleInputChange}
           />
-          <div className='addItem-btn'>
-            <Button type="submit" style={{ backgroundColor: "#96B6C5" }}>Submit</Button>
-          </div>
-        </form>
-      <Footer />
+        </Grid>
+        <Grid item xs={6}>
+          <FormControl fullWidth>
+            <InputLabel>Size</InputLabel>
+            <Select
+              name="size"
+              value={itemData.size}
+              onChange={handleInputChange}
+              required
+              placeholder="Small"
+            >
+              <MenuItem value="NA">Not Applicable</MenuItem>
+              <MenuItem value="Small">Small</MenuItem>
+              <MenuItem value="Medium">Medium</MenuItem>
+              <MenuItem value="Large">Large</MenuItem>
+              <MenuItem value="XL">XL</MenuItem>
+              <MenuItem value="XXL">XXL</MenuItem>
+              {/* Add more size options */}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            fullWidth
+            type="text"
+            label="Brand"
+            name="brand_name"
+            placeholder="Gucci"
+            value={itemData.brand_name}
+            onChange={handleInputChange}
+            
+          />
+        </Grid>
+
+        <Grid item xs={6}>
+          {itemData.img_src && (
+            <img
+              src={itemData.img_src}
+              alt="Selected item"
+              style={{ maxWidth: '100%' }}
+            />
+          )}
+        </Grid>
+        <Grid item xs={6}>
+          <Button type="submit" variant="contained" color="primary">
+            Add Item
+          </Button>
+        </Grid>
+      </Grid>
+    </form>
+    <Footer/>
     </div>
   );
 }
+
+export default AddItemForm;

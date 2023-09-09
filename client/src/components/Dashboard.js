@@ -30,7 +30,7 @@ const Dashboard = () => {
 
   // Sample data for categories and summary
   const dashboardLoad = () => {
-    fetch("http://localhost:8080/api/dashboard",{
+    fetch("http://localhost:8080/api/users/dashboard",{
       method: "GET",
       credentials: "include",
       headers: {

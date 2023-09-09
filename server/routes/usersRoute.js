@@ -49,11 +49,14 @@ router.post(
     failureRedirect: "/login",
     failureFlash: true,
   })
-  
 );
 
+
+
 const isAuthenticated = (req, res, next) => {
+  
   if (req.isAuthenticated()) {
+    console.log("isAuthenticated-User[0]===============>", req.user[0].id)
     return next();
   }
   res.status(401).json({ message: 'Authentication required' });
@@ -61,25 +64,40 @@ const isAuthenticated = (req, res, next) => {
 
 
 router.get("/dashboard", isAuthenticated, (req, res) => {
-  const userId = req.user.id;
-  console.log("===================>",req.user.id)
+  const userId = req.user[0].id;
+  console.log(" before auth dashboard===================>", req.user[0].id)
+  if(!userId){
+    res.status(401).json({ message: 'Authentication required' });
+  }
+  console.log("/dashboard===================>",req.user[0].id)
   dashboard.loadDashboard(userId).then((data) => {
       res.json(data);
   });
 });
 // Logout route
-router.get('/logout', (req, res) => {
-   req.logout(); // Clear the login session
-  res.redirect('/login'); // Redirect to the login page
+router.get("/logout", (req, res) => {
+  console.log("logout===================>", req.user[0].id)
+  req.logout(function(err) {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/");
+  });
 });
-
-router.get("/:id", (req, res) => {
-  const { id } = req.params;
-  users.getUserById(id).then((data) => {
+router.get("/:id", isAuthenticated, (req, res) => {
+  const userId = req.user[0].id;
+  if(!userId){
+    res.status(401).json({ message: 'Authentication required' });
+  }
+  users.getUserById(userId).then((data) => {
     res.json(data);
   });
 })
-router.get("/", (req, res) => {
+router.get("/", isAuthenticated, (req, res) => {
+  const userId = req.user[0].id;
+  if(!userId){
+    res.status(401).json({ message: 'Authentication required' });
+  }
   users.getAllUsers().then((data) => { 
     res.json(data);
    });
@@ -90,9 +108,9 @@ router.get("/", (req, res) => {
 //     res.json(data);
 //   });
 // });
-router.delete('/', (req, res) => {
-    id = req.body.id;
-    users.deleteUser(id).then((data) => {
+router.delete('/', isAuthenticated, (req, res) => {
+   const userId = req.user[0].id;
+    users.deleteUser(userId).then((data) => {
         res.json(data);
     });
 });

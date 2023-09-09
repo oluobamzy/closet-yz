@@ -11,11 +11,12 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const flash = require("express-flash");
 const { initializePassport } = require("./db/Queries/passport");
+const multer = require("multer");
 
 // routes import
 const itemRoute = require("./routes/itemRoute");
 const usersRoute = require("./routes/usersRoute");
-const uploadRoute = require("./routes/uploadImageRoute");
+
 const closetRoute = require("./routes/closetRoute");
 
 const app = express();
@@ -35,10 +36,12 @@ app.use(
 // middleware setup
 app.use(morgan(ENVIROMENT));
 app.use(bodyParser.json());
-app.use(cors({
- origin: "http://localhost:3000",
-  credentials: true,
-})); // Use the cors middleware
+const corsOptions = {
+  origin: 'http://localhost:3000', // Allow requests only from this origin
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true, // Allow cookies and authentication headers
+};
+app.use(cors(corsOptions)); // Use the cors middleware
 app.use(cookieParser("secretcode"));
 
 app.use(passport.initialize());
@@ -49,9 +52,14 @@ app.use(flash());
 initializePassport(passport);
 
 app.use("/api/items", itemRoute);
-app.use("/api", usersRoute);
-app.use("/api/upload", uploadRoute);
+app.use("/api/users", usersRoute);
 app.use("/api/closets", closetRoute);
+app.use("/auth", usersRoute);
+app.use('/images', express.static('images'));
+// Inside a protected route
+app.get('/profile', passport.authenticate('local'), (req, res) => {
+  // Handle the authenticated user's request
+});
 
 app.get("/", (req, res) => {
   res.json({ greetings: "hello world" });

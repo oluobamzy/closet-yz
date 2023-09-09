@@ -26,24 +26,40 @@ const StyledList = styled(List)(({ theme }) => ({
 const Closet = () => {
   const navigate = useNavigate();
   const [closets, setClosets] = useState([]);
-  const [closetName, setClosetName] = useState('');
+  const [itemData, setItemData] = useState({
+    closet_name: '',
+    description: '',
+  });
 
-  const handleClosetNameChange = (event) => {
-    setClosetName(event.target.value);
+  
+
+  const handleClosetNameChange = (e) => {
+    const { name, value } = e.target;
+    setItemData({ ...itemData, [name]: value });
+  };
+
+  const handleDescriptionChange = (e) => {
+    const { name, value } = e.target;
+    setItemData({ ...itemData, [name]: value });
   };
 
   const handleAddCloset = (event) => {
     event.preventDefault();
-    if (closetName.trim() !== '') {
-      setClosets([...closets, closetName]);
-      setClosetName('');
+    if (itemData.closet_name.trim() !== '') {
+      setClosets([...closets, itemData.closet_name]);
+      
     }
-    fetch("http://localhost:8080/api/closets", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify(closetName),
+
+    const requestBody = JSON.stringify({itemData});
+    console.log('RequestBodyHandleAddCloset------------>', requestBody);
+
+  fetch("http://localhost:8080/api/closets", {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: requestBody,
 })
   .then((response) => {
     if (!response.ok) {
@@ -53,7 +69,7 @@ const Closet = () => {
   })
   .then((data) => {
     console.log("User data added successfully:", data);
-    //navigate('/items');
+    navigate('/additem');
     // Handle success
   })
   .catch((error) => {
@@ -75,10 +91,21 @@ const Closet = () => {
             <Grid item xs={12} sm={8}>
               <TextField
                 label="Closet Name"
+                name='closet_name'
                 fullWidth
                 variant="outlined"
-                value={closetName}
+                value={itemData.closet_name}
                 onChange={handleClosetNameChange}
+              />
+            </Grid>
+            <Grid item xs={12} sm={8}>
+              <TextField
+                label="description"
+                name='description'
+                fullWidth
+                variant="outlined"
+                value={itemData.description}
+                onChange={handleDescriptionChange}
               />
             </Grid>
             <Grid item xs={12} sm={4}>
@@ -94,9 +121,9 @@ const Closet = () => {
           </Grid>
         </form>
         <StyledList>
-          {closets.map((closetName, index) => (
+          {closets.map((closet_name, index) => (
             <ListItem key={index}>
-              <ListItemText primary={closetName} />
+              <ListItemText primary={closet_name} />
             </ListItem>
           ))}
         </StyledList>

@@ -43,7 +43,7 @@ function ResponsiveAppBar() {
     window.location.href = '/profile';
   };
   const handleLogout = () => {
-    fetch('http://localhost:8080/api/logout', {
+    fetch('http://localhost:8080/auth/logout', {
       method: 'GET',
       credentials: 'include',
       headers: {

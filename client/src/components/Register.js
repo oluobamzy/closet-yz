@@ -48,7 +48,7 @@ export default function Register() {
 
  const handleSubmit = (event) => {
     event.preventDefault();
-    fetch("http://localhost:8080/api/register", {
+    fetch("http://localhost:8080/auth/register", {
   method: "POST",
   headers: {
     "Content-Type": "application/json",

@@ -2,17 +2,19 @@ const db = require('../../routes/configs/db.config');
 const addCloset = (closet) => { 
   const {
     closet_name,
-    user_id
+    users_id,
+    description
   } = closet;
 
   const queryString = `
-    INSERT INTO closet (closet_name, user_id)
-    VALUES ($1, $2)
-    RETURNING *`; 
+    INSERT INTO closet (closet_name, users_id, description)
+    VALUES ($1, $2, $3)
+    RETURNING *;`; 
 
   const values = [
     closet_name,
-    user_id
+    users_id,
+    description
   ];
 
   return db
@@ -20,8 +22,14 @@ const addCloset = (closet) => {
     .then((data) => data.rows)
     .catch((e) => console.log(e));
 };
-const getAllClosets =  () => {
-  return db.query('SELECT * FROM closet').then((data)=> data.rows).catch((e)=> console.log(e));
+const getAllClosets = (id) => {
+  queryString = `
+  SELECT * FROM closet WHERE users_id = $1, RETURNING *;`;
+  const values = [id];
+  return db
+    .query(queryString, values)
+    .then((data) => data.rows)
+    .catch((e) => console.log(e));
 
 }
 module.exports = {addCloset, getAllClosets};

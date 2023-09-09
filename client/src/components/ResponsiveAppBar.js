@@ -16,7 +16,7 @@ import { styled } from '@mui/system';
 import { useNavigate } from 'react-router-dom';
 
 const pages = ['Login','Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['Closet', 'Account', 'Dashboard', 'Logout'];
 
 function ResponsiveAppBar() {
  const navigate = useNavigate();
@@ -40,7 +40,7 @@ function ResponsiveAppBar() {
      navigate('/dashboard');
   };
   const handleProfile = () => {
-    window.location.href = '/profile';
+    window.location.href = '/closet';
   };
   const handleLogout = () => {
     fetch('http://localhost:8080/auth/logout', {
@@ -153,7 +153,7 @@ function ResponsiveAppBar() {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            closet-yz
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
@@ -193,7 +193,7 @@ function ResponsiveAppBar() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                setting === 'Profile' ? 
+                setting === 'Closet' ? 
                 <MenuItem key={setting} onClick={handleProfile}>
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem> : setting === 'Dashboard' ? <MenuItem key={setting} onClick={handleDashboard}>

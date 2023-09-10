@@ -16,4 +16,5 @@ CREATE TABLE item (
   "last_worn_date" Date,
   "size" varchar  not null,
   "brand_name" varchar
+  "delete" BOOLEAN DEFAULT false
 );

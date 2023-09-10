@@ -37,8 +37,8 @@ app.use(
 app.use(morgan(ENVIROMENT));
 app.use(bodyParser.json());
 const corsOptions = {
-  origin: 'http://localhost:3000', // Allow requests only from this origin
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  origin: "http://localhost:3000", // Allow requests only from this origin
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true, // Allow cookies and authentication headers
 };
 app.use(cors(corsOptions)); // Use the cors middleware
@@ -55,9 +55,9 @@ app.use("/items", itemRoute);
 app.use("/api/users", usersRoute);
 app.use("/api/closets", closetRoute);
 app.use("/auth", usersRoute);
-app.use('/images', express.static('images'));
+app.use("/images", express.static("images"));
 // Inside a protected route
-app.get('/profile', passport.authenticate('local'), (req, res) => {
+app.get("/profile", passport.authenticate("local"), (req, res) => {
   // Handle the authenticated user's request
 });
 

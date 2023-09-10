@@ -30,7 +30,7 @@ router.get("/today", isAuthenticated, (req, res) => {
   }
   items.getTodayItems(userId).then((data) => {
     console.log("getTodayItems-----------", data);
-    res.json(data? data : []);
+    res.json(data ? data : []);
   });
 });
 
@@ -43,7 +43,7 @@ router.post("/today", isAuthenticated, (req, res) => {
   }
   items.AddItemsToday(userId).then((data) => {
     console.log("getTodayItems-----------", data);
-    res.json(data? data : []);
+    res.json(data ? data : []);
   });
 });
 router.get("/", isAuthenticated, (req, res) => {
@@ -55,7 +55,7 @@ router.get("/", isAuthenticated, (req, res) => {
   }
   items.getAllItems(userId).then((data) => {
     console.log("getAllItems-----------", data);
-    res.json(data? data : []);
+    res.json(data ? data : []);
   });
 });
 router.post("/", isAuthenticated, upload.single("img_src"), (req, res) => {
@@ -84,7 +84,7 @@ router.post("/", isAuthenticated, upload.single("img_src"), (req, res) => {
     size,
     brand_name,
   } = req.body;
-  
+
   const item = {
     item_name,
     category,
@@ -122,6 +122,40 @@ router.delete("/", isAuthenticated, (req, res) => {
     res.status(401).json({ message: "Authentication required" });
   }
   items.deleteItem(id).then((data) => {
+    res.json(data);
+  });
+});
+
+router.get("/bin", isAuthenticated, (req, res) => {
+  //get all closets
+  const userId = req.user[0].id;
+  if (!userId) {
+    res.status(401).json({ message: "Authentication required" });
+  }
+
+  items.selectItemsToDelete(userId).then((data) => {
+    console.log("getAllItems-----------", data);
+    res.json(data ? data : []);
+  });
+});
+
+router.post("/bin", isAuthenticated, (req, res) => {
+  console.log("ItemRoutePostBinUserIdPOST---------->", req.user[0].id);
+  const userId = req.user[0].id;
+  if (!userId) {
+    res.status(401).json({ message: "Authentication required" });
+  }
+  console.log("ItemRoutePostBinUserIdPOST2---------->", req.body);
+  const { itemData } = req.body;
+  console.log("ItemRoutePostBinUserIdPOST3---------->", itemData);
+
+  const users_id = userId;
+  const id = {
+    users_id,
+  };
+  console.log("ItemRoutePostBinCloset---------->", id);
+  items.updateItemDelete(id).then((data) => {
+    console.log("ItemRoutePostBinDataAddcloset---------->", data);
     res.json(data);
   });
 });

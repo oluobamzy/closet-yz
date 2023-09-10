@@ -1,11 +1,14 @@
 const db = require("../../routes/configs/db.config");
 const getAllItems = (userId) => {
   return db
-    .query( `SELECT item.*
+    .query(
+      `SELECT item.*
     FROM item
     JOIN closet ON item.closet_id = closet.id
     JOIN users ON closet.users_id = users.id
-    WHERE users.id = $1`, [userId])
+    WHERE users.id = $1`,
+      [userId]
+    )
     .then((data) => data.rows)
     .catch((e) => console.log(e));
 };
@@ -15,9 +18,7 @@ const getItemById = (id) => {
     .then((data) => data.rows)
     .catch((e) => console.log(e));
 };
-const getTodayItems = (userId) => {
-  
-};
+const getTodayItems = (userId) => {};
 
 const addItem = (item) => {
   // Pass the 'item' object as a parameter
@@ -117,4 +118,39 @@ const deleteItem = (id) => {
     .catch((e) => console.log(e));
 };
 
-module.exports = { getAllItems, getItemById, addItem, deleteItem, updateItem };
+const updateItemDelete = (id) => {
+  const queryString = `
+    UPDATE item SET delete = true
+    WHERE id = $1
+    RETURNING *;`; // Assuming you want to return the inserted item
+
+  const values = [id];
+
+  return db
+    .query(queryString, values)
+    .then((data) => data.rows)
+    .catch((e) => console.log(e));
+};
+
+const selectItemsToDelete = (id) => {
+  const queryString = `
+    SELECT * FROM item
+    WHERE id = $1 AND delete = true;`;
+
+  const values = [id];
+
+  return db
+    .query(queryString, values)
+    .then((data) => data.rows)
+    .catch((e) => console.log(e));
+};
+
+module.exports = {
+  getAllItems,
+  getItemById,
+  addItem,
+  deleteItem,
+  updateItem,
+  updateItemDelete,
+  selectItemsToDelete,
+};

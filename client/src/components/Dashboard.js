@@ -163,6 +163,34 @@ const Dashboard = () => {
 
   const categories = ["Shirts", "Pants", "Shoes", "Accessories", "Others"];
 
+  //Pie chart settings
+  const RADIAN = Math.PI / 180;
+  const renderCustomizedLabel = ({
+    cx,
+    cy,
+    midAngle,
+    innerRadius,
+    outerRadius,
+    percent,
+    index,
+  }) => {
+    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+    const x = cx + radius * Math.cos(-midAngle * RADIAN);
+    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+    return (
+      <text
+        x={x}
+        y={y}
+        fill="white"
+        textAnchor={x > cx ? "start" : "end"}
+        dominantBaseline="central"
+      >
+        {`${(percent * 100).toFixed(0)}%`}
+      </text>
+    );
+  };
+
   return (
     <div>
       <ResponsiveAppBar />
@@ -202,6 +230,8 @@ const Dashboard = () => {
                         <PieChart width={400} height={300}>
                           <Pie
                             data={dataArray}
+                            labelLine={false}
+                            label={renderCustomizedLabel}
                             dataKey="value"
                             nameKey="name"
                             cx="50%"

@@ -26,9 +26,9 @@ const pieChartOptions = {
 const Dashboard = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [dashboardData, setDashboardData] = useState(null);
-  // const [summarizedData, setSummarizedData] = useState(null);
-  // Replace with actual data from the database
-  // Sample data for categories and summary
+  const [summaryData, setSummaryData] = useState(null);
+
+  // Fetch dashboard data when the component mounts
   useEffect(() => {
     const dashboardLoad = () => {
       fetch("http://localhost:8080/api/users/dashboard", {
@@ -47,15 +47,13 @@ const Dashboard = () => {
 
     dashboardLoad();
   }, []);
-  const [summaryData, setSummaryData] = useState(null);
+
+  // Summarize items when dashboardData changes
   useEffect(() => {
-    // Call summarizeItems when dashboardData changes
     if (dashboardData) {
-      // summarizeItems(dashboardData);
       const summaryDataList = summarizeItems(dashboardData);
       setSummaryData(summaryDataList);
-
-      console.log("summaryData------->", summaryData);
+      console.log("setSummaryData------------>", summaryDataList);
     }
   }, [dashboardData]);
 
@@ -127,146 +125,6 @@ const Dashboard = () => {
   };
   // ......................................................................
 
-  /*
-  1.Get all items from the database where userid = current user
-  2. Get all categories from the database where userid = current user
-  3. Get all items from each closet
-  
-  */
-  // const categories = summaryData ? Object.keys(summaryData.categories) : [];
-
-  // const categorySummary = categories.map((category) => ({
-  //   [category]: {
-  //     totalCount: summaryData.categories[category],
-  //     brandData: summaryData.brands,
-  //     colorData: summaryData.colors,
-  //     seasonData: summaryData.seasons,
-  //   },
-  // }));
-
-  // // Merge the individual category summaries into a single object
-  // const mergedCategorySummary = Object.assign({}, ...categorySummary);
-
-  // const handleCategorySelect = (category) => {
-  //   setSelectedCategory(category);
-  // };
-
-  const categories = ["Shirts", "Pants", "Shoes", "Accessories", "Others"];
-
-  const categorySummary = summaryData;
-  // const categorySummary = {
-  //   Shirts: {
-  //     totalCount: 100, // Replace with actual count for Shirts
-  //     brandData: {
-  //       Brand1: 3,
-  //       Brand2: 5,
-  //       Brand3: 2,
-  //     },
-  //     colorData: {
-  //       Red: 4,
-  //       Blue: 1,
-  //       Green: 3,
-  //     },
-  //     seasonData: {
-  //       Spring: 5,
-  //       Summer: 6,
-  //       Fall: 2,
-  //     },
-  //     lastPurchaseImage:
-  //       "https://th.bing.com/th/id/OIP.t3YAUGbDG8BMGJo7Wq84MAHaJo?pid=ImgDet&rs=1", // URL to image
-  //     lastPurchaseDate: "2023-09-15", // Replace with actual date
-  //   },
-  //   Pants: {
-  //     // Data for Pants category
-  //     totalCount: 30, // Replace with actual count for Shirts
-  //     brandData: {
-  //       Brand1: 3,
-  //       Brand2: 1,
-  //       Brand3: 2,
-  //     },
-  //     colorData: {
-  //       Red: 4,
-  //       Blue: 3,
-  //       Green: 3,
-  //     },
-  //     seasonData: {
-  //       Spring: 5,
-  //       Summer: 3,
-  //       Fall: 2,
-  //     },
-  //     lastPurchaseImage:
-  //       "https://th.bing.com/th/id/OIP.t3YAUGbDG8BMGJo7Wq84MAHaJo?pid=ImgDet&rs=1", // URL to image
-  //     lastPurchaseDate: "2023-09-15", // Replace with actual date
-  //   },
-  //   Shoes: {
-  //     // Data for Pants category
-  //     totalCount: 20, // Replace with actual count for Shirts
-  //     brandData: {
-  //       Brand1: 3,
-  //       Brand2: 9,
-  //       Brand3: 2,
-  //     },
-  //     colorData: {
-  //       Red: 4,
-  //       Blue: 5,
-  //       Green: 3,
-  //     },
-  //     seasonData: {
-  //       Spring: 5,
-  //       Summer: 2,
-  //       Fall: 2,
-  //     },
-  //     lastPurchaseImage:
-  //       "https://th.bing.com/th/id/OIP.t3YAUGbDG8BMGJo7Wq84MAHaJo?pid=ImgDet&rs=1", // URL to image
-  //     lastPurchaseDate: "2023-09-15", // Replace with actual date
-  //   },
-  //   Accessories: {
-  //     // Data for Pants category
-  //     totalCount: 10, // Replace with actual count for Shirts
-  //     brandData: {
-  //       Brand1: 3,
-  //       Brand2: 1,
-  //       Brand3: 2,
-  //     },
-  //     colorData: {
-  //       Red: 4,
-  //       Blue: 3,
-  //       Green: 3,
-  //     },
-  //     seasonData: {
-  //       Spring: 5,
-  //       Summer: 3,
-  //       Fall: 2,
-  //     },
-  //     lastPurchaseImage:
-  //       "https://th.bing.com/th/id/OIP.t3YAUGbDG8BMGJo7Wq84MAHaJo?pid=ImgDet&rs=1", // URL to image
-  //     lastPurchaseDate: "2023-09-15", // Replace with actual date
-  //   },
-  //   Others: {
-  //     // Data for Pants category
-  //     totalCount: 10, // Replace with actual count for Shirts
-  //     brandData: {
-  //       Brand1: 3,
-  //       Brand2: 10,
-  //       Brand3: 2,
-  //     },
-  //     colorData: {
-  //       Red: 4,
-  //       Blue: 3,
-  //       Green: 3,
-  //     },
-  //     seasonData: {
-  //       Spring: 5,
-  //       Summer: 5,
-  //       Fall: 2,
-  //     },
-  //     lastPurchaseImage:
-  //       "https://th.bing.com/th/id/OIP.t3YAUGbDG8BMGJo7Wq84MAHaJo?pid=ImgDet&rs=1", // URL to image
-  //     lastPurchaseDate: "2023-09-15", // Replace with actual date
-  //   },
-  //   // Add data for other categories
-  // };
-
   const handleCategorySelect = (category) => {
     setSelectedCategory(category);
   };
@@ -303,55 +161,59 @@ const Dashboard = () => {
     },
   };
 
+  const categories = ["Shirts", "Pants", "Shoes", "Accessories", "Others"];
+
   return (
     <div>
       <ResponsiveAppBar />
       <StyledContainer>
         <StyledBanner>
           <Grid container spacing={2}>
-            {Object.keys(summaryData).map((chartKey) => {
-              const chartData = summaryData[chartKey];
-              const dataArray = Object.keys(chartData).map((key) => ({
-                name: key,
-                value: chartData[key],
-              }));
+            {summaryData
+              ? Object.keys(summaryData).map((chartKey) => {
+                  const chartData = summaryData[chartKey];
+                  const dataArray = Object.keys(chartData).map((key) => ({
+                    name: key,
+                    value: chartData[key],
+                  }));
 
-              return (
-                <Paper
-                  key={chartKey}
-                  elevation={3}
-                  style={{
-                    padding: "20px",
-                    textAlign: "center",
-                    marginBottom: "20px",
-                  }}
-                >
-                  <Typography variant="h6">{`Pie Chart - ${chartKey}`}</Typography>
-                  <PieChart width={400} height={300}>
-                    <Pie
-                      data={dataArray}
-                      dataKey="value"
-                      nameKey="name"
-                      cx="50%"
-                      cy="50%"
-                      outerRadius={80}
-                      fill="#8884d8"
+                  return (
+                    <Paper
+                      key={chartKey}
+                      elevation={3}
+                      style={{
+                        padding: "20px",
+                        textAlign: "center",
+                        marginBottom: "20px",
+                      }}
                     >
-                      {dataArray.map((entry, index) => (
-                        <Cell
-                          key={`cell-${index}`}
-                          fill={`#${Math.floor(
-                            Math.random() * 16777215
-                          ).toString(16)}`}
-                        />
-                      ))}
-                    </Pie>
-                    <Tooltip />
-                    <Legend />
-                  </PieChart>
-                </Paper>
-              );
-            })}
+                      <Typography variant="h6">{`Pie Chart - ${chartKey}`}</Typography>
+                      <PieChart width={400} height={300}>
+                        <Pie
+                          data={dataArray}
+                          dataKey="value"
+                          nameKey="name"
+                          cx="50%"
+                          cy="50%"
+                          outerRadius={80}
+                          fill="#8884d8"
+                        >
+                          {dataArray.map((entry, index) => (
+                            <Cell
+                              key={`cell-${index}`}
+                              fill={`#${Math.floor(
+                                Math.random() * 16777215
+                              ).toString(16)}`}
+                            />
+                          ))}
+                        </Pie>
+                        <Tooltip />
+                        <Legend />
+                      </PieChart>
+                    </Paper>
+                  );
+                })
+              : null}
           </Grid>
         </StyledBanner>
       </StyledContainer>

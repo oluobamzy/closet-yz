@@ -73,7 +73,7 @@ const Dashboard = () => {
     items.forEach((item) => {
       const {
         category,
-        subCategory,
+        subcategory,
         brand_name,
         color,
         season,
@@ -88,10 +88,10 @@ const Dashboard = () => {
       summary.categories[category]++;
 
       // Summarize by subcategory
-      if (!summary.subcategories[subCategory]) {
-        summary.subcategories[subCategory] = 0;
+      if (!summary.subcategories[subcategory]) {
+        summary.subcategories[subcategory] = 0;
       }
-      summary.subcategories[subCategory]++;
+      summary.subcategories[subcategory]++;
 
       // Summarize by brand
       if (!summary.brands[brand_name]) {
@@ -168,7 +168,16 @@ const Dashboard = () => {
       <ResponsiveAppBar />
       <StyledContainer>
         <StyledBanner>
-          <Grid container spacing={2}>
+          {/* <Grid container spacing={2}> */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center",
+              gap: "10px", // Adjust the gap/margin as needed
+              flexWrap: "wrap",
+            }}
+          >
             {summaryData
               ? Object.keys(summaryData).map((chartKey) => {
                   const chartData = summaryData[chartKey];
@@ -178,43 +187,49 @@ const Dashboard = () => {
                   }));
 
                   return (
-                    <Paper
-                      key={chartKey}
-                      elevation={3}
-                      style={{
-                        padding: "20px",
-                        textAlign: "center",
-                        marginBottom: "20px",
-                      }}
-                    >
-                      <Typography variant="h6">{`Pie Chart - ${chartKey}`}</Typography>
-                      <PieChart width={400} height={300}>
-                        <Pie
-                          data={dataArray}
-                          dataKey="value"
-                          nameKey="name"
-                          cx="50%"
-                          cy="50%"
-                          outerRadius={80}
-                          fill="#8884d8"
-                        >
-                          {dataArray.map((entry, index) => (
-                            <Cell
-                              key={`cell-${index}`}
-                              fill={`#${Math.floor(
-                                Math.random() * 16777215
-                              ).toString(16)}`}
-                            />
-                          ))}
-                        </Pie>
-                        <Tooltip />
-                        <Legend />
-                      </PieChart>
-                    </Paper>
+                    <Grid item xs={8} style={{ display: "flex" }}>
+                      <Paper
+                        key={chartKey}
+                        elevation={3}
+                        style={{
+                          padding: "20px",
+                          textAlign: "center",
+                          marginBottom: "20px",
+                        }}
+                      >
+                        <Typography variant="h6">{`${chartKey
+                          .charAt(0)
+                          .toUpperCase()}${chartKey.slice(1)}`}</Typography>
+
+                        <PieChart width={400} height={300}>
+                          <Pie
+                            data={dataArray}
+                            dataKey="value"
+                            nameKey="name"
+                            cx="50%"
+                            cy="50%"
+                            outerRadius={80}
+                            fill="#8884d8"
+                          >
+                            {dataArray.map((entry, index) => (
+                              <Cell
+                                key={`cell-${index}`}
+                                fill={`#${Math.floor(
+                                  Math.random() * 16777215
+                                ).toString(16)}`}
+                              />
+                            ))}
+                          </Pie>
+                          <Tooltip />
+                          <Legend />
+                        </PieChart>
+                      </Paper>
+                    </Grid>
                   );
                 })
               : null}
-          </Grid>
+          </div>
+          {/* </Grid> */}
         </StyledBanner>
       </StyledContainer>
       <Footer />

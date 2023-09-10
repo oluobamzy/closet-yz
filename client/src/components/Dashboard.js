@@ -168,7 +168,6 @@ const Dashboard = () => {
       <ResponsiveAppBar />
       <StyledContainer>
         <StyledBanner>
-          {/* <Grid container spacing={2}> */}
           <div
             style={{
               display: "flex",
@@ -179,7 +178,7 @@ const Dashboard = () => {
             }}
           >
             {summaryData
-              ? Object.keys(summaryData).map((chartKey) => {
+              ? Object.keys(summaryData).map((chartKey, index) => {
                   const chartData = summaryData[chartKey];
                   const dataArray = Object.keys(chartData).map((key) => ({
                     name: key,
@@ -187,9 +186,8 @@ const Dashboard = () => {
                   }));
 
                   return (
-                    <Grid item xs={8} style={{ display: "flex" }}>
+                    <Grid item xs={8} key={index}>
                       <Paper
-                        key={chartKey}
                         elevation={3}
                         style={{
                           padding: "20px",
@@ -229,7 +227,6 @@ const Dashboard = () => {
                 })
               : null}
           </div>
-          {/* </Grid> */}
         </StyledBanner>
       </StyledContainer>
       <Footer />

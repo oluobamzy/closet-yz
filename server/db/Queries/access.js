@@ -1,11 +1,24 @@
 const db = require('../../routes/configs/db.config');
-const grantAccess = (user_id, closet_id) => {
+const grantAccess = (user_id) => {
   const queryString = `
   SELECT *
   FROM closet AS c
   INNER JOIN users AS u ON c.users_id = u.id
-  WHERE u.id = $1 AND c.id = $2;
+  WHERE u.id = $1
   `;
+  const values = [user_id];
+  return db
+    .query(queryString, values)
+    .then((data) => data.rows)
+    .catch((e) => console.log(e));
+}
+
+const grantAccessToSpecificCloset = (user_id, closet_id) => {
+  const queryString = `
+  SELECT *
+  FROM closet AS c
+  INNER JOIN users AS u ON c.users_id = u.id
+  WHERE u.id = $1 AND c.id = $2;`;
   const values = [user_id, closet_id];
   return db
     .query(queryString, values)
@@ -24,4 +37,4 @@ const addToAccess = (user_id, closet_id) => {
     .catch((e) => console.log(e));
 };
 
-module.exports = { grantAccess, addToAccess };
+module.exports = { grantAccess, addToAccess, grantAccessToSpecificCloset };

@@ -31,7 +31,7 @@ router.get("/", isAuthenticated, (req, res) => {
 
   closets.getAllClosets(userId).then((data) => {
     console.log("ClosetRouteDataGetAllClosets---------->", data);
-    res.json(data);
+    res.json(data? data : []);
   });
 });
 router.post("/", isAuthenticated, (req, res) => {

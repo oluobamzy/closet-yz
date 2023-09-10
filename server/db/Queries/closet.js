@@ -16,7 +16,7 @@ const addCloset = (closet) => {
 };
 const getAllClosets = (id) => {
   queryString = `
-  SELECT * FROM closet WHERE users_id = $1 RETURNING *;`;
+  SELECT * FROM closet WHERE users_id = $1;`;
   const values = [id];
   return db
     .query(queryString, values)

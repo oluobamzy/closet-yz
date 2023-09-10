@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
+// import { useClosets } from "./ClosetContext";
 
-import {
+import {//imports from material ui
   TextField,
   Button,
   Grid,
@@ -15,10 +16,12 @@ import Footer from "./Footer";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-function AddItemForm() {
-  const categories = ["Casual/Streetwear", "Formal", "Athletic", "Lounge"];
+function AddItemForm() {//function to add item
+  // const closetList = useClosets()
+  // console.log("=======================>",closetList)
+  const categories = ["Casual/Streetwear", "Formal", "Athletic", "Lounge"];//categories for the item
 
-  const subCategories = {
+  const subCategories = {//subcategories for the item
     "Casual/Streetwear": [
       "Tops",
       "Bottoms",
@@ -57,28 +60,46 @@ function AddItemForm() {
     ],
   };
 
-  const [closets, setClosets] = useState([]);
+  const [closets, setClosets] = useState([]); // Initialize closets state as an empty array
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await fetch("http://localhost:8080/api/closets", {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+  
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+  
+        const data = await response.json();
+        console.log("Closets in items data:", data); 
+  
+        // Update closets state by spreading the previous state and adding new data
+        setClosets((prevClosets) => [...prevClosets, ...data]);
+        console.log("UseEffect-Fetch------------", closets)
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+  
+    fetchData();
+  }, []);
+  
+  
   const currentDate = new Date().toISOString().substr(0, 10);
   const navigate = useNavigate();
-  const handleSelectCloset = () => {
-    axios("http://localhost:8080/api/closets", {
-      withCredentials: true, // If you need to include credentials
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then((response) => {
-      setClosets(response.data);
-      console.log("AddItemForm------------>", response.data);
-    });
-  };
-  useEffect(() => {
-    handleSelectCloset();
-  }, []);
-  const [itemData, setItemData] = useState({
+
+  
+  const [itemData, setItemData] = useState({//set the item data
     item_name: "",
     category: "Casual/Streetwear", // Set a default category
-    subCategory: "Tops", // Set a default sub-category
+    subcategory: "Tops", // Set a default sub-category
     color: "",
     purchase_date: currentDate,
     // use_count: 0,
@@ -91,7 +112,7 @@ function AddItemForm() {
     brand_name: "",
   });
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e) => {//handle input change
     const { name, value } = e.target;
 
     // Check if the input field is the "Closet" dropdown
@@ -104,15 +125,15 @@ function AddItemForm() {
       setItemData({ ...itemData, [name]: value });
     }
   };
-  const handleCategoryChange = (e) => {
+  const handleCategoryChange = (e) => {//handle category change
     const { name, value } = e.target;
     setItemData({
       ...itemData,
       [name]: value,
-      subCategory: subCategories[value][0], // Set the default sub-category for the selected category
+      subcategory: subCategories[value][0], // Set the default sub-category for the selected category
     });
   };
-  const handleImageChange = (e) => {
+  const handleImageChange = (e) => {//handle image change
     const file = e.target.files[0];
     // setItemData({...itemData,  img_src: file });
     if (file) {
@@ -130,11 +151,11 @@ function AddItemForm() {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {//handle submit
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/items",
+        "http://localhost:8080/items",
         itemData,
         {
           withCredentials: true, // If you need to include credentials
@@ -192,14 +213,14 @@ function AddItemForm() {
             <FormControl fullWidth>
               <InputLabel>Sub-Category</InputLabel>
               <Select
-                name="subCategory"
-                value={itemData.subCategory}
+                name="subcategory"
+                value={itemData.subcategory}
                 onChange={handleInputChange}
                 required
               >
-                {subCategories[itemData.category].map((subCategory) => (
-                  <MenuItem key={subCategory} value={subCategory}>
-                    {subCategory}
+                {subCategories[itemData.category].map((subcategory) => (
+                  <MenuItem key={subcategory} value={subcategory}>
+                    {subcategory}
                   </MenuItem>
                 ))}
               </Select>
@@ -272,13 +293,12 @@ function AddItemForm() {
                 onChange={handleInputChange}
                 required
               >
-                {closets[0].map((closet) => (
-                  <MenuItem key={closet.id} value={closet.id}>
+                {closets.map((closet, index) => (
+                  <MenuItem key={index} value={closet.id}>
                     {closet.closet_name}
                   </MenuItem>
                 ))}
-
-                {/* Add more closet options */}
+               
               </Select>
             </FormControl>
           </Grid>

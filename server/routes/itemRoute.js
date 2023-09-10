@@ -15,16 +15,22 @@ const isAuthenticated = (req, res, next) => {
   res.status(401).json({ message: "Authentication required" });
 };
 
-router.get("/:id", (req, res) => {
-  const id = req.params.id;
-  items.getItemById(id).then((data) => {
-    res.json(data);
-  });
-});
-router.get("/", (req, res) => {
-  items.getAllItems().then((data) => {
-    console.log(data);
-    res.json(data);
+// router.get("/:id", (req, res) => {
+//   const id = req.params.id;
+//   items.getItemById(id).then((data) => {
+//     res.json(data);
+//   });
+// });
+router.get("/", isAuthenticated, (req, res) => {
+  const userId = req.user[0].id;
+  console.log("userId===================> itemsRoute", userId);
+  if (!userId) {
+    res.status(401).json({ message: "Authentication required" });
+    console.log("userId=================== but not authorized>", userId);
+  }
+  items.getAllItems(userId).then((data) => {
+    console.log("getAllItems-----------", data);
+    res.json(data? data : []);
   });
 });
 router.post("/", isAuthenticated, upload.single("img_src"), (req, res) => {
@@ -33,9 +39,8 @@ router.post("/", isAuthenticated, upload.single("img_src"), (req, res) => {
   if (!userId) {
     res.status(401).json({ message: "Authentication required" });
   }
-  const { closet_id } = req.body.closet_id;
-  console.log("closet_id---------->", closet_id);
-  const result = access.grantAccess(userId, closet_id);
+  // console.log("closet_id---------->", closet_id);
+  const result = access.grantAccess(userId);
   if (result.length === 0) {
     res.status(401).json({ message: "You need to create a closet" });
   }
@@ -44,20 +49,7 @@ router.post("/", isAuthenticated, upload.single("img_src"), (req, res) => {
   const {
     item_name,
     category,
-    sub_category,
-    color,
-    purchase_date,
-    description,
-    season,
-    last_worn_date,
-    size,
-    brand_name,
-  } = req.body;
-
-  console.log(
-    item_name,
-    category,
-    sub_category,
+    subcategory,
     color,
     purchase_date,
     description,
@@ -66,12 +58,12 @@ router.post("/", isAuthenticated, upload.single("img_src"), (req, res) => {
     last_worn_date,
     size,
     brand_name,
-    img_src
-  );
+  } = req.body;
+  
   const item = {
     item_name,
     category,
-    sub_category,
+    subcategory,
     color,
     purchase_date,
     img_src,
@@ -85,7 +77,7 @@ router.post("/", isAuthenticated, upload.single("img_src"), (req, res) => {
 
   items.addItem(item).then((data) => {
     res.send(data);
-    console.log("Request Body:", req.body);
+    console.log("ITEM ROUTE Request Body:", req.body);
   });
 });
 router.put("/:id", isAuthenticated, (req, res) => {

@@ -51,7 +51,7 @@ app.use(flash());
 // Initialize Passport configuration
 initializePassport(passport);
 
-app.use("/api/items", itemRoute);
+app.use("/items", itemRoute);
 app.use("/api/users", usersRoute);
 app.use("/api/closets", closetRoute);
 app.use("/auth", usersRoute);

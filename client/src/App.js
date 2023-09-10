@@ -13,6 +13,7 @@ import Dashboard from './components/Dashboard';
 import Closet from './components/Closet';
 import Bin from './components/Bin';
 import { ItemsProvider } from './components/ItemsContext';
+import { ClosetProvider } from './components/ClosetContext';
 
 function App() {
   const navigateToLogin = () => {

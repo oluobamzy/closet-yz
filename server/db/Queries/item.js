@@ -15,6 +15,9 @@ const getItemById = (id) => {
     .then((data) => data.rows)
     .catch((e) => console.log(e));
 };
+const getTodayItems = (userId) => {
+  
+};
 
 const addItem = (item) => {
   // Pass the 'item' object as a parameter

@@ -46,7 +46,7 @@ const ListItem = () => {
       <StyledBanner elevation={3}>
       <div className="list-item">{image}</div>
       <div className="btn-closet">
-       <Link to={'/addItem'}><Button style={{backgroundColor:"#96B6C5"}}>Add to Closet</Button></Link> 
+       <Link to={'/addItem'}><Button style={{backgroundColor:"#96B6C5", marginRight:"5PX"}}>Add to Closet</Button></Link> 
       </div>
       </StyledBanner>
       </StyledContainer>

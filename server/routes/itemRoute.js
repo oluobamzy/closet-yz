@@ -21,6 +21,31 @@ const isAuthenticated = (req, res, next) => {
 //     res.json(data);
 //   });
 // });
+router.get("/today", isAuthenticated, (req, res) => {
+  const userId = req.user[0].id;
+  console.log("userId===================> itemsRouteForToday", userId);
+  if (!userId) {
+    res.status(401).json({ message: "Authentication required" });
+    console.log("userId=================== but not authorized>", userId);
+  }
+  items.getTodayItems(userId).then((data) => {
+    console.log("getTodayItems-----------", data);
+    res.json(data? data : []);
+  });
+});
+
+router.post("/today", isAuthenticated, (req, res) => {
+  const userId = req.user[0].id;
+  console.log("userId===================> itemsRouteForToday", userId);
+  if (!userId) {
+    res.status(401).json({ message: "Authentication required" });
+    console.log("userId=================== but not authorized>", userId);
+  }
+  items.AddItemsToday(userId).then((data) => {
+    console.log("getTodayItems-----------", data);
+    res.json(data? data : []);
+  });
+});
 router.get("/", isAuthenticated, (req, res) => {
   const userId = req.user[0].id;
   console.log("userId===================> itemsRoute", userId);

@@ -46,17 +46,19 @@ const ItemDetails = (props) => {
 
     const formData = {
       season: e.target.season.value,
-      category: e.target.category.value,
       brand_name: e.target.brand_name.value,
+      category: e.target.category.value,
       color: e.target.color.value,
       size: e.target.size.value,
       last_worn_date: e.target.last_worn_date.value,
       purchase_date: e.target.purchase_date.value,
     };
 
+    const itemIdToInteger = parseInt(itemId, 10); // Convert itemIdString to an integer
+
     const requestData = {
-      itemId: itemId, // Assuming itemId is a variable with the first parameter
       formData: formData, // Assuming formData is a variable with the second parameter
+      itemId: itemIdToInteger, // Assuming itemId is a variable with the first parameter
     };
 
     console.log("handleSubmit Item Details props.itemId------------->", itemId);
@@ -76,10 +78,11 @@ const ItemDetails = (props) => {
           throw new Error("Network response was not ok");
         }
         // Handle success, if needed
-        console.log("UpdateDataSent--------->", formData);
+        console.log("UpdateDataSentGood--------->", requestData);
       })
       .catch((error) => {
-        console.error("Error Item not set to delete:", error);
+        console.log("UpdateDataSentError--------->", requestData);
+        console.error("Item not updated:", error);
         // Handle error
       });
 
@@ -112,7 +115,7 @@ const ItemDetails = (props) => {
               >
                 <div className="item-details-content">
                   <div className="description">
-                    <p>Description:{filteredList[0].description}</p>
+                    <p>Description: {filteredList[0].description}</p>
                   </div>
                 </div>
               </StyledBanner>

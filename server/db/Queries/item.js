@@ -68,7 +68,7 @@ const addItem = (item) => {
       console.log("IS THIS ERROR---", e);
     });
 };
-const updateItem = (itemId, formData) => {
+const updateItem = (requestData) => {
   const {
     brand_name,
     category,
@@ -77,7 +77,12 @@ const updateItem = (itemId, formData) => {
     purchase_date,
     season,
     size,
-  } = formData;
+    itemId,
+  } = requestData.formData;
+
+  const itemIdValue = requestData.itemId;
+  console.log("QUERYformData-------------------", requestData.formData);
+  console.log("QUERYitemIdValue-------------------", itemIdValue);
 
   // Use the correct number of placeholders in the SQL query and provide all parameters
   const queryString = `
@@ -94,7 +99,7 @@ const updateItem = (itemId, formData) => {
     purchase_date,
     season,
     size,
-    itemId,
+    itemIdValue,
   ];
 
   return db

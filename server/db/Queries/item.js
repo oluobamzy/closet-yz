@@ -133,6 +133,35 @@ WHERE users.id = $1 AND DATE(item.expired_timeStamp) = CURRENT_DATE;`
     .catch((e) => console.log(e));
 };
 
+const updateItemDelete = (itemId) => {
+  const queryString = `
+    UPDATE item SET delete = true
+    WHERE id = $1
+    RETURNING *;`;
+
+  const values = [itemId];
+
+  return db
+    .query(queryString, values)
+    .then((data) => data.rows)
+    .catch((e) => console.log(e));
+};
+
+const selectItemsToDelete = (userId) => {
+  const queryString = `
+    SELECT * FROM item
+    JOIN closet ON item.closet_id = closet.id
+    JOIN users ON closet.users_id = users.id
+    WHERE users.id = $1 AND delete = true;`;
+
+  const values = [userId];
+
+  return db
+    .query(queryString, values)
+    .then((data) => data.rows)
+    .catch((e) => console.log(e));
+};
+
 const setItemsForToday = (itemId) => {
   // Get the current timestamp
   const currentTimestamp = new Date();
@@ -153,4 +182,4 @@ const setItemsForToday = (itemId) => {
 };
 
 
-module.exports = { getAllItems, getItemById, addItem, deleteItem, updateItem, getItemsForToday, setItemsForToday };
+module.exports = { getAllItems, getItemById, addItem, deleteItem, updateItem, getItemsForToday, setItemsForToday, updateItemDelete, selectItemsToDelete };

@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from "react";
 // import { useClosets } from "./ClosetContext";
-import { styled } from "@mui/system";
-import Box from "@mui/material/Box";
 
-import {
-  //imports from material ui
+import {//imports from material ui
   TextField,
   Button,
   Grid,
@@ -19,14 +16,12 @@ import Footer from "./Footer";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-function AddItemForm() {
-  //function to add item
+function AddItemForm() {//function to add item
   // const closetList = useClosets()
   // console.log("=======================>",closetList)
-  const categories = ["Casual/Streetwear", "Formal", "Athletic", "Lounge"]; //categories for the item
+  const categories = ["Casual/Streetwear", "Formal", "Athletic", "Lounge"];//categories for the item
 
-  const subCategories = {
-    //subcategories for the item
+  const subCategories = {//subcategories for the item
     "Casual/Streetwear": [
       "Tops",
       "Bottoms",
@@ -77,30 +72,31 @@ function AddItemForm() {
             "Content-Type": "application/json",
           },
         });
-
+  
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
-
+  
         const data = await response.json();
-        console.log("Closets in items data:", data);
-
+        console.log("Closets in items data:", data); 
+  
         // Update closets state by spreading the previous state and adding new data
         setClosets((prevClosets) => [...prevClosets, ...data]);
-        console.log("UseEffect-Fetch------------", closets);
+        console.log("UseEffect-Fetch------------", closets)
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     }
-
+  
     fetchData();
   }, []);
-
+  
+  
   const currentDate = new Date().toISOString().substr(0, 10);
   const navigate = useNavigate();
 
-  const [itemData, setItemData] = useState({
-    //set the item data
+  
+  const [itemData, setItemData] = useState({//set the item data
     item_name: "",
     category: "Casual/Streetwear", // Set a default category
     subcategory: "Tops", // Set a default sub-category
@@ -116,8 +112,7 @@ function AddItemForm() {
     brand_name: "",
   });
 
-  const handleInputChange = (e) => {
-    //handle input change
+  const handleInputChange = (e) => {//handle input change
     const { name, value } = e.target;
 
     // Check if the input field is the "Closet" dropdown
@@ -130,8 +125,7 @@ function AddItemForm() {
       setItemData({ ...itemData, [name]: value });
     }
   };
-  const handleCategoryChange = (e) => {
-    //handle category change
+  const handleCategoryChange = (e) => {//handle category change
     const { name, value } = e.target;
     setItemData({
       ...itemData,
@@ -139,8 +133,7 @@ function AddItemForm() {
       subcategory: subCategories[value][0], // Set the default sub-category for the selected category
     });
   };
-  const handleImageChange = (e) => {
-    //handle image change
+  const handleImageChange = (e) => {//handle image change
     const file = e.target.files[0];
     // setItemData({...itemData,  img_src: file });
     if (file) {
@@ -158,8 +151,7 @@ function AddItemForm() {
     }
   };
 
-  const handleSubmit = async (e) => {
-    //handle submit
+  const handleSubmit = async (e) => {//handle submit
     e.preventDefault();
     try {
       const response = await axios.post(
@@ -184,199 +176,190 @@ function AddItemForm() {
     }
   };
 
-  const StyledContainer = styled(Box)(({ theme }) => ({
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    minHeight: "100vh", // Use minHeight to fill the entire viewport vertically
-    backgroundColor: "#F1F0E8",
-  }));
-
   return (
     <div className="add-item">
       <ResponsiveAppBar />
-      <StyledContainer>
-        <form onSubmit={handleSubmit} style={{ marginTop: "50px" }}>
-          <Grid container spacing={2}>
-            <Grid item xs={6}>
-              <TextField
-                fullWidth
-                label="Item Name"
-                name="item_name"
-                value={itemData.item_name}
-                onChange={handleInputChange}
-                required
-                placeholder="Watch"
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <FormControl fullWidth>
-                <InputLabel>Category</InputLabel>
-                <Select
-                  name="category"
-                  value={itemData.category}
-                  onChange={handleCategoryChange}
-                  required
-                >
-                  {categories.map((category) => (
-                    <MenuItem key={category} value={category}>
-                      {category}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={6}>
-              <FormControl fullWidth>
-                <InputLabel>Sub-Category</InputLabel>
-                <Select
-                  name="subcategory"
-                  value={itemData.subcategory}
-                  onChange={handleInputChange}
-                  required
-                >
-                  {subCategories[itemData.category].map((subcategory) => (
-                    <MenuItem key={subcategory} value={subcategory}>
-                      {subcategory}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                fullWidth
-                label="Color"
-                name="color"
-                value={itemData.color}
-                onChange={handleInputChange}
-                required
-                placeholder="Red"
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                fullWidth
-                type="date"
-                label="Purchase Date"
-                name="purchase_date"
-                value={itemData.purchase_date}
-                onChange={handleInputChange}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <input
-                name="img_src"
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-                required
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                fullWidth
-                type="text"
-                label="Description"
-                name="description"
-                value={itemData.description}
-                onChange={handleInputChange}
-                placeholder="My favourite watch"
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <FormControl fullWidth>
-                <InputLabel>Season</InputLabel>
-                <Select
-                  name="season"
-                  value={itemData.season}
-                  onChange={handleInputChange}
-                  placeholder="Winter"
-                >
-                  <MenuItem value="ALL">All Seasons</MenuItem>
-                  <MenuItem value="Winter">Winter</MenuItem>
-                  <MenuItem value="Summer">Summer</MenuItem>
-                  <MenuItem value="Spring">Spring</MenuItem>
-                  <MenuItem value="Fall">Fall</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={6}>
-              <FormControl fullWidth>
-                <InputLabel>Closet</InputLabel>
-                <Select
-                  name="closet_id"
-                  value={itemData.closet_id}
-                  onChange={handleInputChange}
-                  required
-                >
-                  {closets.map((closet, index) => (
-                    <MenuItem key={index} value={closet.id}>
-                      {closet.closet_name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                fullWidth
-                type="date"
-                label="Last Use Date"
-                name="last_worn_date"
-                value={itemData.last_worn_date}
-                onChange={handleInputChange}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <FormControl fullWidth>
-                <InputLabel>Size</InputLabel>
-                <Select
-                  name="size"
-                  value={itemData.size}
-                  onChange={handleInputChange}
-                  required
-                  placeholder="Small"
-                >
-                  <MenuItem value="NA">Not Applicable</MenuItem>
-                  <MenuItem value="Small">Small</MenuItem>
-                  <MenuItem value="Medium">Medium</MenuItem>
-                  <MenuItem value="Large">Large</MenuItem>
-                  <MenuItem value="XL">XL</MenuItem>
-                  <MenuItem value="XXL">XXL</MenuItem>
-                  {/* Add more size options */}
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                fullWidth
-                type="text"
-                label="Brand"
-                name="brand_name"
-                placeholder="Gucci"
-                value={itemData.brand_name}
-                onChange={handleInputChange}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              {itemData.img_src && (
-                <img
-                  src={itemData.img_src}
-                  alt="Selected item"
-                  style={{ maxWidth: "100%" }}
-                />
-              )}
-            </Grid>
-            <Grid item xs={6}>
-              <Button type="submit" variant="contained" color="primary">
-                Add Item
-              </Button>
-            </Grid>
+      <form onSubmit={handleSubmit} style={{ marginTop: "50px" }}>
+        <Grid container spacing={2}>
+          <Grid item xs={6}>
+            <TextField
+              fullWidth
+              label="Item Name"
+              name="item_name"
+              value={itemData.item_name}
+              onChange={handleInputChange}
+              required
+              placeholder="Watch"
+            />
           </Grid>
-        </form>
-      </StyledContainer>
+          <Grid item xs={6}>
+            <FormControl fullWidth>
+              <InputLabel>Category</InputLabel>
+              <Select
+                name="category"
+                value={itemData.category}
+                onChange={handleCategoryChange}
+                required
+              >
+                {categories.map((category) => (
+                  <MenuItem key={category} value={category}>
+                    {category}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={6}>
+            <FormControl fullWidth>
+              <InputLabel>Sub-Category</InputLabel>
+              <Select
+                name="subcategory"
+                value={itemData.subcategory}
+                onChange={handleInputChange}
+                required
+              >
+                {subCategories[itemData.category].map((subcategory) => (
+                  <MenuItem key={subcategory} value={subcategory}>
+                    {subcategory}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              fullWidth
+              label="Color"
+              name="color"
+              value={itemData.color}
+              onChange={handleInputChange}
+              required
+              placeholder="Red"
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              fullWidth
+              type="date"
+              label="Purchase Date"
+              name="purchase_date"
+              value={itemData.purchase_date}
+              onChange={handleInputChange}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <input
+              name="img_src"
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
+              required
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              fullWidth
+              type="text"
+              label="Description"
+              name="description"
+              value={itemData.description}
+              onChange={handleInputChange}
+              placeholder="My favourite watch"
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <FormControl fullWidth>
+              <InputLabel>Season</InputLabel>
+              <Select
+                name="season"
+                value={itemData.season}
+                onChange={handleInputChange}
+                placeholder="Winter"
+              >
+                <MenuItem value="ALL">All Seasons</MenuItem>
+                <MenuItem value="Winter">Winter</MenuItem>
+                <MenuItem value="Summer">Summer</MenuItem>
+                <MenuItem value="Spring">Spring</MenuItem>
+                <MenuItem value="Fall">Fall</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={6}>
+            <FormControl fullWidth>
+              <InputLabel>Closet</InputLabel>
+              <Select
+                name="closet_id"
+                value={itemData.closet_id}
+                onChange={handleInputChange}
+                required
+              >
+                {closets.map((closet, index) => (
+                  <MenuItem key={index} value={closet.id}>
+                    {closet.closet_name}
+                  </MenuItem>
+                ))}
+               
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              fullWidth
+              type="date"
+              label="Last Use Date"
+              name="last_worn_date"
+              value={itemData.last_worn_date}
+              onChange={handleInputChange}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <FormControl fullWidth>
+              <InputLabel>Size</InputLabel>
+              <Select
+                name="size"
+                value={itemData.size}
+                onChange={handleInputChange}
+                required
+                placeholder="Small"
+              >
+                <MenuItem value="NA">Not Applicable</MenuItem>
+                <MenuItem value="Small">Small</MenuItem>
+                <MenuItem value="Medium">Medium</MenuItem>
+                <MenuItem value="Large">Large</MenuItem>
+                <MenuItem value="XL">XL</MenuItem>
+                <MenuItem value="XXL">XXL</MenuItem>
+                {/* Add more size options */}
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              fullWidth
+              type="text"
+              label="Brand"
+              name="brand_name"
+              placeholder="Gucci"
+              value={itemData.brand_name}
+              onChange={handleInputChange}
+            />
+          </Grid>
+
+          <Grid item xs={6}>
+            {itemData.img_src && (
+              <img
+                src={itemData.img_src}
+                alt="Selected item"
+                style={{ maxWidth: "100%" }}
+              />
+            )}
+          </Grid>
+          <Grid item xs={6}>
+            <Button type="submit" variant="contained" color="primary">
+              Add Item
+            </Button>
+          </Grid>
+        </Grid>
+      </form>
       <Footer />
     </div>
   );

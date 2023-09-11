@@ -35,15 +35,12 @@ router.put("/today/:id", isAuthenticated, (req, res) => {
     console.log("userId=================== but not authorized>", userId);
     return; // Return early to prevent further execution
   }
-  items.getTodayItems(userId).then((data) => {
-    console.log("getTodayItems-----------", data);
-    res.json(data ? data : []);
-  });
 
   // Use the setItemsForToday function to update the item's expiration timestamp and useCount
   items.setItemsForToday(itemId)
     .then((updatedItem) => {
       console.log("Item updated:", updatedItem);
+      // Send the response here when the item is successfully updated
       res.json(updatedItem ? updatedItem : {});
     })
     .catch((error) => {
@@ -61,12 +58,8 @@ router.get("/today", isAuthenticated, (req, res) => {
     console.log("userId=================== but not authorized>", userId);
     return;
   }
-  items.AddItemsToday(userId).then((data) => {
-    console.log("getTodayItems-----------", data);
-    res.json(data ? data : []);
-  });
-
-  // Use the getTodayItems function to retrieve items updated today
+  
+// Use the getTodayItems function to retrieve items updated today
   items.getItemsForToday(userId)
     .then((data) => {
       console.log("getTodayItems-----------", data);

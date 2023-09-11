@@ -13,7 +13,8 @@ import Dashboard from './components/Dashboard';
 import Closet from './components/Closet';
 import Bin from './components/Bin';
 import { ItemsProvider } from './components/ItemsContext';
-import { ClosetProvider } from './components/ClosetContext';
+import OutfitToday from './components/OutfitToday';
+import { OutfitProvider } from './components/outfitContext.js';
 
 function App() {
   const navigateToLogin = () => {
@@ -32,6 +33,7 @@ function App() {
    
   return (
     <ItemsProvider>
+       <OutfitProvider>
     <Router>
       <div className="App">
         <Routes>
@@ -48,9 +50,11 @@ function App() {
           <Route path="/closet" element={<Closet />} />
           <Route path="/bin" element={<Bin />} />
           <Route path="/logout" element={<Home />} />
+          <Route path="/today" element={<OutfitToday/>} />
         </Routes>
       </div>
     </Router>
+    </OutfitProvider>
     </ItemsProvider>
   );
 }

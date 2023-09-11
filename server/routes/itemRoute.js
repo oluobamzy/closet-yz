@@ -21,31 +21,65 @@ const isAuthenticated = (req, res, next) => {
 //     res.json(data);
 //   });
 // });
-router.get("/today", isAuthenticated, (req, res) => {
+router.get("/today/:id", isAuthenticated, (req, res) => {
+
+
+});
+router.put("/today/:id", isAuthenticated, (req, res) => {
   const userId = req.user[0].id;
+  const itemId = req.params.id;
   console.log("userId===================> itemsRouteForToday", userId);
+  
   if (!userId) {
     res.status(401).json({ message: "Authentication required" });
     console.log("userId=================== but not authorized>", userId);
+    return; // Return early to prevent further execution
   }
   items.getTodayItems(userId).then((data) => {
     console.log("getTodayItems-----------", data);
     res.json(data ? data : []);
   });
+
+  // Use the setItemsForToday function to update the item's expiration timestamp and useCount
+  items.setItemsForToday(itemId)
+    .then((updatedItem) => {
+      console.log("Item updated:", updatedItem);
+      res.json(updatedItem ? updatedItem : {});
+    })
+    .catch((error) => {
+      console.error("Error updating item:", error);
+      res.status(500).json({ message: "Internal server error" });
+    });
 });
 
-router.post("/today", isAuthenticated, (req, res) => {
+router.get("/today", isAuthenticated, (req, res) => {
   const userId = req.user[0].id;
   console.log("userId===================> itemsRouteForToday", userId);
+  
   if (!userId) {
     res.status(401).json({ message: "Authentication required" });
     console.log("userId=================== but not authorized>", userId);
+    return;
   }
   items.AddItemsToday(userId).then((data) => {
     console.log("getTodayItems-----------", data);
     res.json(data ? data : []);
   });
+
+  // Use the getTodayItems function to retrieve items updated today
+  items.getItemsForToday(userId)
+    .then((data) => {
+      console.log("getTodayItems-----------", data);
+      res.json(data ? data : []);
+    })
+    .catch((error) => {
+      console.error("Error fetching items:", error);
+      res.status(500).json({ message: "Internal server error" });
+    });
 });
+
+
+
 router.get("/", isAuthenticated, (req, res) => {
   const userId = req.user[0].id;
   console.log("userId===================> itemsRoute", userId);

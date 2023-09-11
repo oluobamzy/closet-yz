@@ -30,6 +30,9 @@ app.use(
     secret: "secretcode",
     resave: true,
     saveUninitialized: true,
+    cookie: {
+      maxAge: null, // Session cookie expires when the browser is closed
+    },
   })
 );
 

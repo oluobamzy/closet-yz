@@ -14,8 +14,10 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { styled } from "@mui/system";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const pages = ["Login", "Blog"];
+
 const settings = [
   "Add Closet",
   "Items",
@@ -155,7 +157,12 @@ function ResponsiveAppBar() {
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                  <Link
+                    to={`/${page}`}
+                    style={{ textDecoration: "none", color: "inherit" }}
+                  >
+                    <Typography textAlign="center">{page}</Typography>
+                  </Link>
                 </MenuItem>
               ))}
             </Menu>

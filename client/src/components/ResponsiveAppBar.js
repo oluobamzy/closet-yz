@@ -17,12 +17,14 @@ import { useNavigate } from "react-router-dom";
 
 const pages = ["Login", "Blog"];
 const settings = [
-  "Closet",
+  "Add Closet",
+  "Items",
   "Account",
   "Dashboard",
   "Logout",
   "Add Item",
   "Profile",
+  "Bin",
 ];
 
 function ResponsiveAppBar() {
@@ -52,8 +54,14 @@ function ResponsiveAppBar() {
   const handleCloset = () => {
     window.location.href = "/closet";
   };
+  const handleBin = () => {
+    window.location.href = "/bin";
+  };
   const handleAddItem = () => {
     window.location.href = "/additem";
+  };
+  const handleItems = () => {
+    window.location.href = "/items";
   };
   const handleLogout = () => {
     fetch("http://localhost:8080/auth/logout", {
@@ -211,7 +219,7 @@ function ResponsiveAppBar() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) =>
-                setting === "Closet" ? (
+                setting === "Add Closet" ? (
                   <MenuItem key={setting} onClick={handleCloset}>
                     <Typography textAlign="center">{setting}</Typography>
                   </MenuItem>
@@ -225,6 +233,14 @@ function ResponsiveAppBar() {
                   </MenuItem>
                 ) : setting === "Add Item" ? (
                   <MenuItem key={setting} onClick={handleAddItem}>
+                    <Typography textAlign="center">{setting}</Typography>
+                  </MenuItem>
+                ) : setting === "Bin" ? (
+                  <MenuItem key={setting} onClick={handleBin}>
+                    <Typography textAlign="center">{setting}</Typography>
+                  </MenuItem>
+                ) : setting === "Items" ? (
+                  <MenuItem key={setting} onClick={handleItems}>
                     <Typography textAlign="center">{setting}</Typography>
                   </MenuItem>
                 ) : setting === "Profile" ? (

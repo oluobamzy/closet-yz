@@ -1,9 +1,13 @@
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
+import InventoryIcon from "@mui/icons-material/Inventory";
 
 const Item = (props) => {
-  const handleAddDelete = () => {
+  const [itemRecycled, setItemRecycled] = useState(false);
+
+  const handleAddRecycle = () => {
     const itemId = props.itemId;
     console.log("props.itemId------", props.itemId);
 
@@ -22,16 +26,22 @@ const Item = (props) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
-      })
-      .then((data) => {
-        console.log("Item set to delete successfully:", data);
-        // Handle success
+        setItemRecycled(true);
       })
       .catch((error) => {
         console.error("Error Item not set to delete:", error);
         // Handle error
       });
   };
+
+  useEffect(() => {
+    if (itemRecycled) {
+      // You can perform additional actions here if needed
+      // For example, you can redirect to a different page or show a success message
+      // Refresh the page
+      window.location.reload();
+    }
+  }, [itemRecycled]);
 
   return (
     <div className="ItemContainer" style={{ position: "relative" }}>
@@ -48,12 +58,12 @@ const Item = (props) => {
           <Button style={{ backgroundColor: "#96B6C5" }}>Add to Outfit</Button>
         </Link>
         <Button
-          onClick={handleAddDelete}
-          startIcon={<DeleteIcon />}
+          onClick={handleAddRecycle}
+          startIcon={<InventoryIcon />}
           variant="outlined"
           color="error"
         >
-          Delete
+          Recycle
         </Button>
       </div>
     </div>

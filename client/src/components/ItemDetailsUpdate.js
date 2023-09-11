@@ -7,7 +7,10 @@ const ItemDetailsUpdate = () => {
       <form onSubmit="">
         <div className="itemBody">
           <div className="item-details-img">
-            <img src="https://th.bing.com/th/id/OIP.t3YAUGbDG8BMGJo7Wq84MAHaJo?pid=ImgDet&rs=1" alt="item"></img>
+            <img
+              src="https://th.bing.com/th/id/OIP.t3YAUGbDG8BMGJo7Wq84MAHaJo?pid=ImgDet&rs=1"
+              alt="item"
+            ></img>
           </div>
           <div className="item-details-content">
             <div className="description">

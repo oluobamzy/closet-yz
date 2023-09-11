@@ -21,15 +21,12 @@ const isAuthenticated = (req, res, next) => {
 //     res.json(data);
 //   });
 // });
-router.get("/today/:id", isAuthenticated, (req, res) => {
-
-
-});
+router.get("/today/:id", isAuthenticated, (req, res) => {});
 router.put("/today/:id", isAuthenticated, (req, res) => {
   const userId = req.user[0].id;
   const itemId = req.params.id;
   console.log("userId===================> itemsRouteForToday", userId);
-  
+
   if (!userId) {
     res.status(401).json({ message: "Authentication required" });
     console.log("userId=================== but not authorized>", userId);
@@ -37,7 +34,8 @@ router.put("/today/:id", isAuthenticated, (req, res) => {
   }
 
   // Use the setItemsForToday function to update the item's expiration timestamp and useCount
-  items.setItemsForToday(itemId)
+  items
+    .setItemsForToday(itemId)
     .then((updatedItem) => {
       console.log("Item updated:", updatedItem);
       // Send the response here when the item is successfully updated
@@ -52,15 +50,16 @@ router.put("/today/:id", isAuthenticated, (req, res) => {
 router.get("/today", isAuthenticated, (req, res) => {
   const userId = req.user[0].id;
   console.log("userId===================> itemsRouteForToday", userId);
-  
+
   if (!userId) {
     res.status(401).json({ message: "Authentication required" });
     console.log("userId=================== but not authorized>", userId);
     return;
   }
-  
-// Use the getTodayItems function to retrieve items updated today
-  items.getItemsForToday(userId)
+
+  // Use the getTodayItems function to retrieve items updated today
+  items
+    .getItemsForToday(userId)
     .then((data) => {
       console.log("getTodayItems-----------", data);
       res.json(data ? data : []);
@@ -70,8 +69,6 @@ router.get("/today", isAuthenticated, (req, res) => {
       res.status(500).json({ message: "Internal server error" });
     });
 });
-
-
 
 router.get("/", isAuthenticated, (req, res) => {
   const userId = req.user[0].id;
@@ -139,6 +136,10 @@ router.put("/:id", isAuthenticated, (req, res) => {
   }
 
   const item = req.body;
+  console.log(
+    "-------------------RequestBodyForUpdateReqBody-------------------------",
+    req.body
+  );
   items.updateItem(item).then((data) => {
     res.json(data);
   });
@@ -148,7 +149,7 @@ router.delete("/", isAuthenticated, (req, res) => {
   if (!userId) {
     res.status(401).json({ message: "Authentication required" });
   }
-  items.deleteItem(id).then((data) => {
+  items.deleteItem(itemId, formData).then((data) => {
     res.json(data);
   });
 });

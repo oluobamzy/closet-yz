@@ -68,42 +68,33 @@ const addItem = (item) => {
       console.log("IS THIS ERROR---", e);
     });
 };
-const updateItem = (item) => {
+const updateItem = (itemId, formData) => {
   const {
-    item_name,
-    category,
-    subcategory,
-    color,
-    purchase_date,
-    img_src,
-    description,
-    season,
-    closet_id,
-    last_worn_date,
-    size,
     brand_name,
-  } = item;
+    category,
+    color,
+    last_worn_date,
+    purchase_date,
+    season,
+    size,
+  } = formData;
 
   // Use the correct number of placeholders in the SQL query and provide all parameters
   const queryString = `
-    UPDATE item SET item_name = $1, category = $2, subcategory = $3, color = $4, purchase_date = $5, img_src = $6, description = $7, season = $8, closet_id = $9, last_worn_date = $10, size = $11, brand_name = $12
-    WHERE id = $13
-    RETURNING *;`; // Assuming you want to return the inserted item
+    UPDATE item
+    SET brand_name = $1, category = $2, color = $3, last_worn_date = $4, purchase_date = $5, season = $6, size = $7
+    WHERE id = $8
+    RETURNING *;`;
 
   const values = [
-    item_name,
-    category,
-    subcategory,
-    color,
-    purchase_date,
-    img_src,
-    description,
-    season,
-    closet_id,
-    last_worn_date,
-    size,
     brand_name,
-    item.id,
+    category,
+    color,
+    last_worn_date,
+    purchase_date,
+    season,
+    size,
+    itemId,
   ];
 
   return db
@@ -126,8 +117,8 @@ const getItemsForToday = (userId) => {
 FROM item
 JOIN closet ON item.closet_id = closet.id
 JOIN users ON closet.users_id = users.id
-WHERE users.id = $1 AND DATE(item.expired_timeStamp) = CURRENT_DATE;`
-,[userId]
+WHERE users.id = $1 AND DATE(item.expired_timeStamp) = CURRENT_DATE;`,
+      [userId]
     )
     .then((data) => data.rows)
     .catch((e) => console.log(e));
@@ -175,11 +166,21 @@ const setItemsForToday = (itemId) => {
     )
     .then(() => {
       // Optionally, you can return the updated item if needed
-      return db.query(`SELECT * FROM item WHERE id = $1`, [itemId])
+      return db
+        .query(`SELECT * FROM item WHERE id = $1`, [itemId])
         .then((data) => data.rows[0]);
     })
     .catch((e) => console.log(e));
 };
 
-
-module.exports = { getAllItems, getItemById, addItem, deleteItem, updateItem, getItemsForToday, setItemsForToday, updateItemDelete, selectItemsToDelete };
+module.exports = {
+  getAllItems,
+  getItemById,
+  addItem,
+  deleteItem,
+  updateItem,
+  getItemsForToday,
+  setItemsForToday,
+  updateItemDelete,
+  selectItemsToDelete,
+};

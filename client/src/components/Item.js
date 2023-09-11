@@ -10,13 +10,13 @@ const Item = (props) => {
     // Send a request to the server to delete the item using props.itemId
     // You can use the fetch API or Axios for this
 
-    fetch(`http://localhost:8080/api/items/bin`, {
-      method: "POST", // Use the appropriate HTTP method for deletion
+    fetch(`http://localhost:8080/items/bin/${itemId}`, {
+      method: "PUT", // Use the appropriate HTTP method for deletion
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(itemId),
+      body: JSON.stringify({ delete: true }),
     })
       .then((response) => {
         if (!response.ok) {

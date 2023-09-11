@@ -6,7 +6,8 @@ const getAllItems = (userId) => {
     FROM item
     JOIN closet ON item.closet_id = closet.id
     JOIN users ON closet.users_id = users.id
-    WHERE users.id = $1`,
+    WHERE users.id = $1
+    AND item.delete = false`,
       [userId]
     )
     .then((data) => data.rows)
@@ -118,13 +119,13 @@ const deleteItem = (id) => {
     .catch((e) => console.log(e));
 };
 
-const updateItemDelete = (id) => {
+const updateItemDelete = (itemId) => {
   const queryString = `
     UPDATE item SET delete = true
     WHERE id = $1
-    RETURNING *;`; // Assuming you want to return the inserted item
+    RETURNING *;`;
 
-  const values = [id];
+  const values = [itemId];
 
   return db
     .query(queryString, values)
@@ -132,12 +133,14 @@ const updateItemDelete = (id) => {
     .catch((e) => console.log(e));
 };
 
-const selectItemsToDelete = (id) => {
+const selectItemsToDelete = (userId) => {
   const queryString = `
     SELECT * FROM item
-    WHERE id = $1 AND delete = true;`;
+    JOIN closet ON item.closet_id = closet.id
+    JOIN users ON closet.users_id = users.id
+    WHERE users.id = $1 AND delete = true;`;
 
-  const values = [id];
+  const values = [userId];
 
   return db
     .query(queryString, values)

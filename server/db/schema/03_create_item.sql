@@ -15,5 +15,6 @@ CREATE TABLE item (
   "closet_id" integer REFERENCES "closet" (id) ON DELETE CASCADE,
   "last_worn_date" Date,
   "size" varchar  not null,
-  "brand_name" varchar
+  "brand_name" varchar,
+  "expired_timestamp" TIMESTAMP DEFAULT CURRENT_TIMESTAMP + interval '1 day'
 );

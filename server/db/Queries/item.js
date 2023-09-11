@@ -117,4 +117,38 @@ const deleteItem = (id) => {
     .catch((e) => console.log(e));
 };
 
-module.exports = { getAllItems, getItemById, addItem, deleteItem, updateItem };
+const getItemsForToday = (userId) => {
+  return db
+    .query(
+      `SELECT item.*
+FROM item
+JOIN closet ON item.closet_id = closet.id
+JOIN users ON closet.users_id = users.id
+WHERE users.id = $1 AND DATE(item.expired_timeStamp) = CURRENT_DATE;`
+,[userId]
+    )
+    .then((data) => data.rows)
+    .catch((e) => console.log(e));
+};
+
+const setItemsForToday = (itemId) => {
+  // Get the current timestamp
+  const currentTimestamp = new Date();
+
+  return db
+    .query(
+      `UPDATE item
+       SET expired_timeStamp = $1, use_count = use_count + 1
+       WHERE id = $2`,
+      [currentTimestamp, itemId]
+    )
+    .then(() => {
+      // Optionally, you can return the updated item if needed
+      return db.query(`SELECT * FROM item WHERE id = $1`, [itemId])
+        .then((data) => data.rows[0]);
+    })
+    .catch((e) => console.log(e));
+};
+
+
+module.exports = { getAllItems, getItemById, addItem, deleteItem, updateItem, getItemsForToday, setItemsForToday };

@@ -1,8 +1,8 @@
 import "./ItemDetails.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ItemDetailsUpdate from "./ItemDetailsUpdate";
 import "./ItemDetailsUpdate.css";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams, Navigate } from "react-router-dom";
 import ResponsiveAppBar from "./ResponsiveAppBar";
 import Footer from "./Footer";
 import { styled } from "@mui/system";
@@ -19,6 +19,9 @@ const ItemDetails = (props) => {
   };
   const { itemId } = useParams();
   const filteredList = list.filter((item) => item.id === parseInt(itemId));
+  const imgSRC = filteredList[0]?.img_src || "default-image.jpg";
+  const navigate = useNavigate();
+  const [formSubmitted, setFormSubmitted] = useState(false);
 
   const StyledContainer = styled(Box)(({ theme }) => ({
     display: "flex",
@@ -80,14 +83,26 @@ const ItemDetails = (props) => {
         // Handle success, if needed
         console.log("UpdateDataSentGood--------->", requestData);
       })
+      .then(() => {
+        // Set formSubmitted to true after successful submission
+        setFormSubmitted(true);
+      })
       .catch((error) => {
         console.log("UpdateDataSentError--------->", requestData);
         console.error("Item not updated:", error);
         // Handle error
       });
-
     setUpdateMode(false); // Switch back to display mode after updating
   };
+
+  useEffect(() => {
+    if (formSubmitted) {
+      console.log("--------------formSubmitted------------");
+      window.location.reload();
+      // navigate("/items");
+      setFormSubmitted(false);
+    }
+  }, [formSubmitted]);
 
   return (
     <div className="item-details">
@@ -100,7 +115,7 @@ const ItemDetails = (props) => {
               <StyledBanner>
                 <div className="item-details-img" style={{ width: "100%" }}>
                   <img
-                    src={filteredList[0].img_src}
+                    src={imgSRC}
                     style={{ height: "387.5px", width: "300px" }}
                   ></img>
                 </div>
@@ -115,44 +130,62 @@ const ItemDetails = (props) => {
               >
                 <div className="item-details-content">
                   <div className="description">
-                    <p>Description: {filteredList[0].description}</p>
+                    <p>
+                      Description:{" "}
+                      {filteredList[0]?.description || "Not available"}
+                    </p>
                   </div>
                 </div>
               </StyledBanner>
               <StyledBanner style={{ width: "300px", height: "387.5px" }}>
                 <div className="items-d">
                   <div className="item-d">
-                    <p>Closet Name: {filteredList[0].closet_id}</p>
+                    <p>
+                      Closet Name:{" "}
+                      {filteredList[0]?.description || "Not available"}
+                    </p>
                   </div>
                   <div className="item-d">
-                    <p>Season: {filteredList[0].season}</p>
+                    <p>Season: {filteredList[0]?.season || "Not available"}</p>
                   </div>
                   <div className="item-d">
-                    <p>Category: {filteredList[0].category}</p>
+                    <p>
+                      Category: {filteredList[0]?.category || "Not available"}
+                    </p>
                   </div>
                   <div className="item-d">
-                    <p>BrandName: {filteredList[0].brand_name}</p>
+                    <p>
+                      BrandName:{" "}
+                      {filteredList[0]?.brand_name || "Not available"}
+                    </p>
                   </div>
                   <div className="item-d">
-                    <p>Colour: {filteredList[0].color}</p>
+                    <p>Colour: {filteredList[0]?.color || "Not available"}</p>
                   </div>
                   <div className="item-d">
-                    <p>Size: {filteredList[0].size}</p>
+                    <p>Size: {filteredList[0]?.size || "Not available"}</p>
                   </div>
                   <div className="item-d">
-                    <p>Last worn Date: {filteredList[0].last_worn_date}</p>
+                    <p>
+                      Last worn Date:{" "}
+                      {filteredList[0]?.last_worn_date || "Not available"}
+                    </p>
                   </div>
                   <div className="item-d">
-                    <p>Purchase Date: {filteredList[0].purchase_date}</p>
+                    <p>
+                      Purchase Date:{" "}
+                      {filteredList[0]?.purchase_date || "Not available"}
+                    </p>
                   </div>
                   <div className="item-d">
-                    <p>Use count: {filteredList[0].use_count}</p>
+                    <p>
+                      Use count: {filteredList[0]?.use_count || "Not available"}
+                    </p>
                   </div>
                 </div>
               </StyledBanner>
             </div>
             <div className="item-btns">
-              <Button className="btn btn-primary">Add to outfit</Button>
               <Button
                 type="button"
                 className="btn btn-primary"
@@ -160,7 +193,6 @@ const ItemDetails = (props) => {
               >
                 Update Item
               </Button>
-              <Button className="btn btn-danger">Sell / Donate</Button>
             </div>
           </div>
         )}
@@ -171,7 +203,7 @@ const ItemDetails = (props) => {
               <StyledBanner>
                 <div className="item-details-img" style={{ width: "100%" }}>
                   <img
-                    src={filteredList[0].img_src}
+                    src={imgSRC}
                     style={{ height: "387.5px", width: "300px" }}
                   ></img>
                 </div>

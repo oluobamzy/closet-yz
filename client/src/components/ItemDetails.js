@@ -98,13 +98,13 @@ const ItemDetails = (props) => {
 
           <div className="item-btns">
             <Button className="btn btn-primary">Add to outfit</Button>
-            <Button
+            {/* <Button
               className="btn btn-primary"
               onClick={handleUpdateButtonClick}
             >
               Update Item
             </Button>
-            <Button className="btn btn-danger">Sell / Donate</Button>
+            <Button className="btn btn-danger">Sell / Donate</Button> */}
           </div>
         </div>
       )}

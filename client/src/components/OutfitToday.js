@@ -14,9 +14,7 @@ import { styled } from "@mui/system";
 import { Paper } from "@mui/material";
 
 
-
 const OutfitToday = () => {
-
   const StyledContainer = styled(Box)(({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',

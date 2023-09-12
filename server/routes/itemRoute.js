@@ -29,15 +29,29 @@ router.put("/today/:id", isAuthenticated, (req, res) => {
   const userId = req.user[0].id;
   const itemId = req.params.id;
   console.log("userId===================> itemsRouteForToday", userId);
+  console.log("source===================> itemsRouteForToday", source);
   
   if (!userId) {
     res.status(401).json({ message: "Authentication required" });
     console.log("userId=================== but not authorized>", userId);
     return; // Return early to prevent further execution
   }
+  
+const pathRegex = /^\/items\/\d+$/;
+const source = req.path; // Assuming req.path contains the source string
+let updateFunction;
+if (pathRegex.test(source)) {
+  // The source string matches the regex /^\/items\/\d+$/
+  updateFunction = items.setItemsForToday;
+  console.log('Matched: ' + source);
+} else {
+  // The source string does not match the regex /^\/items\/\d+$/
+  updateFunction = items.removeItemsForToday;
+  console.log('Not Matched: ' + source);
+}
 
   // Use the setItemsForToday function to update the item's expiration timestamp and useCount
-  items.setItemsForToday(itemId)
+  updateFunction(itemId)
     .then((updatedItem) => {
       console.log("Item updated:", updatedItem);
       // Send the response here when the item is successfully updated
@@ -71,7 +85,67 @@ router.get("/today", isAuthenticated, (req, res) => {
     });
 });
 
+router.get("/bin", isAuthenticated, (req, res) => {
+  //get all closets
+  const userId = req.user[0].id;
+  console.log("userId===================> itemsRouteGetBin", userId);
+  if (!userId) {
+    res.status(401).json({ message: "Authentication required" });
+  }
 
+  items.selectItemsToDelete(userId).then((data) => {
+    console.log("GetSelectItemsToDelete-----------", data);
+    res.json(data ? data : []);
+  });
+});
+
+router.put("/bin/:id", isAuthenticated, (req, res) => {
+  console.log("ItemRoutePutBinUserIdPUT ---------->", req.user[0].id);
+  const userId = req.user[0].id;
+  if (!userId) {
+    res.status(401).json({ message: "Authentication required" });
+    return; // Add a return statement to exit the function
+  }
+
+  const itemId = req.params.id; // Get the item ID from the URL params
+  console.log("ItemRoutePutBinItemIdPUT ---------->", itemId);
+
+  // Call the updateItemDelete function to mark the item as deleted
+  items
+    .updateItemDelete(itemId)
+    .then((data) => {
+      console.log("ItemRoutePutBinDataPUT ---------->", data);
+      res.json(data);
+    })
+    .catch((error) => {
+      console.error("Error updating item:", error);
+      res.status(500).json({ message: "Internal server error" });
+    });
+});
+
+router.put("/:id", isAuthenticated, (req, res) => {
+  const userId = req.user[0].id;
+  if (!userId) {
+    res.status(401).json({ message: "Authentication required" });
+  }
+
+  const item = req.body;
+  items.updateItem(item).then((data) => {
+    res.json(data);
+  });
+});
+
+router.get("/:id", isAuthenticated, (req, res) => {
+  const userId = req.user[0].id;
+  console.log("userId===================> itemsRouteGetindvitem", userId);
+  if (!userId) {
+    res.status(401).json({ message: "Authentication required" });
+  }
+  const id = req.params.id;
+  items.getItemById(id).then((data) => {
+    res.json(data);
+  });
+});
 
 router.get("/", isAuthenticated, (req, res) => {
   const userId = req.user[0].id;
@@ -85,6 +159,7 @@ router.get("/", isAuthenticated, (req, res) => {
     res.json(data ? data : []);
   });
 });
+
 router.post("/", isAuthenticated, upload.single("img_src"), (req, res) => {
   //const item = req.body;
   const userId = req.user[0].id;
@@ -132,17 +207,7 @@ router.post("/", isAuthenticated, upload.single("img_src"), (req, res) => {
     console.log("ITEM ROUTE Request Body:", req.body);
   });
 });
-router.put("/:id", isAuthenticated, (req, res) => {
-  const userId = req.user[0].id;
-  if (!userId) {
-    res.status(401).json({ message: "Authentication required" });
-  }
 
-  const item = req.body;
-  items.updateItem(item).then((data) => {
-    res.json(data);
-  });
-});
 router.delete("/", isAuthenticated, (req, res) => {
   const userId = req.user[0].id;
   if (!userId) {
@@ -151,44 +216,6 @@ router.delete("/", isAuthenticated, (req, res) => {
   items.deleteItem(id).then((data) => {
     res.json(data);
   });
-});
-
-router.get("/bin", isAuthenticated, (req, res) => {
-  //get all closets
-  const userId = req.user[0].id;
-  console.log("userId===================> itemsRouteGetBin", userId);
-  if (!userId) {
-    res.status(401).json({ message: "Authentication required" });
-  }
-
-  items.selectItemsToDelete(userId).then((data) => {
-    console.log("GetSelectItemsToDelete-----------", data);
-    res.json(data ? data : []);
-  });
-});
-
-router.put("/bin/:id", isAuthenticated, (req, res) => {
-  console.log("ItemRoutePutBinUserIdPUT ---------->", req.user[0].id);
-  const userId = req.user[0].id;
-  if (!userId) {
-    res.status(401).json({ message: "Authentication required" });
-    return; // Add a return statement to exit the function
-  }
-
-  const itemId = req.params.id; // Get the item ID from the URL params
-  console.log("ItemRoutePutBinItemIdPUT ---------->", itemId);
-
-  // Call the updateItemDelete function to mark the item as deleted
-  items
-    .updateItemDelete(itemId)
-    .then((data) => {
-      console.log("ItemRoutePutBinDataPUT ---------->", data);
-      res.json(data);
-    })
-    .catch((error) => {
-      console.error("Error updating item:", error);
-      res.status(500).json({ message: "Internal server error" });
-    });
 });
 
 module.exports = router;

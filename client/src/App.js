@@ -15,6 +15,7 @@ import Bin from './components/Bin';
 import { ItemsProvider } from './components/ItemsContext';
 import OutfitToday from './components/OutfitToday';
 import { OutfitProvider } from './components/outfitContext.js';
+import { RecycleProvider } from './components/RecycleContext';
 
 function App() {
   const navigateToLogin = () => {
@@ -34,6 +35,7 @@ function App() {
   return (
     <ItemsProvider>
        <OutfitProvider>
+        <RecycleProvider>
     <Router>
       <div className="App">
         <Routes>
@@ -54,6 +56,7 @@ function App() {
         </Routes>
       </div>
     </Router>
+    </RecycleProvider>
     </OutfitProvider>
     </ItemsProvider>
   );

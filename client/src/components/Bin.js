@@ -8,7 +8,7 @@ import ResponsiveAppBar from "./ResponsiveAppBar";
 import Footer from "./Footer";
 import React, { useState, useEffect } from "react";
 
-const Bin = () => {
+const Bin = (props) => {
   const [binItems, setBinItems] = useState([]);
 
   useEffect(() => {
@@ -36,7 +36,7 @@ const Bin = () => {
         // Handle errors here
       });
   }, []);
-
+  console.log("props==========>", props.children);
   const StyledContainer = styled(Box)(({ theme }) => ({
     display: "flex",
     flexDirection: "column",

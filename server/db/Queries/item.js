@@ -13,13 +13,13 @@ const getAllItems = (userId) => {
     .then((data) => data.rows)
     .catch((e) => console.log(e));
 };
+
 const getItemById = (id) => {
   return db
     .query("SELECT * FROM item WHERE id = $1", [id])
     .then((data) => data.rows)
     .catch((e) => console.log(e));
 };
-const getTodayItems = (userId) => {};
 
 const addItem = (item) => {
   // Pass the 'item' object as a parameter
@@ -166,6 +166,28 @@ const setItemsForToday = (itemId) => {
     .query(
       `UPDATE item
        SET expired_timeStamp = $1, use_count = use_count + 1
+       WHERE id = $2`,
+      [currentTimestamp, itemId]
+    )
+    .then(() => {
+      // Optionally, you can return the updated item if needed
+      return db
+        .query(`SELECT * FROM item WHERE id = $1`, [itemId])
+        .then((data) => data.rows[0]);
+    })
+    .catch((e) => console.log(e));
+};
+const removeItemsForToday = (itemId) => {
+  // Get the current timestamp
+  const currentTimestamp = new Date();
+
+  // Subtract 1 day from the current timestamp
+  currentTimestamp.setDate(currentTimestamp.getDate() - 1);
+
+  return db
+    .query(
+      `UPDATE item
+       SET expired_timeStamp = $1, use_count = use_count - 1
        WHERE id = $2`,
       [currentTimestamp, itemId]
     )

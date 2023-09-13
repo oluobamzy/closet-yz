@@ -47,6 +47,8 @@ const ItemDetails = (props) => {
     // You can access the updated values using e.target.fieldName.value
 
     const formData = {
+      description: e.target.description.value,
+      closet_name: e.target.closet_name.value,
       season: e.target.season.value,
       brand_name: e.target.brand_name.value,
       category: e.target.category.value,
@@ -113,10 +115,7 @@ const ItemDetails = (props) => {
             <div className="itemBody">
               <StyledBanner>
                 <div className="item-details-img">
-                  <img
-                    src={imgSRC}
-                    >
-                    </img>
+                  <img src={imgSRC}></img>
                 </div>
               </StyledBanner>
 
@@ -130,12 +129,12 @@ const ItemDetails = (props) => {
                   </div>
                 </div>
               </StyledBanner>
-              <StyledBanner >
+              <StyledBanner>
                 <div className="items-d">
                   <div className="item-d">
                     <p>
                       Closet Name:{" "}
-                      {filteredList[0]?.description || "Not available"}
+                      {filteredList[0]?.closet_id || "Not available"}
                     </p>
                   </div>
                   <div className="item-d">
@@ -196,16 +195,11 @@ const ItemDetails = (props) => {
             <div className="itemBody">
               <StyledBanner>
                 <div className="item-details-img">
-                  <img
-                    src={imgSRC}
-                    
-                  ></img>
+                  <img src={imgSRC}></img>
                 </div>
               </StyledBanner>
 
-              <StyledBanner
-                
-              >
+              <StyledBanner>
                 <div className="item-details-content">
                   <div className="description">
                     <label>Description:</label>
@@ -218,7 +212,7 @@ const ItemDetails = (props) => {
                 </div>
               </StyledBanner>
 
-              <StyledBanner >
+              <StyledBanner>
                 <div className="items-d">
                   <div className="item-d">
                     <label>Closet Name:</label>

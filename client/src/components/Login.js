@@ -1,25 +1,25 @@
-import React, { useState } from 'react';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import ResponsiveAppBar from './ResponsiveAppBar';
-import Footer from './Footer';
+import React, { useState } from "react";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import ResponsiveAppBar from "./ResponsiveAppBar";
+import Footer from "./Footer";
 import { styled } from "@mui/system";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const StyledContainer = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  minHeight: '100vh',
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  minHeight: "100vh",
   backgroundColor: "#F1F0E8",
 }));
 
 const Login = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    username: '',
-    password: '',
+    username: "",
+    password: "",
   });
 
   const handleChange = (event) => {
@@ -34,32 +34,31 @@ const Login = () => {
     const { username, password } = formData;
     // Send a request to your backend to validate the credentials
     // Example:
-    fetch('http://localhost:8080/auth/login', {
-      method: 'POST',
-      credentials: 'include',
+    fetch("http://localhost:8080/auth/login", {
+      method: "POST",
+      credentials: "include",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({ username, password }),
     })
       .then((response) => {
         if (response.ok) {
           // Redirect to the dashboard or home page on successful login
-          navigate('/');
+          navigate("/dashboard");
         } else {
           // Handle login failure, show an error message, etc.
-          navigate('/register');
-          console.error('Login failed');
-          
+          navigate("/register");
+          console.error("Login failed");
         }
       })
       .catch((error) => {
-        console.error('Error during login:', error);
+        console.error("Error during login:", error);
       });
   };
 
   return (
-    <div className='loginContainer'>
+    <div className="loginContainer">
       <ResponsiveAppBar />
       <StyledContainer>
         <form onSubmit={handleSubmit}>
@@ -88,15 +87,15 @@ const Login = () => {
             variant="contained"
             type="submit"
             fullWidth
-            style={{ backgroundColor: "#F1C27B", marginTop: '10px' }}
+            style={{ backgroundColor: "#F1C27B", marginTop: "10px" }}
           >
             Login
           </Button>
         </form>
         <Button
           variant="text"
-          onClick={() => navigate('/register')}
-          style={{ marginTop: '10px' }}
+          onClick={() => navigate("/register")}
+          style={{ marginTop: "10px" }}
         >
           Sign Up
         </Button>
@@ -104,6 +103,6 @@ const Login = () => {
       <Footer />
     </div>
   );
-}
+};
 
 export default Login;

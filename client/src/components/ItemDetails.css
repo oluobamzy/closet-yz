@@ -10,6 +10,31 @@
   border-radius: 10%;
 }
 
+
+/*
+  const StyledContainer = styled(Box)(({ theme }) => ({
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    minHeight: "100vh",
+    backgroundColor: "#F1F0E8",
+  }));
+
+  const StyledBanner = styled(Paper)(({ theme }) => ({
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    padding: theme.spacing(2),
+    backgroundColor: "#F1F0E8",
+    marginBottom: theme.spacing(4),
+    marginTop: theme.spacing(4),
+    height: "50%",
+  }));
+
+*/
+
+
+
 /* 
 .item-details-img {
   width: 40%;

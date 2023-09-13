@@ -17,6 +17,7 @@ import OutfitToday from './components/OutfitToday';
 import { OutfitProvider } from './components/outfitContext.js';
 import { RecycleProvider } from './components/RecycleContext';
 
+
 function App() {
   const navigateToLogin = () => {
     // Navigate to the '/login' route when the button is clicked

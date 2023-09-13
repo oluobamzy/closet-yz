@@ -66,8 +66,8 @@ const Dashboard = () => {
       brands: {},
       colors: {},
       seasons: {},
-      closets: {},
-      useCount: 0,
+      closets: {}
+      
     };
 
     items.forEach((item) => {
@@ -78,7 +78,7 @@ const Dashboard = () => {
         color,
         season,
         closet_name,
-        use_count,
+       
       } = item;
 
       // Summarize by category
@@ -117,8 +117,6 @@ const Dashboard = () => {
       }
       summary.closets[closet_name]++;
 
-      // Summarize use count
-      summary.useCount += use_count;
     });
 
     return summary;

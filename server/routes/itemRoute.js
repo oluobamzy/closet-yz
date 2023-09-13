@@ -21,6 +21,31 @@ const isAuthenticated = (req, res, next) => {
 //     res.json(data);
 //   });
 // });
+
+router.put("/bin/:id", isAuthenticated, (req, res) => {
+  console.log("ItemRoutePutBinUserIdPUT ---------->", req.user[0].id);
+  const userId = req.user[0].id;
+  if (!userId) {
+    res.status(401).json({ message: "Authentication required" });
+    return; // Add a return statement to exit the function
+  }
+
+  const itemId = req.params.id; // Get the item ID from the URL params
+  console.log("ItemRoutePutBinItemIdPUT ---------->", itemId);
+
+  // Call the updateItemDelete function to mark the item as deleted
+  items
+    .updateItemDelete(itemId)
+    .then((data) => {
+      console.log("ItemRoutePutBinDataPUT ---------->", data);
+      res.json(data);
+    })
+    .catch((error) => {
+      console.error("Error updating item:", error);
+      res.status(500).json({ message: "Internal server error" });
+    });
+});
+
 router.get("/today/:id", isAuthenticated, (req, res) => {});
 router.put("/today/:id", isAuthenticated, (req, res) => {
   const userId = req.user[0].id;
@@ -57,6 +82,20 @@ if (pathRegex.test(source)) {
       console.error("Error updating item:", error);
       res.status(500).json({ message: "Internal server error" });
     });
+});
+
+router.get("/bin", isAuthenticated, (req, res) => {
+  //get all closets
+  const userId = req.user[0].id;
+  console.log("userId===================> itemsRouteGetBin", userId);
+  if (!userId) {
+    res.status(401).json({ message: "Authentication required" });
+  }
+
+  items.selectItemsToDelete(userId).then((data) => {
+    console.log("GetSelectItemsToDelete-----------", data);
+    res.json(data ? data : []);
+  });
 });
 
 router.get("/today", isAuthenticated, (req, res) => {

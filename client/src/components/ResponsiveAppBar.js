@@ -6,6 +6,7 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
+import Icon from '@mui/material/Icon';
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -15,17 +16,21 @@ import AdbIcon from "@mui/icons-material/Adb";
 import { styled } from "@mui/system";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { useUser } from "./usersContext";
+import ThermostatIcon from '@mui/icons-material/Thermostat';
 
-const pages = ["Login", "Blog"];
+const pages = ["Add Closet", "Add Item", "My Items", "Dashboard", "Outfit", "Login", "Logout", "Register", "Bin"]
 
 const settings = [
   "Add Closet",
-  "Items",
-  "Account",
-  "Dashboard",
-  "Logout",
   "Add Item",
-  "Profile",
+  "My Items",
+  "Dashboard",
+  "Outfit",
+  "Login",
+  "Logout",
+  "Register",
   "Bin",
 ];
 
@@ -33,6 +38,8 @@ function ResponsiveAppBar() {
   const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [weatherToday, setWeatherToday] = React.useState(null);
+  const [displayWeather, setDisplayWeather] = React.useState(null);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -50,8 +57,8 @@ function ResponsiveAppBar() {
   const handleDashboard = () => {
     navigate("/dashboard");
   };
-  const handleProfile = () => {
-    window.location.href = "/";
+  const handleOutfit = () => {
+    window.location.href = "/today";
   };
   const handleCloset = () => {
     window.location.href = "/closet";
@@ -64,6 +71,9 @@ function ResponsiveAppBar() {
   };
   const handleItems = () => {
     window.location.href = "/items";
+  };
+  const handleRegister = () => {
+    window.location.href = "/register";
   };
   const handleLogout = () => {
     fetch("http://localhost:8080/auth/logout", {
@@ -90,7 +100,51 @@ function ResponsiveAppBar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+  const weatherDisplay = async () => {
+    try {
+      const response = await fetch("http://localhost:8080/weather", {
+        method: "GET",
+        credentials: "include",
+      });
 
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const data = await response.json();
+      setWeatherToday(data);
+
+      // Ensure that the temperature data is valid before calculating displayWeather
+      if (data?.main?.temp !== null) {
+        const tempInCelsius = data.main.temp - 273.15;
+        setDisplayWeather(tempInCelsius);
+      } else {
+        console.error("Temperature data is missing or invalid.");
+      }
+
+      return data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await weatherDisplay();
+    };
+
+    fetchData();
+  }, []);
+  // useEffect(() => {
+
+  // }  , [displayWeather]);
+
+
+  // Check if displayWeather is NaN before rendering
+  const isDisplayWeatherValid = displayWeather !== null && displayWeather !== undefined;
+
+  //const weather = weatherDisplay();
+  
   // const Container = styled(Box)(({ theme }) => ({
   //   position: 'fixed',
   //   top: 0,
@@ -99,7 +153,8 @@ function ResponsiveAppBar() {
   //   right: 0,
   //   zIndex: 1000,
   // }));
-
+  // const user = useUser();
+  // console.log("user", user);
   return (
     <AppBar position="static" sx={{ width: "100" }}>
       <Container
@@ -125,9 +180,26 @@ function ResponsiveAppBar() {
           >
             Closet-YZ
           </Typography>
-
+          
+          <Typography
+            variant="h6"
+            noWrap
+            component="a"
+            sx={{
+              mr: 2,
+              display: { xs: "none", md: "flex" },
+              fontFamily: "monospace",
+              fontWeight: 700,
+              letterSpacing: ".3rem",
+              color: "white",
+              textDecoration: "none",
+            }}
+          >
+            <ThermostatIcon/>
+            {isDisplayWeatherValid? displayWeather.toFixed(2) + "°C" : "Loading..."}
+          </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <IconButton
+            {/* <IconButton
               size="large"
               aria-label="account of current user"
               aria-controls="menu-appbar"
@@ -136,7 +208,7 @@ function ResponsiveAppBar() {
               color="inherit"
             >
               <MenuIcon />
-            </IconButton>
+            </IconButton> */}
             <Menu
               id="menu-appbar"
               anchorEl={anchorElNav}
@@ -187,8 +259,48 @@ function ResponsiveAppBar() {
             closet-yz
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) =>
-              page === "Login" ? (
+            {/* {pages.map((page) =>
+              page === "Add Closet" ? (
+                <Button
+                  key={page}
+                  onClick={handleCloset}
+                  sx={{ my: 2, color: "white", display: "block" }}
+                >
+                  {page}
+                </Button>
+              ) : page === "Add Item" ? (
+                <Button
+                  key={page}
+                  onClick={handleAddItem}
+                  sx={{ my: 2, color: "white", display: "block" }}
+                >
+                  {page}
+                </Button>
+              ) : page === "My Items" ? (
+                <Button
+                  key={page}
+                  onClick={handleItems}
+                  sx={{ my: 2, color: "white", display: "block" }}
+                >
+                  {page}
+                </Button>
+              ) : page === "Dashboard" ? (
+                <Button
+                  key={page}
+                  onClick={handleDashboard}
+                  sx={{ my: 2, color: "white", display: "block" }}
+                >
+                  {page}
+                </Button>
+              ) : page === "Outfit" ? (
+                <Button
+                  key={page}
+                  onClick={handleOutfit}
+                  sx={{ my: 2, color: "white", display: "block" }}
+                >
+                  {page}
+                </Button>
+              ) : page === "Login" ? (
                 <Button
                   key={page}
                   onClick={handleClick}
@@ -196,8 +308,32 @@ function ResponsiveAppBar() {
                 >
                   {page}
                 </Button>
+              ): page === "Logout" ? (
+                <Button
+                  key={page}
+                  onClick={handleLogout}
+                  sx={{ my: 2, color: "white", display: "block" }}
+                >
+                  {page}
+                </Button>
+              ) : page === "Register" ? (
+                <Button
+                  key={page}
+                  onClick={handleRegister}
+                  sx={{ my: 2, color: "white", display: "block" }}
+                >
+                  {page}
+                </Button>
+              ) : page === "Bin" ? (
+                <Button
+                  key={page}
+                  onClick={handleBin}
+                  sx={{ my: 2, color: "white", display: "block" }}
+                >
+                  {page}
+                </Button>
               ) : null
-            )}
+            )} */}
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
@@ -246,12 +382,16 @@ function ResponsiveAppBar() {
                   <MenuItem key={setting} onClick={handleBin}>
                     <Typography textAlign="center">{setting}</Typography>
                   </MenuItem>
-                ) : setting === "Items" ? (
+                ) : setting === "My Items" ? (
                   <MenuItem key={setting} onClick={handleItems}>
                     <Typography textAlign="center">{setting}</Typography>
                   </MenuItem>
-                ) : setting === "Profile" ? (
-                  <MenuItem key={setting} onClick={handleProfile}>
+                ) : setting === "Register" ? (
+                  <MenuItem key={setting} onClick={handleRegister}>
+                    <Typography textAlign="center">{setting}</Typography>
+                  </MenuItem>
+                ): setting === "Outfit" ? (
+                  <MenuItem key={setting} onClick={handleOutfit}>
                     <Typography textAlign="center">{setting}</Typography>
                   </MenuItem>
                 ) : null

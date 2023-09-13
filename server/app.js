@@ -18,6 +18,7 @@ const itemRoute = require("./routes/itemRoute");
 const usersRoute = require("./routes/usersRoute");
 
 const closetRoute = require("./routes/closetRoute");
+const weatherRoute = require("./routes/getData");
 
 const app = express();
 
@@ -59,6 +60,7 @@ app.use("/api/users", usersRoute);
 app.use("/api/closets", closetRoute);
 app.use("/auth", usersRoute);
 app.use("/images", express.static("images"));
+app.use("/weather", weatherRoute);
 // Inside a protected route
 app.get("/profile", passport.authenticate("local"), (req, res) => {
   // Handle the authenticated user's request

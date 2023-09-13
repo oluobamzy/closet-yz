@@ -1,6 +1,8 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { useOutfit } from './outfitContext.js';
+import { useState, useEffect } from 'react';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 const MyButton = (props) => {
   //myButton to only navigate and change text of the button
@@ -14,6 +16,7 @@ const MyButton = (props) => {
   const isTodayPage = location.pathname === '/today';
   const buttonText = isItemPage ? 'Add to Outfit' : isBinPage ? 'Restore' : isTodayPage? 'Remove' : "";
   console.log("MYButton============>props.item", props.items.itemId)
+  const [addButton, setAddButton] = useState(true);
 
   const itemId = props.items.itemId;
   const imageUrl = props.items.imageUrl;
@@ -36,17 +39,17 @@ const MyButton = (props) => {
         console.error("Error updating item:", error);
       });
   };
-
+  
   const toggleItemStatus = () => {
     if (isAddedToOutfit) {
       removeFromOutfit(itemId);
 
       console.log("Going to add outfit")
-      window.location.href = '/today'
+      window.location.href = '/items'
     } else {
       addToOutfit(imageUrl);
       console.log("Going to items")
-      window.location.href = '/items'
+      //window.location.href = '/today'
     }
     
   };
@@ -76,9 +79,14 @@ const MyButton = (props) => {
   
 
   return (
+    <div>
     <button onClick={handleAddToOutfit} >
       {buttonText}
     </button>
+    {/* {isAddedToOutfit && (
+      <FavoriteIcon color="error" /> 
+    )} */}
+    </div>
   );
 };
 

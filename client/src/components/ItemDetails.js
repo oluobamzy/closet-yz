@@ -1,6 +1,5 @@
 import "./ItemDetails.css";
 import { useState, useEffect } from "react";
-import ItemDetailsUpdate from "./ItemDetailsUpdate";
 import "./ItemDetailsUpdate.css";
 import { useNavigate, useParams, Navigate } from "react-router-dom";
 import ResponsiveAppBar from "./ResponsiveAppBar";
@@ -27,7 +26,7 @@ const ItemDetails = (props) => {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    minHeight: "100vh", // Use minHeight to fill the entire viewport vertically
+    minHeight: "100vh",
     backgroundColor: "#F1F0E8",
   }));
 
@@ -36,7 +35,7 @@ const ItemDetails = (props) => {
     flexDirection: "column",
     alignItems: "center",
     padding: theme.spacing(2),
-    backgroundColor: "#F1F0E8", // Background color
+    backgroundColor: "#F1F0E8",
     marginBottom: theme.spacing(4),
     marginTop: theme.spacing(4),
     height: "50%",
@@ -113,21 +112,15 @@ const ItemDetails = (props) => {
             <h1>Item Details</h1>
             <div className="itemBody">
               <StyledBanner>
-                <div className="item-details-img" style={{ width: "100%" }}>
+                <div className="item-details-img">
                   <img
                     src={imgSRC}
-                    style={{ height: "387.5px", width: "300px" }}
-                  ></img>
+                    >
+                    </img>
                 </div>
               </StyledBanner>
 
-              <StyledBanner
-                style={{
-                  maxWidth: "300px",
-                  height: "387.5px",
-                  maxHeight: "387.5px",
-                }}
-              >
+              <StyledBanner>
                 <div className="item-details-content">
                   <div className="description">
                     <p>
@@ -137,7 +130,7 @@ const ItemDetails = (props) => {
                   </div>
                 </div>
               </StyledBanner>
-              <StyledBanner style={{ width: "300px", height: "387.5px" }}>
+              <StyledBanner >
                 <div className="items-d">
                   <div className="item-d">
                     <p>
@@ -188,7 +181,8 @@ const ItemDetails = (props) => {
             <div className="item-btns">
               <Button
                 type="button"
-                className="btn btn-primary"
+                variant="contained"
+                color="primary"
                 onClick={handleUpdateButtonClick}
               >
                 Update Item
@@ -201,20 +195,16 @@ const ItemDetails = (props) => {
             <h1>Edit Item</h1>
             <div className="itemBody">
               <StyledBanner>
-                <div className="item-details-img" style={{ width: "100%" }}>
+                <div className="item-details-img">
                   <img
                     src={imgSRC}
-                    style={{ height: "387.5px", width: "300px" }}
+                    
                   ></img>
                 </div>
               </StyledBanner>
 
               <StyledBanner
-                style={{
-                  maxWidth: "300px",
-                  height: "387.5px",
-                  maxHeight: "387.5px",
-                }}
+                
               >
                 <div className="item-details-content">
                   <div className="description">
@@ -228,7 +218,7 @@ const ItemDetails = (props) => {
                 </div>
               </StyledBanner>
 
-              <StyledBanner style={{ width: "300px", height: "387.5px" }}>
+              <StyledBanner >
                 <div className="items-d">
                   <div className="item-d">
                     <label>Closet Name:</label>
@@ -308,7 +298,7 @@ const ItemDetails = (props) => {
               </StyledBanner>
             </div>
             <div className="item-btns">
-              <Button type="submit" className="btn btn-primary">
+              <Button type="submit" variant="contained" color="primary">
                 Save Changes
               </Button>
             </div>

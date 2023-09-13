@@ -210,4 +210,5 @@ module.exports = {
   setItemsForToday,
   updateItemDelete,
   selectItemsToDelete,
+  removeItemsForToday
 };

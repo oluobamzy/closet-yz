@@ -7,6 +7,7 @@ import Paper from "@mui/material/Paper";
 import ResponsiveAppBar from "./ResponsiveAppBar";
 import Footer from "./Footer";
 import React, { useState, useEffect } from "react";
+import TopBar from "./TopBar";
 
 const Bin = (props) => {
   const [binItems, setBinItems] = useState([]);
@@ -52,6 +53,7 @@ const Bin = (props) => {
   return (
     <div className="bin list">
       <ResponsiveAppBar position="static" />
+      <TopBar />
       <StyledContainer>
         <div className="header">
           <CabinIcon className="cabinIcon" />

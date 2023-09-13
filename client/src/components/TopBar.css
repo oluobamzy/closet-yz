@@ -8,6 +8,10 @@
 }
 .topbar-btn, h4{
   color:red;
+  font-family: "monospace", sans-serif;
+  font-weight: 700;
+  text-decoration: "none";
+  letter-spacing:".3rem"
 }
 p{
   color:rgb(89, 70, 70);

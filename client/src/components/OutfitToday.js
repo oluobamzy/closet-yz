@@ -60,6 +60,7 @@ const OutfitToday = () => {
     return (
         <div>
             <ResponsiveAppBar />
+            <TopBar />
             <StyledContainer>
               <h1>Outfit Today</h1>
               <StyledBanner elevation={3}>

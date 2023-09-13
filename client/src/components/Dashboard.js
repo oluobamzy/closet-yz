@@ -11,6 +11,7 @@ import Footer from "./Footer"; // Import the Footer
 import Box from "@mui/material/Box";
 import { Typography } from "@mui/material";
 import { PieChart, Pie, Cell, Legend, Tooltip } from "recharts";
+import TopBar from "./TopBar";
 
 // const useStyles = styled("div")(({ theme }) => ({
 //   flexGrow: 1,
@@ -192,6 +193,7 @@ const Dashboard = () => {
   return (
     <div>
       <ResponsiveAppBar />
+      <TopBar />
       <StyledContainer>
         <StyledBanner>
           <div

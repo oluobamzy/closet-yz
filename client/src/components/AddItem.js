@@ -15,6 +15,7 @@ import ResponsiveAppBar from "./ResponsiveAppBar";
 import Footer from "./Footer";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import TopBar from "./TopBar";
 
 function AddItemForm() {//function to add item
   // const closetList = useClosets()
@@ -179,6 +180,7 @@ function AddItemForm() {//function to add item
   return (
     <div className="add-item">
       <ResponsiveAppBar />
+      <TopBar />
       <form onSubmit={handleSubmit} style={{ marginTop: "50px" }}>
         <Grid container spacing={2}>
           <Grid item xs={6}>

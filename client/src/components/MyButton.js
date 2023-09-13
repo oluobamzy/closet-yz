@@ -15,6 +15,7 @@ const MyButton = (props) => {
   const isItemPage = location.pathname === "/items";
   const isBinPage = location.pathname === "/bin";
   const isTodayPage = location.pathname === "/today";
+
   const buttonText = isItemPage
     ? "Add to Outfit"
     : isBinPage

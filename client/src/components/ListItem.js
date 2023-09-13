@@ -48,8 +48,8 @@ const ListItem = () => {
   return (
     <div className="list">
       <ResponsiveAppBar />
+      <TopBar />
       <StyledContainer>
-        <TopBar />
         <StyledBanner elevation={3}>
           <div className="list-item">{image}</div>
           <div className="btn-closet">

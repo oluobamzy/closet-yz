@@ -4,6 +4,7 @@ import { styled } from '@mui/system'; // Import styled from @mui/system
 import ResponsiveAppBar from './ResponsiveAppBar';
 import Footer from './Footer';
 import { useNavigate } from 'react-router-dom';
+import TopBar from './TopBar';
 
 const StyledContainer = styled(Container)(({ theme }) => ({
   display: 'flex',
@@ -81,6 +82,7 @@ const Closet = () => {
   return (
     <div className='closet'>
       <ResponsiveAppBar />
+      <TopBar />
       <StyledContainer>
       <StyledPaper elevation={3}>
         <Typography variant="h4" gutterBottom>

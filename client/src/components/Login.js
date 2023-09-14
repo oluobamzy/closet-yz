@@ -29,11 +29,8 @@ const Login = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
-    // Implement your login logic here
     const { username, password } = formData;
-    // Send a request to your backend to validate the credentials
-    // Example:
+
     fetch("http://localhost:8080/auth/login", {
       method: "POST",
       credentials: "include",

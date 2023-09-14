@@ -61,7 +61,6 @@ export default function Register() {
         return response.json();
       })
       .then((data) => {
-        console.log("User data added successfully:", data);
         navigate("/login");
         // Handle success
       })

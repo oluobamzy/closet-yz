@@ -2,9 +2,6 @@ import * as React from "react";
 import { useState, useEffect } from "react";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
 import { styled } from "@mui/system";
 import ResponsiveAppBar from "./ResponsiveAppBar"; // Import the ResponsiveAppBar
 import Footer from "./Footer"; // Import the Footer
@@ -12,11 +9,6 @@ import Box from "@mui/material/Box";
 import { Typography } from "@mui/material";
 import { PieChart, Pie, Cell, Legend, Tooltip } from "recharts";
 import TopBar from "./TopBar";
-
-// const useStyles = styled("div")(({ theme }) => ({
-//   flexGrow: 1,
-//   marginTop: theme.spacing(2),
-// }));
 
 const pieChartOptions = {
   responsive: true,
@@ -41,7 +33,7 @@ const Dashboard = () => {
       })
         .then((res) => res.json())
         .then((data) => {
-          setDashboardData(data? data : []);
+          setDashboardData(data ? data : []);
         })
         .catch((err) => console.log(err));
     };
@@ -54,12 +46,10 @@ const Dashboard = () => {
     if (dashboardData) {
       const summaryDataList = summarizeItems(dashboardData);
       setSummaryData(summaryDataList);
-      console.log("setSummaryData------------>", summaryDataList);
     }
   }, [dashboardData]);
 
   // Function to summarize items
-
   const summarizeItems = (items) => {
     const summary = {
       categories: {},
@@ -67,20 +57,12 @@ const Dashboard = () => {
       brands: {},
       colors: {},
       seasons: {},
-      closets: {}
-      
+      closets: {},
     };
 
     items.forEach((item) => {
-      const {
-        category,
-        subcategory,
-        brand_name,
-        color,
-        season,
-        closet_name,
-       
-      } = item;
+      const { category, subcategory, brand_name, color, season, closet_name } =
+        item;
 
       // Summarize by category
       if (!summary.categories[category]) {
@@ -117,12 +99,10 @@ const Dashboard = () => {
         summary.closets[closet_name] = 0;
       }
       summary.closets[closet_name]++;
-
     });
 
     return summary;
   };
-  // ......................................................................
 
   const handleCategorySelect = (category) => {
     setSelectedCategory(category);

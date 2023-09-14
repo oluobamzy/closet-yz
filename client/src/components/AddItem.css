@@ -1,8 +1,5 @@
 /* AddItem.css */
 
-
-
-
 input[type="file"],
 input[type="text"],
 input[type="date"] {
@@ -11,13 +8,10 @@ input[type="date"] {
   border-radius: 4px;
 }
 
-
-
 button:hover {
   background-color: #0056b3;
 }
-.addItem-btn{
+.addItem-btn {
   margin-top: 60px;
   align-items: center;
-  
 }

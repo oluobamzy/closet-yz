@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
-// import { useClosets } from "./ClosetContext";
 
 import {
-  //imports from material ui
   TextField,
   Button,
   Grid,
@@ -20,8 +18,6 @@ import TopBar from "./TopBar";
 
 function AddItemForm() {
   //function to add item
-  // const closetList = useClosets()
-  // console.log("=======================>",closetList)
   const categories = ["Casual/Streetwear", "Formal", "Athletic", "Lounge"]; //categories for the item
 
   const subCategories = {
@@ -82,11 +78,9 @@ function AddItemForm() {
         }
 
         const data = await response.json();
-        console.log("Closets in items data:", data);
 
         // Update closets state by spreading the previous state and adding new data
         setClosets((prevClosets) => [...prevClosets, ...data]);
-        console.log("UseEffect-Fetch------------", closets);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -105,7 +99,6 @@ function AddItemForm() {
     subcategory: "Tops", // Set a default sub-category
     color: "",
     purchase_date: currentDate,
-    // use_count: 0,
     img_src: "",
     description: "",
     season: "ALL",
@@ -144,10 +137,8 @@ function AddItemForm() {
     // setItemData({...itemData,  img_src: file });
     if (file) {
       const reader = new FileReader();
-      console.log({ reader });
       reader.onload = (event) => {
         const base64Img = event.target.result;
-        console.log(base64Img);
         setItemData({ ...itemData, img_src: base64Img });
       };
       reader.onerror = (error) => {
@@ -171,12 +162,11 @@ function AddItemForm() {
 
       if (response.status === 200) {
         // Item added successfully, handle success
-        console.log("Item added successfully", itemData);
         navigate("/items");
         window.location.reload();
       } else {
         // Handle error response
-        console.log("Item added failed");
+        console.error(response);
       }
     } catch (error) {
       // Handle network error

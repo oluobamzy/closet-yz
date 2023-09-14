@@ -12,7 +12,6 @@ import { useItems } from "./ItemsContext";
 
 const ItemDetails = (props) => {
   const list = useItems();
-  console.log("ItemDetails ------------->", list)
   const [updateMode, setUpdateMode] = useState(false);
   const handleUpdateButtonClick = () => {
     setUpdateMode(true); // Set updateMode to true when the button is clicked
@@ -44,8 +43,6 @@ const ItemDetails = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Implement logic to update the item here
-    // You can access the updated values using e.target.fieldName.value
 
     const formData = {
       description: e.target.description.value,
@@ -66,10 +63,6 @@ const ItemDetails = (props) => {
       itemId: itemIdToInteger, // Assuming itemId is a variable with the first parameter
     };
 
-    console.log("handleSubmit Item Details props.itemId------------->", itemId);
-    console.log("handleSubmit Formdata------------->", formData);
-    console.log("handleSubmit requestData------------->", requestData);
-
     fetch(`http://localhost:8080/items/${itemId}`, {
       method: "PUT", // Use the appropriate HTTP method for deletion
       credentials: "include",
@@ -82,15 +75,12 @@ const ItemDetails = (props) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
-        // Handle success, if needed
-        console.log("UpdateDataSentGood--------->", requestData);
       })
       .then(() => {
         // Set formSubmitted to true after successful submission
         setFormSubmitted(true);
       })
       .catch((error) => {
-        console.log("UpdateDataSentError--------->", requestData);
         console.error("Item not updated:", error);
         // Handle error
       });
@@ -99,9 +89,7 @@ const ItemDetails = (props) => {
 
   useEffect(() => {
     if (formSubmitted) {
-      console.log("--------------formSubmitted------------");
       window.location.reload();
-      // navigate("/items");
       setFormSubmitted(false);
     }
   }, [formSubmitted]);
@@ -133,10 +121,7 @@ const ItemDetails = (props) => {
               <StyledBanner>
                 <div className="items-d">
                   <div className="item-d">
-                    <p>
-                      Name:{" "}
-                      {filteredList[0]?.item_name || "Not available"}
-                    </p>
+                    <p>Name: {filteredList[0]?.item_name || "Not available"}</p>
                   </div>
                   <div className="item-d">
                     <p>Season: {filteredList[0]?.season || "Not available"}</p>
@@ -179,7 +164,7 @@ const ItemDetails = (props) => {
               </StyledBanner>
             </div>
             <div className="item-btns">
-              <Button 
+              <Button
                 type="button"
                 variant="contained"
                 color="primary"

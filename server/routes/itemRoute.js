@@ -1,8 +1,4 @@
 const router = require("express").Router();
-const passport = require("passport");
-const bcrypt = require("bcrypt");
-
-//const users = require("../db/Queries/users");
 const items = require("../db/Queries/item");
 const multer = require("multer");
 const upload = multer({ dest: "images/" });
@@ -15,15 +11,7 @@ const isAuthenticated = (req, res, next) => {
   res.status(401).json({ message: "Authentication required" });
 };
 
-// router.get("/:id", (req, res) => {
-//   const id = req.params.id;
-//   items.getItemById(id).then((data) => {
-//     res.json(data);
-//   });
-// });
-
 router.put("/bin/:id", isAuthenticated, (req, res) => {
-  console.log("ItemRoutePutBinUserIdPUT ---------->", req.user[0].id);
   const userId = req.user[0].id;
   if (!userId) {
     res.status(401).json({ message: "Authentication required" });
@@ -31,13 +19,10 @@ router.put("/bin/:id", isAuthenticated, (req, res) => {
   }
 
   const itemId = req.params.id; // Get the item ID from the URL params
-  console.log("ItemRoutePutBinItemIdPUT ---------->", itemId);
 
-  // Call the updateItemDelete function to mark the item as deleted
   items
     .updateItemDelete(itemId)
     .then((data) => {
-      console.log("ItemRoutePutBinDataPUT ---------->", data);
       res.json(data);
     })
     .catch((error) => {
@@ -50,32 +35,26 @@ router.get("/today/:id", isAuthenticated, (req, res) => {});
 router.put("/today/:id", isAuthenticated, (req, res) => {
   const userId = req.user[0].id;
   const itemId = req.params.id;
-  console.log("userId===================> itemsRouteForToday", userId);
   if (!userId) {
     res.status(401).json({ message: "Authentication required" });
-    console.log("userId=================== but not authorized>", userId);
     return; // Return early to prevent further execution
   }
-  
-const pathRegex = /^\/items\/\d+$/;
-const source = req.path; // Assuming req.path contains the source string
-let updateFunction;
-if (pathRegex.test(source)) {
-  // The source string matches the regex /^\/items\/\d+$/
-  updateFunction = items.setItemsForToday;
-  console.log('Matched: ' + source);
-} else {
-  // The source string does not match the regex /^\/items\/\d+$/
-  updateFunction = items.removeItemsForToday;
-  console.log('Not Matched: ' + source);
-}
+
+  const pathRegex = /^\/items\/\d+$/;
+  const source = req.path; // Assuming req.path contains the source string
+  let updateFunction;
+  if (pathRegex.test(source)) {
+    // The source string matches the regex /^\/items\/\d+$/
+    updateFunction = items.setItemsForToday;
+  } else {
+    // The source string does not match the regex /^\/items\/\d+$/
+    updateFunction = items.removeItemsForToday;
+  }
 
   // Use the setItemsForToday function to update the item's expiration timestamp and useCount
   items
     .setItemsForToday(itemId)
     .then((updatedItem) => {
-      console.log("Item updated:", updatedItem);
-      // Send the response here when the item is successfully updated
       res.json(updatedItem ? updatedItem : {});
     })
     .catch((error) => {
@@ -87,44 +66,26 @@ if (pathRegex.test(source)) {
 router.get("/bin", isAuthenticated, (req, res) => {
   //get all closets
   const userId = req.user[0].id;
-  console.log("userId===================> itemsRouteGetBin", userId);
   if (!userId) {
     res.status(401).json({ message: "Authentication required" });
   }
 
   items.selectItemsToDelete(userId).then((data) => {
-    console.log("GetSelectItemsToDelete-----------", data);
     res.json(data ? data : []);
-   
   });
 });
 
-// router.delete("/bin", isAuthenticated, (req, res) => {
-//   const userId = req.user[0].id;
-//   if (!userId) {
-//     res.status(401).json({ message: "Authentication required" });
-//   }
-//   items.deleteItems().then((data) => {
-//     console.log("DeleteItems-----------","bin items deteled")
-//     res.json(data? data: []);
-//   });
-// });
-
 router.get("/today", isAuthenticated, (req, res) => {
   const userId = req.user[0].id;
-  console.log("userId===================> itemsRouteForToday", userId);
 
   if (!userId) {
     res.status(401).json({ message: "Authentication required" });
-    console.log("userId=================== but not authorized>", userId);
     return;
   }
 
-  // Use the getTodayItems function to retrieve items updated today
   items
     .getItemsForToday(userId)
     .then((data) => {
-      console.log("getTodayItems-----------", data);
       res.json(data ? data : []);
     })
     .catch((error) => {
@@ -135,24 +96,19 @@ router.get("/today", isAuthenticated, (req, res) => {
 
 router.get("/", isAuthenticated, (req, res) => {
   const userId = req.user[0].id;
-  console.log("userId===================> itemsRoute", userId);
   if (!userId) {
     res.status(401).json({ message: "Authentication required" });
-    console.log("userId=================== but not authorized>", userId);
   }
   items.getAllItems(userId).then((data) => {
-    console.log("getAllItems-----------", data);
     res.json(data ? data : []);
   });
 });
 
 router.post("/", isAuthenticated, upload.single("img_src"), (req, res) => {
-  //const item = req.body;
   const userId = req.user[0].id;
   if (!userId) {
     res.status(401).json({ message: "Authentication required" });
   }
-  // console.log("closet_id---------->", closet_id);
   const result = access.grantAccess(userId);
   if (result.length === 0) {
     res.status(401).json({ message: "You need to create a closet" });
@@ -190,7 +146,6 @@ router.post("/", isAuthenticated, upload.single("img_src"), (req, res) => {
 
   items.addItem(item).then((data) => {
     res.send(data);
-    console.log("ITEM ROUTE Request Body:", req.body);
   });
 });
 router.put("/:id", isAuthenticated, (req, res) => {
@@ -200,14 +155,11 @@ router.put("/:id", isAuthenticated, (req, res) => {
   }
 
   const item = req.body;
-  console.log(
-    "-------------------RequestBodyForUpdateReqBody-------------------------",
-    req.body
-  );
   items.updateItem(item).then((data) => {
     res.json(data);
   });
 });
+
 router.delete("/", isAuthenticated, (req, res) => {
   const userId = req.user[0].id;
   if (!userId) {

@@ -19,7 +19,7 @@ const Item = (props) => {
   const handleToggleDeleted = () => {
     setIsDeleted(!isDeleted);
   };
-  //isDeleted={isDeleted} onToggleDeleted={handleToggleDeleted}
+
   return (
     <Card
       sx={{ maxWidth: 290, minWidth: 290, border: "1px solid #ADC4CE" }}

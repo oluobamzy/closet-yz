@@ -4,17 +4,10 @@
   flex-wrap: wrap;
   justify-content: space-between;
 }
-.list{
-  display:flex;
-  flex-direction:column;
+.list {
+  display: flex;
+  flex-direction: column;
 }
-.btn-closet{
+.btn-closet {
   margin-top: 100px;
 }
-
-
-/* Style for the 'Item' component if needed */
-
-
-
-

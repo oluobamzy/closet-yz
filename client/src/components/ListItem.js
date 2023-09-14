@@ -11,10 +11,8 @@ import { styled } from "@mui/system";
 import { Paper } from "@mui/material";
 import { useItems } from "./ItemsContext";
 
-
 const ListItem = () => {
   const list = useItems();
-
 
   const StyledContainer = styled(Box)(({ theme }) => ({
     display: "flex",
@@ -34,8 +32,6 @@ const ListItem = () => {
     marginTop: theme.spacing(4),
   }));
 
-
-
   const image = list.map((image) => {
     return <Item key={image.id} imageUrl={image.img_src} itemId={image.id} />;
   });
@@ -44,7 +40,6 @@ const ListItem = () => {
     backgroundColor: "#96B6C5",
     marginRight: "5px",
     color: "white", // Text color
-    // Add more styles as needed
   };
 
   return (

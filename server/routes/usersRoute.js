@@ -7,9 +7,7 @@ const users = require("../db/Queries/users"); // Import your user-related querie
 const dashboard = require("../db/Queries/dashboard");
 
 // User registration route
-router.get("/register", (req, res) => {
-  
-});
+router.get("/register", (req, res) => {});
 router.post("/register", async (req, res) => {
   const { username, first_name, last_name, password, email } = req.body;
 
@@ -24,10 +22,7 @@ router.post("/register", async (req, res) => {
       password: hashedPassword,
       email,
     };
-
     await users.addUser(user); // Assuming addUser returns a Promise
-    console.log("--------------", user)
-    
     res.json({ message: "User registered successfully" });
   } catch (error) {
     console.error(error);
@@ -35,13 +30,8 @@ router.post("/register", async (req, res) => {
   }
 });
 
-
-
-
 // Login route using Passport's authenticate middleware
-router.get("/login", (req, res) => {
-  
-});
+router.get("/login", (req, res) => {});
 router.post(
   "/login",
   passport.authenticate("local", {
@@ -51,33 +41,25 @@ router.post(
   })
 );
 
-
-
 const isAuthenticated = (req, res, next) => {
-  
   if (req.isAuthenticated()) {
-    console.log("isAuthenticated-User[0]===============>", req.user[0].id)
     return next();
   }
-  res.status(401).json({ message: 'Authentication required' });
+  res.status(401).json({ message: "Authentication required" });
 };
-
 
 router.get("/dashboard", isAuthenticated, (req, res) => {
   const userId = req.user[0].id;
-  console.log(" before auth dashboard===================>", req.user[0].id)
-  if(!userId){
-    res.status(401).json({ message: 'Authentication required' });
+  if (!userId) {
+    res.status(401).json({ message: "Authentication required" });
   }
-  console.log("/dashboard===================>",req.user[0].id)
   dashboard.loadDashboard(userId).then((data) => {
-      res.json(data);
+    res.json(data);
   });
 });
 // Logout route
 router.get("/logout", (req, res) => {
-  console.log("logout===================>", req.user[0].id)
-  req.logout(function(err) {
+  req.logout(function (err) {
     if (err) {
       return next(err);
     }
@@ -86,21 +68,21 @@ router.get("/logout", (req, res) => {
 });
 router.get("/:id", isAuthenticated, (req, res) => {
   const userId = req.user[0].id;
-  if(!userId){
-    res.status(401).json({ message: 'Authentication required' });
+  if (!userId) {
+    res.status(401).json({ message: "Authentication required" });
   }
   users.getUserById(userId).then((data) => {
     res.json(data);
   });
-})
+});
 router.get("/", isAuthenticated, (req, res) => {
   const userId = req.user[0].id;
-  if(!userId){
-    res.status(401).json({ message: 'Authentication required' });
+  if (!userId) {
+    res.status(401).json({ message: "Authentication required" });
   }
-  users.getAllUsers().then((data) => { 
+  users.getAllUsers().then((data) => {
     res.json(data);
-   });
+  });
 });
 // router.post("/", (req, res) => {
 //   const user = req.body;
@@ -108,11 +90,11 @@ router.get("/", isAuthenticated, (req, res) => {
 //     res.json(data);
 //   });
 // });
-router.delete('/', isAuthenticated, (req, res) => {
-   const userId = req.user[0].id;
-    users.deleteUser(userId).then((data) => {
-        res.json(data);
-    });
+router.delete("/", isAuthenticated, (req, res) => {
+  const userId = req.user[0].id;
+  users.deleteUser(userId).then((data) => {
+    res.json(data);
+  });
 });
 
 module.exports = router;

@@ -6,16 +6,12 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import Button from "@mui/material/Button";
 
 const MyButton = (props) => {
-  //myButton to only navigate and change text of the button
   const location = useLocation();
   const { outfitItems, addToOutfit, removeFromOutfit } = useOutfit();
   const isAddedToOutfit = outfitItems.some((item) => item.id === props.itemId);
-  // const itemId = props.itemId;
-  // Check the current pathname to determine the behavior of the button
   const isItemPage = location.pathname === "/items";
   const isBinPage = location.pathname === "/bin";
   const isTodayPage = location.pathname === "/today";
-
 
   const buttonText = isItemPage
     ? "Add to Outfit"
@@ -24,7 +20,6 @@ const MyButton = (props) => {
     : isTodayPage
     ? "Remove"
     : "";
-  console.log("MYButton============>props.item", props.items.itemId);
   const [addButton, setAddButton] = useState(true);
 
   const itemId = props.items.itemId;
@@ -40,7 +35,6 @@ const MyButton = (props) => {
     })
       .then((response) => response.json())
       .then((updatedItem) => {
-        console.log("Item updated:", updatedItem);
         // You can update the state or perform other actions as needed
       })
       .catch((error) => {
@@ -51,13 +45,9 @@ const MyButton = (props) => {
   const toggleItemStatus = () => {
     if (isAddedToOutfit) {
       removeFromOutfit(itemId);
-
-      console.log("Going to add outfit");
       window.location.href = "/items";
     } else {
       addToOutfit(imageUrl);
-      console.log("Going to items");
-      //window.location.href = '/today'
     }
   };
 
@@ -66,24 +56,9 @@ const MyButton = (props) => {
     toggleItemStatus();
   };
 
-  // Define the click handler based on the current route
-  // const handleClick = () => {
-  //   if (isItemPage) {
-  //       console.log("Going to add outfit")
-  //       window.location.href = '/today'
-  //   } else {
-  //       console.log("Going to items")
-  //       window.location.href = '/items'
-  //     // Navigate to the 'home' route if on the about page
-  //     // Example using history:
-  //     // history.push('/');
-  //   }
-  // };
-
   return (
     <div>
       <Button
-        // startIcon={<AddIcon />}
         size="small"
         color="primary"
         onClick={handleAddToOutfit}
@@ -91,10 +66,6 @@ const MyButton = (props) => {
       >
         {buttonText}
       </Button>
-
-      {/* {isAddedToOutfit && (
-      <FavoriteIcon color="error" /> 
-    )} */}
     </div>
   );
 };

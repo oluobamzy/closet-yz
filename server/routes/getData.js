@@ -4,15 +4,17 @@ const fetch = require("node-fetch"); // Assuming you have fetch installed
 
 // Create a middleware function for weatherRoute
 const weatherMiddleware = (req, res, next) => {
-  fetch("https://api.openweathermap.org/data/2.5/weather?q=Toronto&appid=0969a1d30a248f9daa062e0af9c7b104", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
+  fetch(
+    "https://api.openweathermap.org/data/2.5/weather?q=Toronto&appid=0969a1d30a248f9daa062e0af9c7b104",
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  )
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
       req.weatherData = data; // Attach the weather data to the request object
       next(); // Call next to continue processing the request
     })

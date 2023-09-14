@@ -5,22 +5,27 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
-import Icon from '@mui/material/Icon';
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
-import { styled } from "@mui/system";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
-import { useUser } from "./usersContext";
-import ThermostatIcon from '@mui/icons-material/Thermostat';
+import ThermostatIcon from "@mui/icons-material/Thermostat";
 
-const pages = ["Add Closet", "Add Item", "My Items", "Dashboard", "Outfit", "Login", "Logout", "Register", "Bin"]
+const pages = [
+  "Add Closet",
+  "Add Item",
+  "My Items",
+  "Dashboard",
+  "Outfit",
+  "Login",
+  "Logout",
+  "Register",
+  "Bin",
+];
 
 const settings = [
   "Add Closet",
@@ -135,26 +140,11 @@ function ResponsiveAppBar() {
 
     fetchData();
   }, []);
-  // useEffect(() => {
-
-  // }  , [displayWeather]);
-
 
   // Check if displayWeather is NaN before rendering
-  const isDisplayWeatherValid = displayWeather !== null && displayWeather !== undefined;
+  const isDisplayWeatherValid =
+    displayWeather !== null && displayWeather !== undefined;
 
-  //const weather = weatherDisplay();
-  
-  // const Container = styled(Box)(({ theme }) => ({
-  //   position: 'fixed',
-  //   top: 0,
-  //   bottom: 100,
-  //   left: 0,
-  //   right: 0,
-  //   zIndex: 1000,
-  // }));
-  // const user = useUser();
-  // console.log("user", user);
   return (
     <AppBar position="static" sx={{ width: "100" }}>
       <Container
@@ -180,7 +170,7 @@ function ResponsiveAppBar() {
           >
             Closet-YZ
           </Typography>
-          
+
           <Typography
             variant="h6"
             noWrap
@@ -195,8 +185,10 @@ function ResponsiveAppBar() {
               textDecoration: "none",
             }}
           >
-            <ThermostatIcon/>
-            {isDisplayWeatherValid? displayWeather.toFixed(2) + "°C" : "Loading..."}
+            <ThermostatIcon />
+            {isDisplayWeatherValid
+              ? displayWeather.toFixed(2) + "°C"
+              : "Loading..."}
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             {/* <IconButton
@@ -390,7 +382,7 @@ function ResponsiveAppBar() {
                   <MenuItem key={setting} onClick={handleRegister}>
                     <Typography textAlign="center">{setting}</Typography>
                   </MenuItem>
-                ): setting === "Outfit" ? (
+                ) : setting === "Outfit" ? (
                   <MenuItem key={setting} onClick={handleOutfit}>
                     <Typography textAlign="center">{setting}</Typography>
                   </MenuItem>

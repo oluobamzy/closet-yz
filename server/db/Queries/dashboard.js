@@ -1,4 +1,4 @@
-const db = require('../../routes/configs/db.config');
+const db = require("../../routes/configs/db.config");
 const loadDashboard = (user_id) => {
   const queryString = `
   SELECT i.*, c.closet_name

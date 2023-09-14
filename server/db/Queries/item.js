@@ -22,7 +22,6 @@ const getItemById = (id) => {
 };
 
 const addItem = (item) => {
-  // Pass the 'item' object as a parameter
   const {
     item_name,
     category,
@@ -38,9 +37,6 @@ const addItem = (item) => {
     brand_name,
   } = item;
 
-  console.log("item ----QUERY-----", item);
-
-  // Use the correct number of placeholders in the SQL query and provide all parameters
   const queryString = `
     INSERT INTO item (item_name, category, subcategory, color, purchase_date, img_src, description, season, closet_id, last_worn_date, size, brand_name)
     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
@@ -64,9 +60,7 @@ const addItem = (item) => {
   return db
     .query(queryString, values)
     .then((data) => data.rows)
-    .catch((e) => {
-      console.log("IS THIS ERROR---", e);
-    });
+    .catch((e) => {});
 };
 const updateItem = (requestData) => {
   const {
@@ -81,10 +75,7 @@ const updateItem = (requestData) => {
   } = requestData.formData;
 
   const itemIdValue = requestData.itemId;
-  console.log("QUERYformData-------------------", requestData.formData);
-  console.log("QUERYitemIdValue-------------------", itemIdValue);
 
-  // Use the correct number of placeholders in the SQL query and provide all parameters
   const queryString = `
     UPDATE item
     SET brand_name = $1, category = $2, color = $3, last_worn_date = $4, purchase_date = $5, season = $6, size = $7
@@ -158,19 +149,17 @@ const selectItemsToDelete = (userId) => {
     .catch((e) => console.log(e));
 };
 const addItemsToBin = (usersId) => {
- const queryString = ` INSERT INTO bin ("date_deleted", "closet_id", "item_id")
+  const queryString = ` INSERT INTO bin ("date_deleted", "closet_id", "item_id")
 SELECT NOW(), closet.id, item.id
 FROM item
 JOIN closet ON item.closet_id = closet.id
 JOIN users ON closet.users_id = users.id
-WHERE users.id = $1 AND "delete" = true;`
- const values = [usersId];
+WHERE users.id = $1 AND "delete" = true;`;
+  const values = [usersId];
   return db
     .query(queryString, values)
     .then((data) => data.rows)
     .catch((e) => console.log(e));
-
-
 };
 const setItemsForToday = (itemId) => {
   // Get the current timestamp
@@ -184,7 +173,6 @@ const setItemsForToday = (itemId) => {
       [currentTimestamp, itemId]
     )
     .then(() => {
-      // Optionally, you can return the updated item if needed
       return db
         .query(`SELECT * FROM item WHERE id = $1`, [itemId])
         .then((data) => data.rows[0]);
@@ -206,7 +194,6 @@ const removeItemsForToday = (itemId) => {
       [currentTimestamp, itemId]
     )
     .then(() => {
-      // Optionally, you can return the updated item if needed
       return db
         .query(`SELECT * FROM item WHERE id = $1`, [itemId])
         .then((data) => data.rows[0]);
@@ -225,5 +212,5 @@ module.exports = {
   updateItemDelete,
   selectItemsToDelete,
   removeItemsForToday,
-  addItemsToBin
+  addItemsToBin,
 };

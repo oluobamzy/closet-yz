@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 // import { useClosets } from "./ClosetContext";
 
-import {//imports from material ui
+import {
+  //imports from material ui
   TextField,
   Button,
   Grid,
@@ -17,12 +18,14 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import TopBar from "./TopBar";
 
-function AddItemForm() {//function to add item
+function AddItemForm() {
+  //function to add item
   // const closetList = useClosets()
   // console.log("=======================>",closetList)
-  const categories = ["Casual/Streetwear", "Formal", "Athletic", "Lounge"];//categories for the item
+  const categories = ["Casual/Streetwear", "Formal", "Athletic", "Lounge"]; //categories for the item
 
-  const subCategories = {//subcategories for the item
+  const subCategories = {
+    //subcategories for the item
     "Casual/Streetwear": [
       "Tops",
       "Bottoms",
@@ -73,31 +76,30 @@ function AddItemForm() {//function to add item
             "Content-Type": "application/json",
           },
         });
-  
+
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
-  
+
         const data = await response.json();
-        console.log("Closets in items data:", data); 
-  
+        console.log("Closets in items data:", data);
+
         // Update closets state by spreading the previous state and adding new data
         setClosets((prevClosets) => [...prevClosets, ...data]);
-        console.log("UseEffect-Fetch------------", closets)
+        console.log("UseEffect-Fetch------------", closets);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     }
-  
+
     fetchData();
   }, []);
-  
-  
+
   const currentDate = new Date().toISOString().substr(0, 10);
   const navigate = useNavigate();
 
-  
-  const [itemData, setItemData] = useState({//set the item data
+  const [itemData, setItemData] = useState({
+    //set the item data
     item_name: "",
     category: "Casual/Streetwear", // Set a default category
     subcategory: "Tops", // Set a default sub-category
@@ -113,7 +115,8 @@ function AddItemForm() {//function to add item
     brand_name: "",
   });
 
-  const handleInputChange = (e) => {//handle input change
+  const handleInputChange = (e) => {
+    //handle input change
     const { name, value } = e.target;
 
     // Check if the input field is the "Closet" dropdown
@@ -126,7 +129,8 @@ function AddItemForm() {//function to add item
       setItemData({ ...itemData, [name]: value });
     }
   };
-  const handleCategoryChange = (e) => {//handle category change
+  const handleCategoryChange = (e) => {
+    //handle category change
     const { name, value } = e.target;
     setItemData({
       ...itemData,
@@ -134,7 +138,8 @@ function AddItemForm() {//function to add item
       subcategory: subCategories[value][0], // Set the default sub-category for the selected category
     });
   };
-  const handleImageChange = (e) => {//handle image change
+  const handleImageChange = (e) => {
+    //handle image change
     const file = e.target.files[0];
     // setItemData({...itemData,  img_src: file });
     if (file) {
@@ -152,7 +157,8 @@ function AddItemForm() {//function to add item
     }
   };
 
-  const handleSubmit = async (e) => {//handle submit
+  const handleSubmit = async (e) => {
+    //handle submit
     e.preventDefault();
     try {
       const response = await axios.post(
@@ -167,6 +173,7 @@ function AddItemForm() {//function to add item
         // Item added successfully, handle success
         console.log("Item added successfully", itemData);
         navigate("/items");
+        window.location.reload();
       } else {
         // Handle error response
         console.log("Item added failed");
@@ -300,7 +307,6 @@ function AddItemForm() {//function to add item
                     {closet.closet_name}
                   </MenuItem>
                 ))}
-               
               </Select>
             </FormControl>
           </Grid>

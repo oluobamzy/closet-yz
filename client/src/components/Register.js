@@ -62,7 +62,7 @@ export default function Register() {
       })
       .then((data) => {
         console.log("User data added successfully:", data);
-        navigate("/items");
+        navigate("/login");
         // Handle success
       })
       .catch((error) => {

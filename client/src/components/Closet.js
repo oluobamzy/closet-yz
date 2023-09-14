@@ -3,7 +3,7 @@ import { Container, Typography, TextField, Button, Grid, Paper, List, ListItem, 
 import { styled } from '@mui/system'; // Import styled from @mui/system
 import ResponsiveAppBar from './ResponsiveAppBar';
 import Footer from './Footer';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import TopBar from './TopBar';
 
 const StyledContainer = styled(Container)(({ theme }) => ({
@@ -31,7 +31,13 @@ const Closet = () => {
     closet_name: '',
     description: '',
   });
-
+  
+  const resetForm = () => {
+    setItemData({
+      closet_name: '',
+      description: '',
+    });
+  };
   
 
   const handleClosetNameChange = (e) => {
@@ -48,6 +54,7 @@ const Closet = () => {
     event.preventDefault();
     if (itemData.closet_name.trim() !== '') {
       setClosets([...closets, itemData.closet_name]);
+      resetForm();
       
     }
 
@@ -70,7 +77,7 @@ const Closet = () => {
   })
   .then((data) => {
     console.log("User data added successfully:", data);
-    navigate('/additem');
+    navigate('/closet');
     // Handle success
   })
   .catch((error) => {
@@ -125,7 +132,9 @@ const Closet = () => {
         <StyledList>
           {closets.map((closet_name, index) => (
             <ListItem key={index}>
+              <Link to={`/items`}>
               <ListItemText primary={closet_name} />
+              </Link>
             </ListItem>
           ))}
         </StyledList>

@@ -11,8 +11,10 @@ import { styled } from "@mui/system";
 import { Paper } from "@mui/material";
 import { useItems } from "./ItemsContext";
 
+
 const ListItem = () => {
   const list = useItems();
+
 
   const StyledContainer = styled(Box)(({ theme }) => ({
     display: "flex",

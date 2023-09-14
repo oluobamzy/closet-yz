@@ -41,7 +41,7 @@ const Dashboard = () => {
       })
         .then((res) => res.json())
         .then((data) => {
-          setDashboardData(data);
+          setDashboardData(data? data : []);
         })
         .catch((err) => console.log(err));
     };

@@ -95,8 +95,20 @@ router.get("/bin", isAuthenticated, (req, res) => {
   items.selectItemsToDelete(userId).then((data) => {
     console.log("GetSelectItemsToDelete-----------", data);
     res.json(data ? data : []);
+   
   });
 });
+
+// router.delete("/bin", isAuthenticated, (req, res) => {
+//   const userId = req.user[0].id;
+//   if (!userId) {
+//     res.status(401).json({ message: "Authentication required" });
+//   }
+//   items.deleteItems().then((data) => {
+//     console.log("DeleteItems-----------","bin items deteled")
+//     res.json(data? data: []);
+//   });
+// });
 
 router.get("/today", isAuthenticated, (req, res) => {
   const userId = req.user[0].id;

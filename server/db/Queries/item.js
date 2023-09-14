@@ -108,9 +108,9 @@ const updateItem = (requestData) => {
     .catch((e) => console.log(e));
 };
 
-const deleteItem = (id) => {
+const deleteItems = () => {
   return db
-    .query("DELETE FROM item WHERE id = $1", [id])
+    .query("DELETE * FROM item WHERE delete = true")
     .then((data) => data.rows)
     .catch((e) => console.log(e));
 };
@@ -148,7 +148,7 @@ const selectItemsToDelete = (userId) => {
     SELECT * FROM item
     JOIN closet ON item.closet_id = closet.id
     JOIN users ON closet.users_id = users.id
-    WHERE users.id = $1 AND delete = true;`;
+    WHERE users.id = $1 AND "delete" = true;`;
 
   const values = [userId];
 
@@ -157,7 +157,21 @@ const selectItemsToDelete = (userId) => {
     .then((data) => data.rows)
     .catch((e) => console.log(e));
 };
+const addItemsToBin = (usersId) => {
+ const queryString = ` INSERT INTO bin ("date_deleted", "closet_id", "item_id")
+SELECT NOW(), closet.id, item.id
+FROM item
+JOIN closet ON item.closet_id = closet.id
+JOIN users ON closet.users_id = users.id
+WHERE users.id = $1 AND "delete" = true;`
+ const values = [usersId];
+  return db
+    .query(queryString, values)
+    .then((data) => data.rows)
+    .catch((e) => console.log(e));
 
+
+};
 const setItemsForToday = (itemId) => {
   // Get the current timestamp
   const currentTimestamp = new Date();
@@ -204,11 +218,12 @@ module.exports = {
   getAllItems,
   getItemById,
   addItem,
-  deleteItem,
+  deleteItems,
   updateItem,
   getItemsForToday,
   setItemsForToday,
   updateItemDelete,
   selectItemsToDelete,
-  removeItemsForToday
+  removeItemsForToday,
+  addItemsToBin
 };

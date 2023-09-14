@@ -12,6 +12,7 @@ import { useItems } from "./ItemsContext";
 
 const ItemDetails = (props) => {
   const list = useItems();
+  console.log("ItemDetails ------------->", list)
   const [updateMode, setUpdateMode] = useState(false);
   const handleUpdateButtonClick = () => {
     setUpdateMode(true); // Set updateMode to true when the button is clicked
@@ -133,8 +134,8 @@ const ItemDetails = (props) => {
                 <div className="items-d">
                   <div className="item-d">
                     <p>
-                      Closet Name:{" "}
-                      {filteredList[0]?.closet_id || "Not available"}
+                      Name:{" "}
+                      {filteredList[0]?.item_name || "Not available"}
                     </p>
                   </div>
                   <div className="item-d">
@@ -178,13 +179,23 @@ const ItemDetails = (props) => {
               </StyledBanner>
             </div>
             <div className="item-btns">
-              <Button
+              <Button 
                 type="button"
                 variant="contained"
                 color="primary"
                 onClick={handleUpdateButtonClick}
+                style={{ marginRight: "10px", backgroundColor: "#ADC4CE" }}
               >
                 Update Item
+              </Button>
+              <Button
+                type="button"
+                variant="contained"
+                color="primary"
+                onClick={() => navigate("/items")}
+                style={{ backgroundColor: "black" }}
+              >
+                Back
               </Button>
             </div>
           </div>

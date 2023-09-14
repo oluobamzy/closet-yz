@@ -18,7 +18,7 @@ export const ItemsProvider = ({ children }) => {
         }
 
         const data = await response.json();
-        setItems(data);
+        setItems(data? data : []);
       } catch (error) {
         console.error('Error fetching data:', error);
       }

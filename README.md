@@ -5,19 +5,19 @@ LHL final project - Closet-YZ will help you organize all your clothes and access
 # Closet-YZ
 
 Main page
-!["Main page"](https://github.com/oluobamzy/closet-yz/blob/main/docs/main.png?raw=true)
+!["Main page"](https://github.com/oluobamzy/closet-yz/blob/master/docs/main.png)
 
 Dashboard
-!["Dashboard"](https://github.com/oluobamzy/closet-yz/blob/main/docs/dashboard.png?raw=true)
+!["Dashboard"](https://github.com/oluobamzy/closet-yz/blob/master/docs/dashboard.png)
 
 Add item
-!["Add item"](https://github.com/oluobamzy/closet-yz/blob/main/docs/additem.png?raw=true)
+!["Add item"](https://github.com/oluobamzy/closet-yz/blob/master/docs/additem.png)
 
 Items
-!["Items"](https://github.com/oluobamzy/closet-yz/blob/main/docs/items.png?raw=true)
+!["Items"](https://github.com/oluobamzy/closet-yz/blob/master/docs/items.png)
 
 Item details
-!["Item details"](https://github.com/oluobamzy/closet-yz/blob/main/docs/itemsdetails.png?raw=true)
+!["Item details"](https://github.com/oluobamzy/closet-yz/blob/master/docs/itemsdetails.png)
 
 ## Setup
 
@@ -49,11 +49,11 @@ npm start
 
 ## Wireframe
 
-!["Wireframe"](https://github.com/oluobamzy/closet-yz/blob/main/docs/wireframe.png?raw=true)
+!["Wireframe"](https://github.com/oluobamzy/closet-yz/blob/master/docs/wireframe.png)
 
 ## ERD
 
-!["ERD"](https://github.com/oluobamzy/closet-yz/blob/main/docs/ERD.png?raw=true)
+!["ERD"](https://github.com/oluobamzy/closet-yz/blob/master/docs/ERD.png)
 
 ## Dependencies
 

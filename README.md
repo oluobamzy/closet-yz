@@ -35,8 +35,6 @@ Go to http://localhost:8080/ in your browser.
 
 ## [Backend] Running Backend Servier
 
-Read `backend/readme` for further setup details.
-
 ```sh
 cd server
 Install dependencies with `npm install`
